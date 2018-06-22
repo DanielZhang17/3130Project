@@ -14,12 +14,12 @@
         android:text="Change password" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/MyStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/changepassword"
-        android:text="Button"
+        android:text="My Status"
         android:textAllCaps="true" />
 
     <Button
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/button3"
+        android:layout_below="@+id/MyStatus"
         android:text="Button" />
 
     <Button

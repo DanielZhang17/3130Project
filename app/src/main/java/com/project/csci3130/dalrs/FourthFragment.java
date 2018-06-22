@@ -29,17 +29,27 @@ public class FourthFragment extends Fragment{
 
     View MyView;
     private Button changepassword;
+    private Button MyStatus;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         MyView = inflater.inflate(R.layout.fourth_layout,container,false);
         FirebaseUser user = LoginInterfaceActivity.getUser();
         changepassword = MyView.findViewById(R.id.changepassword);
+        MyStatus = MyView.findViewById(R.id.MyStatus);
 
         changepassword.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ChangePassword.class);
+                startActivity(intent);
+            }
+        });
+
+        MyStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyStatus.class);
                 startActivity(intent);
             }
         });
