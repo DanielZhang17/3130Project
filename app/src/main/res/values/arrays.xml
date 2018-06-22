@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Terms">
+        <item >2018/2019 Fall</item>
+        <item >2018/2019 Winter</item>
+        <item >2018/2019 Summer</item>
+        <item >2019/2020 Fall</item>
+        <item >2019/2020 Winner</item>
+        <item >2019/2020 Summer</item>
+    </string-array>
+</resources>
