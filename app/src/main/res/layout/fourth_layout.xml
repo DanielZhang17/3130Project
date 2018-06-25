@@ -23,18 +23,18 @@
         android:textAllCaps="true" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/RequiredCourse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/MyStatus"
-        android:text="Button" />
+        android:text="Required Course" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/button4"
+        android:layout_below="@+id/RequiredCourse"
         android:text="Button" />
 </RelativeLayout>

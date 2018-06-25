@@ -30,6 +30,7 @@ public class FourthFragment extends Fragment{
     View MyView;
     private Button changepassword;
     private Button MyStatus;
+    private Button RequiredCourse;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class FourthFragment extends Fragment{
         FirebaseUser user = LoginInterfaceActivity.getUser();
         changepassword = MyView.findViewById(R.id.changepassword);
         MyStatus = MyView.findViewById(R.id.MyStatus);
+        RequiredCourse = MyView.findViewById(R.id.RequiredCourse);
 
         changepassword.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -50,6 +52,14 @@ public class FourthFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MyStatus.class);
+                startActivity(intent);
+            }
+        });
+
+        RequiredCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RequiredCourse.class);
                 startActivity(intent);
             }
         });
