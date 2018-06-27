@@ -10,6 +10,7 @@
         android:id="@+id/CS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:text="Computer Science"
         tools:layout_editor_absoluteX="39dp"
         tools:layout_editor_absoluteY="71dp" />
@@ -18,6 +19,9 @@
         android:id="@+id/AppliedCS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="159dp"
         android:text="Applied Computer Science"
         tools:layout_editor_absoluteX="39dp"
         tools:layout_editor_absoluteY="168dp" />
@@ -26,6 +30,9 @@
         android:id="@+id/Math"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:text="Mathmatics"
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="271dp" />

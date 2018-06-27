@@ -13,6 +13,6 @@ public class CSPDFViewer extends AppCompatActivity {
         setContentView(R.layout.activity_cspdfviewer);
 
         CS = (PDFView)findViewById(R.id.CSPDFVIEWER);
-        CS.fromAsset("CS.pdf");
+        CS.fromAsset("CS.pdf").load();
     }
 }
