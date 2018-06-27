@@ -4,37 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RequiredCourse">
+    tools:context=".RequiredCourse"
+    android:background="@drawable/background">
+
 
     <Button
         android:id="@+id/CS"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="243dp"
+        android:background="@color/colorAccent"
         android:text="Computer Science"
+        android:textColor="@android:color/white"
         tools:layout_editor_absoluteX="39dp"
         tools:layout_editor_absoluteY="71dp" />
 
     <Button
         android:id="@+id/AppliedCS"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="159dp"
+        android:layout_marginTop="146dp"
+        android:background="@color/colorAccent"
         android:text="Applied Computer Science"
+        android:textColor="@android:color/white"
         tools:layout_editor_absoluteX="39dp"
         tools:layout_editor_absoluteY="168dp" />
 
     <Button
         android:id="@+id/Math"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
+        android:background="@color/colorAccent"
         android:text="Mathmatics"
+        android:textColor="@android:color/white"
         tools:layout_editor_absoluteX="47dp"
-        tools:layout_editor_absoluteY="271dp" />
+        tools:layout_editor_absoluteY="271dp" />/>
 
 </RelativeLayout>
