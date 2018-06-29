@@ -58,23 +58,24 @@ public class AddClass {
 
     }
     public void addClass(String id){
-        String courseTitle = courseReference.child(id).child("CourseTitle").toString();
-        String courseName = courseReference.child(id).child("CourseName").toString();
-
-        if(!registData.get(user.getDisplayName()).contains(id)) {
 
 
+        if(!registData.get(user.getUid()).contains(id)) {
+            //add id into registration
+            registReference.child(user.getUid()).child(id).child("RegistCourseID").setValue(id);
+            //add title and name
+            registReference.child(user.getUid()).child(id).child("RegistCourseName")
+                    .setValue(courseReference.child(id).child("CourseTitle").toString()
+                            +" "+courseReference.child(id).child("CourseName").toString());
+            //add lab
             if(courseReference.child(id).child("LabID")!=null){
-                registReference.child(user.getDisplayName()).child(id).setValue(courseTitle+" "+courseName+" "
-                        +courseReference.child(id).child("LabID").toString());
-
+                registReference.child(user.getUid()).child(id).child("RegistCourseLabID")
+                        .setValue(courseReference.child(id).child("LabID").toString());
             }
-            else if(courseReference.child(id).child("LutID")!=null){
-                registReference.child(user.getDisplayName()).child(id).setValue(courseTitle+" "+courseName+" "
-                        +courseReference.child(id).child("TutID").toString());
-            }
-            else{
-                registReference.child(user.getDisplayName()).child(id).setValue(courseTitle+" "+courseName);
+            //add tut
+            if(courseReference.child(id).child("TutID")!=null){
+                registReference.child(user.getUid()).child(id).child("RegistCourseTutID")
+                        .setValue(courseReference.child(id).child("TutID").toString());
             }
 
         }
@@ -82,7 +83,7 @@ public class AddClass {
 
     }
     public void dropClass(final String id){
-        //
+        //make sure user want to drop
         DialogUtil dialogUtil = new DialogUtil();
         dialogUtil.show( "Do you want to drop this course?", new DialogButtonListener() {
             @Override
