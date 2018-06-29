@@ -12,6 +12,6 @@ public class AppliedCSPDF extends AppCompatActivity {
         setContentView(R.layout.activity_applied_cspdf);
 
         AppliedCS = (PDFView)findViewById(R.id.APPLIEDCSPDFVIEWER);
-        AppliedCS.fromAsset("Applied CS.pdf");
+        AppliedCS.fromAsset("Applied CS.pdf").load();
     }
 }

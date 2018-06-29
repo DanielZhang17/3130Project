@@ -13,6 +13,6 @@ public class MathematicsPDF extends AppCompatActivity {
         setContentView(R.layout.activity_mathematics_pdf);
 
         Mathematics = (PDFView)findViewById(R.id.MATHPDFVIEWER);
-        Mathematics.fromAsset("Mathematics.pdf");
+        Mathematics.fromAsset("Mathematics.pdf").load();
     }
 }
