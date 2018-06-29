@@ -28,7 +28,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
         private static FirebaseUser user;
         private static FirebaseAuth auth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,12 +61,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
         View headerview = navigationView.getHeaderView(0);
         final TextView Email = headerview.findViewById(R.id.UserEmail);
         final TextView name = headerview.findViewById(R.id.UserName);
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /*LayoutInflater inflater = getLayoutInflater();
-    View NavView = inflater.inflate(R.layout.nav_header_login_interface, null);
-       final TextView name = (TextView)NavView.findViewById(R.id.UserName);
-       final TextView Email = (TextView)NavView.findViewById(R.id.UserEmail);*/
 
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference wtf = Ref.child(user.getUid()).child("Email");

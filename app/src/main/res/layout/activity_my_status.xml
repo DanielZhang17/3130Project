@@ -30,4 +30,14 @@
         android:textSize="18sp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="88dp" />
+
+    <TextView
+        android:id="@+id/totalcreait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/SName"
+        android:layout_marginTop="125dp"
+        android:text="Total Credit:"
+        android:textSize="18sp" />
 </RelativeLayout>
