@@ -173,7 +173,12 @@ public class LoginInterfaceActivity extends AppCompatActivity
         }else if (id == R.id.nav_fifth_layout) {
             auth.signOut();
             startActivity(new Intent(LoginInterfaceActivity.this,LoginActivity.class));
+        }else if (id==R.id.nav_sixth_layout){
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_login_interface,new SixthFragment())
+                    .commit();
         }
+
 
 
 
