@@ -20,7 +20,24 @@ public class Course {
     private String SpotMax;
     private String StartDate;
     private String TutID;
+    private String LabLocation;
+    private String TutLocation;
 
+    public String getLabLocation() {
+        return LabLocation;
+    }
+
+    public void setLabLocation(String labLocation) {
+        LabLocation = labLocation;
+    }
+
+    public String getTutLocation() {
+        return TutLocation;
+    }
+
+    public void setTutLocation(String tutLocation) {
+        TutLocation = tutLocation;
+    }
 
     public Course(){
 
@@ -30,7 +47,7 @@ public class Course {
                   String courseDep, String courseInformation, String courseName,
                   String courseTerm, String courseTime, String courseType,
                   String credit, String endDate, String labDayTime, String labID,
-                  String labTime, String location, String spotMax, String startDate, String TutID) {
+                  String labTime, String location, String spotMax, String startDate, String TutID, String labLocation,String tutLocation) {
         CourseID = courseID;
         CourseTitle = courseTitle;
         CourseDayTime = courseDayTime;
