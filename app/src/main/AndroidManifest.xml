@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -29,9 +30,12 @@
             android:name=".LoginInterfaceActivity"
             android:label="@string/title_activity_login_interface"
             android:theme="@style/AppTheme" />
-
-
         <activity android:name=".ChangePassword" />
+        <activity android:name=".MyStatus" />
+        <activity android:name=".RequiredCourse" />
+        <activity android:name=".CSPDFViewer" />
+        <activity android:name=".AppliedCSPDF" />
+        <activity android:name=".MathematicsPDF"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.app.ActionBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +24,7 @@ public class ChangePassword extends AppCompatActivity {
     private EditText CurrentPassword;
     private EditText NewPassword1;
     private EditText NewPassword2;
-
+private ActionBar Bar;
     private Button changepassword;
     private TextView result;
 
@@ -31,6 +32,7 @@ public class ChangePassword extends AppCompatActivity {
     private static FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
