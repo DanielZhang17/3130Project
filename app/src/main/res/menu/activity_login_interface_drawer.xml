@@ -11,6 +11,9 @@
             android:id="@+id/nav_second_layout"
             android:title="Course List" />
         <item
+            android:id="@+id/nav_sixth_layout"
+            android:title="Important Dates" />        
+        <item
             android:id="@+id/nav_third_layout"
             android:title="Contact us" />
 
