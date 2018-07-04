@@ -1,6 +1,7 @@
 package com.project.csci3130.dalrs;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ public class FirstFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 //actions to set term
+                Intent intent = new Intent(getActivity(),RegistActivity.class);
+                startActivity(intent);
             }
         });
         return MyView;

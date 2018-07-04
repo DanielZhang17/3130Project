@@ -27,7 +27,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
         private DatabaseReference Ref;
         private static FirebaseUser user;
         private static FirebaseAuth auth;
-
+        public static String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference wtf = Ref.child(user.getUid()).child("Email");
         DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
+        uid = user.getUid();
         //这个地方读Email
         wtf.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,7 +87,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
             }
         });
         //这个地方读Name
-
         wtf2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
