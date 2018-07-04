@@ -32,7 +32,7 @@ private ActionBar Bar;
     private static FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
