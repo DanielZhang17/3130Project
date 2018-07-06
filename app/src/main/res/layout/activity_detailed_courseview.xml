@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailed_courseview">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="368dp"
+        android:layout_height="350dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="16dp" >
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="112dp"
+            android:layout_height="245dp"
+            android:text="Detailed info\nCRN:\nCourse Name:\nCourse Title:\nCourse Time:\nCredit\nLocation:" />
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>
