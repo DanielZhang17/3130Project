@@ -26,7 +26,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         private DatabaseReference Ref;
         private static FirebaseUser user;
-        private static FirebaseAuth auth;
+        static FirebaseAuth auth;
         public static String uid;
 
     @Override

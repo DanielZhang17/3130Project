@@ -1,38 +1,70 @@
 package com.project.csci3130.dalrs;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.project.csci3130.dalrs.LoginInterfaceActivity.auth;
 
-public class AddClass {
-    private DatabaseReference mReference= FirebaseDatabase.getInstance().getReference();
-    private DatabaseReference courseReference = mReference.child("Courses");
-    private DatabaseReference registReference = mReference.child("Registrations");
+public class AddClass extends AppCompatActivity {
+    Button addBtn;
+    Button dropBtn;
+    Course course;
+    ArrayList<Course> courses = new ArrayList<Course>();
+
+    private DatabaseReference Reference= FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference courseReference = Reference.child("Courses");
+    private DatabaseReference registReference = Reference.child("Registrations");
     FirebaseUser user = auth.getCurrentUser();
-    private Map<String, List<String>> courseData = new HashMap<>();
     private Map<String, List<String>> registData = new HashMap<>();
+    @SuppressLint("WrongViewCast")
+    EditText editText1 = findViewById(R.id.childView);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.child_item);
+        ReadData();
+        addBtn = (Button) findViewById(R.id.AddBtn);
+        dropBtn = (Button) findViewById(R.id.DropBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addClass();
 
+            }
+        });
+        dropBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
+                dropClass();
+            }
+        });
+    }
     public void ReadData() {
-
 
         //get course information
         courseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                courseData = (Map<String, List<String>>) dataSnapshot.getValue();
+                course = dataSnapshot.getValue(Course.class);
+                courses.add(course);
 
             }
 
@@ -57,38 +89,56 @@ public class AddClass {
         });
 
     }
-    public void addClass(String id){
+    public void addClass(){
 
-
-        if(!registData.get(user.getUid()).contains(id)) {
-            //add id into registration
-            registReference.child(user.getUid()).child(id).child("RegistCourseID").setValue(id);
-            //add title and name
-            registReference.child(user.getUid()).child(id).child("RegistCourseName")
-                    .setValue(courseReference.child(id).child("CourseTitle").toString()
-                            +" "+courseReference.child(id).child("CourseName").toString());
-            //add lab
-            if(courseReference.child(id).child("LabID")!=null){
-                registReference.child(user.getUid()).child(id).child("RegistCourseLabID")
-                        .setValue(courseReference.child(id).child("LabID").toString());
+        @SuppressLint("WrongViewCast")
+        EditText editText1 = findViewById(R.id.childView);
+        String title = editText1.getText().toString();
+        String courseID = "";
+        for(int i=0; i<courses.size();i++){
+            String temp = courses.get(i).getCourseTitle();
+            if(temp == null){
+                temp = courses.get(i).getLabID();
             }
-            //add tut
-            if(courseReference.child(id).child("TutID")!=null){
-                registReference.child(user.getUid()).child(id).child("RegistCourseTutID")
-                        .setValue(courseReference.child(id).child("TutID").toString());
+            if(temp == null){
+                temp = courses.get(i).getTutID();
+            }
+            if(temp.equals(title)){
+                course = courses.get(i);
+                courseID = course.getCourseID();
             }
 
         }
+        String courseType = "";
+        for(int i=0; i<courses.size();i++){
+            String temp = courses.get(i).getCourseTitle();
+            if(temp == null){
+                temp = courses.get(i).getLabID();
+            }
+            if(temp == null){
+                temp = courses.get(i).getTutID();
+            }
+            if(temp.equals(title)){
+                course = courses.get(i);
+                courseType = course.getCourseType();
+            }
+
+        }
+        String id1 = LoginInterfaceActivity.uid;
+        Registration reg = new Registration(courseID,title,courseType,id1);
+        Reference.child(id1).child(courseID).setValue(reg);
 
 
     }
-    public void dropClass(final String id){
+    public void dropClass(){
         //make sure user want to drop
         DialogUtil dialogUtil = new DialogUtil();
         dialogUtil.show( "Do you want to drop this course?", new DialogButtonListener() {
             @Override
             public void sure() {
-                registReference.child(user.getDisplayName()).child(id).removeValue();
+                String id2 = LoginInterfaceActivity.uid;
+                String courseID = editText1.getText().toString();
+                Reference.child(id2).child(courseID).removeValue();
             }
 
             @Override
@@ -98,5 +148,4 @@ public class AddClass {
         });
 
     }
-
 }
