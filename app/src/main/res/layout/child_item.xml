@@ -15,7 +15,23 @@
             android:layout_height="wrap_content"
             android:text="Course here"
             android:textSize="25sp" />
+        <Button
+            android:id="@+id/AddBtn"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="90dp"
+            android:text="Add" />
 
+        <Button
+            android:id="@+id/DropBtn"
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="19dp"
+            android:text="Drop" />
 
 
 
