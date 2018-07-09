@@ -10,15 +10,17 @@ public class Registration implements Serializable{
     public String RegistLabID;
     public String RegistType;
     public String userID;
+    public String RegistTerm;
 
     public Registration(){
 
     }
-    public Registration(String registCourseID, String registCourseTitle, String registType,String userID) {
+    public Registration(String registCourseID, String registCourseTitle, String registType,String userID,String registTerm) {
         RegistCourseID = registCourseID;
         RegistTitle = registCourseTitle;
         RegistType = registType;
         this.userID = userID;
+        RegistTerm = registTerm;
     }
     @Exclude
 
@@ -67,5 +69,15 @@ public class Registration implements Serializable{
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+    @Exclude
+
+    public String getRegistTerm() {
+        return RegistTerm;
+    }
+    @Exclude
+
+    public void setRegistTerm(String registTerm) {
+        RegistTerm = registTerm;
     }
 }

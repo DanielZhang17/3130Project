@@ -124,8 +124,9 @@ public class AddClass extends AppCompatActivity {
             }
 
         }
+        String term = FirstFragment.termNumber;
         String id1 = LoginInterfaceActivity.uid;
-        Registration reg = new Registration(courseID,title,courseType,id1);
+        Registration reg = new Registration(courseID,title,courseType,id1,term);
         Reference.child(id1).child(courseID).setValue(reg);
 
 

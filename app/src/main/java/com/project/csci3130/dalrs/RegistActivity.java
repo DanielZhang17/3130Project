@@ -1,5 +1,6 @@
 package com.project.csci3130.dalrs;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,13 +36,14 @@ public class RegistActivity extends AppCompatActivity {
     Button buttonDrop;
     EditText editText;
     Course course;
+    public static Course selected;
     Registration registration;
     User user;
     List<String> users;
     private FirebaseListAdapter<Registration> adapter;
     ArrayList<Course> courses = new ArrayList<Course>();
     private static final String TAG = "TasksSample";
-    public static Course selected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +55,16 @@ public class RegistActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selected =  courses.get((int)(listView.getSelectedItemId()-1));
+                selected =  courses.get((int)(listView.getSelectedItemId()));
                 startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
             }
         });
         ref = FirebaseDatabase.getInstance().getReference("Courses");
         mReference = FirebaseDatabase.getInstance().getReference("Registrations");
-        mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.getAuth().getCurrentUser().getUid());
+        mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid).child(FirstFragment.termNumber);
         nReference = FirebaseDatabase.getInstance().getReference("Users");
         users = new ArrayList<String>();
-        mReference.addValueEventListener(new ValueEventListener() {
+        mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
@@ -98,16 +101,16 @@ public class RegistActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        adapter = new FirebaseListAdapter<Registration>(this, Registration.class, android.R.layout.simple_list_item_1, mRef) {
+        adapter = new FirebaseListAdapter<Registration>(this, Registration.class,
+                android.R.layout.simple_list_item_1, mRef) {
             @Override
             protected void populateView(View v, Registration model, int position) {
                 TextView textView = (TextView) v.findViewById(android.R.id.text1);
-                textView.setText("CRN: "+model.getRegistCourseID()+ "\nCourse Title: "+model.getRegistTitle() + "   Course Type: "+model.getRegistType());
-                Log.d(TAG,"courseTitle = " + textView);
-
+                textView.setText("CRN: " + model.getRegistCourseID() + "\nCourse Title: "
+                        + model.getRegistTitle() + "   Course Type: " + model.getRegistType());
+                Log.d(TAG, "courseTitle = " + textView);
 
             }
-
         };
 
         listView.setAdapter(adapter);
@@ -115,7 +118,31 @@ public class RegistActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addCourse();
+
+                String checkTerm = FirstFragment.termNumber;
+                String courseId = editText.getText().toString();
+
+                boolean c = false;
+                for(int m = 0; m < courses.size(); m++) {
+                    String tempTerm = courses.get(m).getCourseTerm();
+                    String temp = courses.get(m).getCourseID();
+                    if (temp == null) {
+                        temp = courses.get(m).getLabID();
+                    }
+                    if (temp == null) {
+                        temp = courses.get(m).getTutID();
+                    }
+                    if (tempTerm.equals(checkTerm) && temp.equals(courseId)) {
+                        c = true;
+                    }
+                }
+                if(c == true){
+                    addCourse();
+                }
+                else{
+                    Toast.makeText(RegistActivity.this, "You may entered a CRN not belongs to current term", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
         });
         buttonDrop.setOnClickListener(new View.OnClickListener() {
@@ -125,46 +152,60 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
     }
-    private void addCourse(){
+    private void addCourse(){//add course
+
         String courseID = editText.getText().toString();
         String courseTitle = "";
-        for(int i=0; i<courses.size();i++){
+        String courseTerm = "";
+        for (int i = 0; i < courses.size(); i++) {
             String temp = courses.get(i).getCourseID();
-            if(temp == null){
+            if (temp == null) {
                 temp = courses.get(i).getLabID();
             }
-            if(temp == null){
+            if (temp == null) {
                 temp = courses.get(i).getTutID();
             }
-            if(temp.equals(courseID)){
+            if (temp.equals(courseID)) {
                 course = courses.get(i);
                 courseTitle = course.getCourseTitle();
             }
-
         }
         String courseType = "";
-        for(int i=0; i<courses.size();i++){
+        for (int i = 0; i < courses.size(); i++) {
             String temp = courses.get(i).getCourseID();
-            if(temp == null){
+            if (temp == null) {
                 temp = courses.get(i).getLabID();
             }
-            if(temp == null){
+            if (temp == null) {
                 temp = courses.get(i).getTutID();
             }
-            if(temp.equals(courseID)){
+            if (temp.equals(courseID)) {
                 course = courses.get(i);
                 courseType = course.getCourseType();
             }
+        }
+        for(int i =0; i< courses.size();i++){
+            String temp = courses.get(i).getCourseID();
+            String tempTerm = courses.get(i).getCourseTerm();
 
+            if (temp == null) {
+                temp = courses.get(i).getLabID();
+            }
+            if (temp == null) {
+                temp = courses.get(i).getTutID();
+            }
+            if (temp.equals(courseID) && tempTerm.equals(FirstFragment.termNumber)) {
+                course = courses.get(i);
+                courseTerm = course.getCourseTerm();
+            }
         }
         String id1 = LoginInterfaceActivity.uid;
-        Registration reg = new Registration(courseID,courseTitle,courseType,id1);
-        mReference.child(id1).child(courseID).setValue(reg);
+        Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm);
+        mReference.child(id1).child(courseTerm).child(courseID).setValue(reg);
     }
-    private void dropCourse(){
+    private void dropCourse(){//drop class
         String id2 = LoginInterfaceActivity.uid;
         String courseID = editText.getText().toString();
-        mReference.child(id2).child(courseID).removeValue();
+        mRef.child(courseID).removeValue();
     }
-
 }

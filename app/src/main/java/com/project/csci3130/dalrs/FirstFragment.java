@@ -14,8 +14,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class FirstFragment extends Fragment{
-
     View MyView;
+    public static long termNum;
+    public static int term;
+    public static String termNumber;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -26,14 +28,18 @@ public class FirstFragment extends Fragment{
                 R.array.Terms, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),"You selected :"+spinner.getSelectedItem().toString(),Toast.LENGTH_LONG).show();
+                termNum = spinner.getSelectedItemId();
+                term = (int) termNum + 1;
+                termNumber = ""+term;
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //未选中时候的操作
             }
         });
         submit.setOnClickListener(new View.OnClickListener() {
