@@ -38,7 +38,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,46 +67,47 @@ public class LoginInterfaceActivity extends AppCompatActivity
     View NavView = inflater.inflate(R.layout.nav_header_login_interface, null);
        final TextView name = (TextView)NavView.findViewById(R.id.UserName);
        final TextView Email = (TextView)NavView.findViewById(R.id.UserEmail);*/
-
         Ref = FirebaseDatabase.getInstance().getReference("Users");
-        DatabaseReference wtf = Ref.child(user.getUid()).child("Email");
-        DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
-        uid = user.getUid();
-        //这个地方读Email
-        wtf.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String value1 = dataSnapshot.getValue(String.class);
-                Email.setText("  "+value1);
-            }
+        if (user!=null) {
+            DatabaseReference wtf = Ref.child(user.getUid()).child("Email");
+            DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
+            uid = user.getUid();
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            //这个地方读Email
+            wtf.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String value1 = dataSnapshot.getValue(String.class);
+                    Email.setText("  " + value1);
+                }
 
-            }
-        });
-        //这个地方读Name
-        wtf2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String value2 = dataSnapshot.getValue(String.class);
-                name.setText("  "+value2);
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+            //这个地方读Name
+            wtf2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String value2 = dataSnapshot.getValue(String.class);
+                    name.setText("  " + value2);
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-        ////////////////////////////////////////
+                }
+            });
+
+            ////////////////////////////////////////
         /*View headerview = navigationView.getHeaderView(0);
         TextView Email = headerview.findViewById(R.id.UserEmail);
         TextView name = headerview.findViewById(R.id.UserName);*/
 
+        }
+
     }
-
-
 
     @Override
     public void onBackPressed() {
@@ -189,14 +189,12 @@ public class LoginInterfaceActivity extends AppCompatActivity
     public static void setAuth(FirebaseAuth a){
         auth = a;
     }
-
     public static void setUser(FirebaseUser u){
         user = u;
     }
     public static FirebaseAuth getAuth(){
         return auth;
     }
-
     public static FirebaseUser getUser(){
         return user;
     }

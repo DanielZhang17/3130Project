@@ -1,10 +1,12 @@
 package com.project.csci3130.dalrs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +40,7 @@ public class RegistActivity extends AppCompatActivity {
     private FirebaseListAdapter<Registration> adapter;
     ArrayList<Course> courses = new ArrayList<Course>();
     private static final String TAG = "TasksSample";
+    public static Course selected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +49,16 @@ public class RegistActivity extends AppCompatActivity {
         buttonDrop = (Button) findViewById(R.id.button2);
         editText = (EditText) findViewById(R.id.editText);
         listView = (ListView) findViewById(R.id.listView);
-
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selected =  courses.get((int)(listView.getSelectedItemId()-1));
+                startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
+            }
+        });
         ref = FirebaseDatabase.getInstance().getReference("Courses");
         mReference = FirebaseDatabase.getInstance().getReference("Registrations");
-        mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid);
+        mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.getAuth().getCurrentUser().getUid());
         nReference = FirebaseDatabase.getInstance().getReference("Users");
         users = new ArrayList<String>();
         mReference.addValueEventListener(new ValueEventListener() {
