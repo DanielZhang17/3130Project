@@ -25,12 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class RegistActivity extends AppCompatActivity {
     DatabaseReference ref;
     DatabaseReference mReference;
     DatabaseReference nReference;
     DatabaseReference mRef;
+    DatabaseReference cRef;
     ListView listView;
     Button buttonAdd;
     Button buttonDrop;
@@ -38,11 +38,14 @@ public class RegistActivity extends AppCompatActivity {
     Course course;
     public static Course selected;
     Registration registration;
+    Course courseLec;
     User user;
     List<String> users;
     private FirebaseListAdapter<Registration> adapter;
     ArrayList<Course> courses = new ArrayList<Course>();
     private static final String TAG = "TasksSample";
+    ArrayList<Course> coursesAll = new ArrayList<>();
+    ArrayList<Course> coursesLec = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,28 @@ public class RegistActivity extends AppCompatActivity {
         mReference = FirebaseDatabase.getInstance().getReference("Registrations");
         mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid).child(FirstFragment.termNumber);
         nReference = FirebaseDatabase.getInstance().getReference("Users");
+        cRef = FirebaseDatabase.getInstance().getReference("Courses");
         users = new ArrayList<String>();
+        cRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    courseLec = ds.getValue(Course.class);
+                    coursesAll.add(courseLec);
+                    for(int i = 0; i < coursesAll.size(); i++){
+                        String lec = coursesAll.get(i).getCourseType();
+                        if(lec.equals("Lec")){
+                            coursesLec.add(coursesAll.get(i));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
