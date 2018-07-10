@@ -9,14 +9,20 @@ import com.google.firebase.auth.*;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Map;
+
 public class MyStatus extends AppCompatActivity {
     private DatabaseReference Ref;
     private DatabaseReference Registrations;
+    private DatabaseReference fall;
+    private DatabaseReference winter;
+    private DatabaseReference summer;
     private static FirebaseUser user = LoginInterfaceActivity.getUser();
     private static FirebaseAuth auth = LoginInterfaceActivity.getAuth();
     private TextView UserName;
     private TextView UserID;
     private TextView TotalCredit;
+    private long sum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,14 @@ public class MyStatus extends AppCompatActivity {
         DatabaseReference wtf = Ref.child(user.getUid()).child("UserID");
         DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
         Registrations = FirebaseDatabase.getInstance().getReference("Registrations").child(user.getUid());
+        if(Registrations.child("1")!=null)
+          fall = Registrations.child("1");
+
+        if(Registrations.child("2")!=null)
+          winter = Registrations.child("2");
+
+        if(Registrations.child("3")!=null)
+          summer = Registrations.child("3");
 
         UserID = findViewById(R.id.SName);
         UserName = findViewById(R.id.SID);
@@ -59,19 +73,52 @@ public class MyStatus extends AppCompatActivity {
             }
         });
 
-        Registrations.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                long sum;
-                sum = (dataSnapshot.getChildrenCount())*3;
-                TotalCredit.setText("Total Credit: "+sum);
+        if(fall!=null) {
+            fall.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    sum += dataSnapshot.getChildrenCount();
+                    TotalCredit.setText("Total Credits: "+sum*3);
+                }
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
+        if(winter!=null) {
+            winter.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    sum += dataSnapshot.getChildrenCount();
+                    TotalCredit.setText("Total Credits: "+sum*3);
 
-            }
-        });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+        if(summer!=null) {
+            summer.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    sum += dataSnapshot.getChildrenCount();
+                    TotalCredit.setText("Total Credits: "+sum*3);
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
+
 }
+
+
