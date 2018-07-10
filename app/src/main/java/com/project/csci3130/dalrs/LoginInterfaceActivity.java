@@ -26,9 +26,9 @@ public class LoginInterfaceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         private DatabaseReference Ref;
         private static FirebaseUser user;
-        static FirebaseAuth auth;
-        public static String uid;
+         static FirebaseAuth auth;
 
+public static String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +61,8 @@ public class LoginInterfaceActivity extends AppCompatActivity
         View headerview = navigationView.getHeaderView(0);
         final TextView Email = headerview.findViewById(R.id.UserEmail);
         final TextView name = headerview.findViewById(R.id.UserName);
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /*LayoutInflater inflater = getLayoutInflater();
-    View NavView = inflater.inflate(R.layout.nav_header_login_interface, null);
-       final TextView name = (TextView)NavView.findViewById(R.id.UserName);
-       final TextView Email = (TextView)NavView.findViewById(R.id.UserEmail);*/
+
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         if (user!=null) {
             DatabaseReference wtf = Ref.child(user.getUid()).child("Email");
