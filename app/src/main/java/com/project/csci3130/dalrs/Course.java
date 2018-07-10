@@ -92,8 +92,7 @@ public class Course {
         CourseDep = courseDep;
     }
 
-    public String getCourseInformation() {
-        return CourseInformation;
+    public String getCourseInformation() { return CourseInformation;
     }
 
     public void setCourseInformation(String courseInformation) {

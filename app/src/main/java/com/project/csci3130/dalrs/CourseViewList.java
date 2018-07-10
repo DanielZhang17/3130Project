@@ -216,6 +216,8 @@ public class CourseViewList extends AppCompatActivity {
                     courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
 
                     addCourse();
+                    Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
+
                 }
             });
 
@@ -225,6 +227,8 @@ public class CourseViewList extends AppCompatActivity {
                     courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
 
                     dropClass();
+                    Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
+
                 }
             });
             return convertView;
@@ -232,15 +236,10 @@ public class CourseViewList extends AppCompatActivity {
 
         @Override
         public boolean isChildSelectable(int parentPosition, int childPosition){
-
             return false;  //not in interaction 1
         }
-
     }
     public void ReadData() {
-
-
-
         //get course information
         courseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -252,10 +251,8 @@ public class CourseViewList extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         nReference.addValueEventListener(new ValueEventListener() {
@@ -280,10 +277,8 @@ public class CourseViewList extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
     }
     public void addCourse(){//add course
 
@@ -307,7 +302,6 @@ public class CourseViewList extends AppCompatActivity {
                     course = coursesLec.get(i);
                     courseTitle = course.getCourseTitle();
                 }
-
             }
             String courseType = "";
             for (int i = 0; i < coursesLec.size(); i++) {
@@ -321,7 +315,6 @@ public class CourseViewList extends AppCompatActivity {
             for (int i = 0; i < coursesLec.size(); i++) {
                 String temp = coursesLec.get(i).getCourseID();
                 String tempTerm = coursesLec.get(i).getCourseTerm();
-
                 if (temp.equals(courseID) && tempTerm.equals(SecondFragment.termNumber)) {
                     course = coursesLec.get(i);
                     courseTerm = course.getCourseTerm();
@@ -331,8 +324,6 @@ public class CourseViewList extends AppCompatActivity {
             Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm);
             rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
         }
-
-
     }
     public void dropClass(){
         for(int m = 0; m < coursesLec.size(); m++) {
@@ -344,8 +335,5 @@ public class CourseViewList extends AppCompatActivity {
             }
         }
         mRef.child(courseID).removeValue();
-
     }
-
-
 }
