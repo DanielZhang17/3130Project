@@ -29,11 +29,13 @@ public class detailed_courseview extends AppCompatActivity {
         time.setText(c.getCourseTime());
         cred.setText(c.getCredit());
         loc.setText(c.getLocation());
+        descrip.setText(c.getCourseInformation());
         String[] locSplit = c.getLocation().split(" ");
         String locF = "";//formats the location for google maps
         for (int i =0;i<locSplit.length -1;i++)
             locF += locSplit[i]+"+";
         locF = locF.substring(0,locF.length()-2);
+        locF = locF.toLowerCase();
         final String url = "https://www.google.com/maps/search/?api=1&query="+locF;
         ImageButton b = findViewById(R.id.imageButton);
         b.setOnClickListener(new View.OnClickListener() {
