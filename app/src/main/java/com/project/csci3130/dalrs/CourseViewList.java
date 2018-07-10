@@ -10,9 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,19 +32,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 public class CourseViewList extends AppCompatActivity {
     private TextView test1;
     private TextView test2;
-    private DatabaseReference mReference;
     private DatabaseReference wReference;
     private ExpandableListView expandableListView;
     private ExpandableListViewAdapter adapter;
     private List<String> courseCS = new ArrayList<>();
     private List<String> courseSTAT = new ArrayList<>();
     private String[] groupList = new String[]{"Computer Science","Statistic"};
+    private static DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Registrations")
+            .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
+    private DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Registrations");
+    public DatabaseReference mReference= FirebaseDatabase.getInstance().getReference();
+    public DatabaseReference courseReference = mReference.child("Courses");
+    public DatabaseReference nReference = FirebaseDatabase.getInstance().getReference("Users");
+    public final String TAG = "TasksSample";
     private Map<String, List<String>> courseList = new HashMap<>();
+    String term = SecondFragment.termNumber;
     DatabaseReference ref;
     Course course;
+    String courseID;
+    ArrayList<Course> courseData = new ArrayList<Course>();
+    User user;
+    Registration registration;
+    public static String courseTitle;
+
+    ExpandableListView listView;
     ArrayList<Course> courses1 = new ArrayList<Course>();
     ArrayList<Course> coursesLec = new ArrayList<>();
 
@@ -55,7 +75,9 @@ public class CourseViewList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     course = ds.getValue(Course.class);
-                    courses1.add(course);
+                    if(course.getCourseTerm().equals(term)) {
+                        courses1.add(course);
+                    }
                 }
             }
             @Override
@@ -63,19 +85,15 @@ public class CourseViewList extends AppCompatActivity {
 
             }
         });
-        //iniUI();
+
         initData();
         listView();
-        //courseList.toString();
-        //CourseViewList.listView();
-        Intent intent = getIntent();
 
         adapter = new ExpandableListViewAdapter();
         expandableListView.setAdapter(adapter);
 
     }
     private void initData() {
-        mReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference haha = mReference.child("Courses");
 
         haha.addValueEventListener(new ValueEventListener() {
@@ -89,24 +107,10 @@ public class CourseViewList extends AppCompatActivity {
         });
     }
     private void collectCourseTitles(Map<String,Object> courses){
-        String[] list =null;
         for(Map.Entry<String,Object> entry: courses.entrySet()){
 
-            Map course = (Map) entry.getValue();
-            boolean flag = false;
-/*
-            String title = (String) course.get("CourseTitle");
-            String dep = (String) course.get("CourseDep");
-            String type = (String) course.get("CourseType");
-
-            if(title != null && dep.equals("Computer Science") && !courseCS.contains(title) && type.equals("Lec")){
-                courseCS.add(title);
-            }
-            if(title !=null && dep.contains("Statistics") && !courseSTAT.contains(title) && type.equals("Lec")){
-                courseSTAT.add(title);
-            }*/
-            for(int i=0; i< courses.size(); i++){
-                if(courses1.get(i).getCourseType().contains("ec")){
+            for(int i=0; i< courses1.size(); i++){
+                if(courses1.get(i).getCourseType().contains("ec") && !coursesLec.contains(courses1.get(i))){
                     coursesLec.add(courses1.get(i));
                 }
             }
@@ -172,14 +176,13 @@ public class CourseViewList extends AppCompatActivity {
         @Override
         public View getGroupView(int parentPosition, boolean isExpand,
                                  View convertView, ViewGroup viewGroup){
+
             if(convertView == null){
                 LayoutInflater inflater = (LayoutInflater)
                         getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.group_item,null);
             }
-            convertView.setTag(R.layout.group_item, parentPosition);
 
-            convertView.setTag(R.layout.child_item, -1);
 
             TextView textView = (TextView) convertView.findViewById(R.id.groupView);
 
@@ -189,13 +192,15 @@ public class CourseViewList extends AppCompatActivity {
         }
 
         @Override
-        public View getChildView(int parentPosition, int childPosition, boolean isLastChild,
+        public View getChildView(final int parentPosition, final int childPosition, boolean isLastChild,
                                  View convertView, ViewGroup viewGroup){
+
             if(convertView == null){
                 LayoutInflater inflater = (LayoutInflater)
                         getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.child_item,null);
             }
+
             convertView.setTag(R.layout.group_item, parentPosition);
 
             convertView.setTag(R.layout.child_item, childPosition);
@@ -204,13 +209,143 @@ public class CourseViewList extends AppCompatActivity {
 
             textView.setText(courseList.get(groupList[parentPosition]).get(childPosition));
 
+
+            convertView.findViewById(R.id.AddBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
+
+                    addCourse();
+                }
+            });
+
+            convertView.findViewById(R.id.DropBtn).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
+
+                    dropClass();
+                }
+            });
             return convertView;
         }
 
         @Override
         public boolean isChildSelectable(int parentPosition, int childPosition){
+
             return false;  //not in interaction 1
         }
+
     }
+    public void ReadData() {
+
+
+
+        //get course information
+        courseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    if(course.getCourseTerm().equals(term)) {
+                        courseData.add(course);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        nReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    user = ds.getValue(User.class);
+                    Log.i(TAG,"userID = " + user.UID);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        //get registation information
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                registration = dataSnapshot.getValue(Registration.class);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+    public void addCourse(){//add course
+
+
+        boolean c = false;
+        for(int m = 0; m < coursesLec.size(); m++) {
+            String tempTerm = coursesLec.get(m).getCourseTerm();
+            String temp = coursesLec.get(m).getCourseTitle();
+            String tempType = coursesLec.get(m).getCourseType();
+            if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
+                c = true;
+                courseID = coursesLec.get(m).getCourseID();
+            }
+        }
+        if(c == true) {
+
+            String courseTerm = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseTitle = course.getCourseTitle();
+                }
+
+            }
+            String courseType = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseType = course.getCourseType();
+                }
+            }
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+                String tempTerm = coursesLec.get(i).getCourseTerm();
+
+                if (temp.equals(courseID) && tempTerm.equals(SecondFragment.termNumber)) {
+                    course = coursesLec.get(i);
+                    courseTerm = course.getCourseTerm();
+                }
+            }
+            String id1 = LoginInterfaceActivity.uid;
+            Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm);
+            rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
+        }
+
+
+    }
+    public void dropClass(){
+        for(int m = 0; m < coursesLec.size(); m++) {
+            String tempTerm = coursesLec.get(m).getCourseTerm();
+            String temp = coursesLec.get(m).getCourseTitle();
+            String tempType = coursesLec.get(m).getCourseType();
+            if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
+                courseID = coursesLec.get(m).getCourseID();
+            }
+        }
+        mRef.child(courseID).removeValue();
+
+    }
+
 
 }
