@@ -16,6 +16,18 @@ public class Registrations {
 
     }
 
+    public void setRegistCourseID(String registCourseID) {
+        RegistCourseID = registCourseID;
+    }
+
+    public void setRegistCourseName(String registCourseName) {
+        RegistCourseName = registCourseName;
+    }
+
+    public void setRegistLabID(String registLabID) {
+        RegistLabID = registLabID;
+    }
+
     public String getRegistCourseID(){
         return RegistCourseID;
     }
