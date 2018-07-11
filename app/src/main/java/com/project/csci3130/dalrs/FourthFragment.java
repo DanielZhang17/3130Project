@@ -25,8 +25,14 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * The type Fourth fragment.
+ */
 public class FourthFragment extends Fragment{
 
+    /**
+     * The My view.
+     */
     View MyView;
     private Button changepassword;
     private Button MyStatus;

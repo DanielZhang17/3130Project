@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * The type Dialog util.
+ */
 public class DialogUtil {
 
     private AlertDialog dlg;
@@ -20,6 +23,12 @@ public class DialogUtil {
     private String text;
     private DialogButtonListener listener;
 
+    /**
+     * Show.
+     *
+     * @param text     the text
+     * @param listener the listener
+     */
     public void show(String text, final DialogButtonListener listener) {
         this.context = BaseActivity.getInstance();
         this.text = text;
@@ -29,6 +38,13 @@ public class DialogUtil {
     }
 
 
+    /**
+     * Show.
+     *
+     * @param context  the context
+     * @param text     the text
+     * @param listener the listener
+     */
     public void show(BaseActivity context, String text, final DialogButtonListener listener) {
         this.context = context;
         this.text = text;

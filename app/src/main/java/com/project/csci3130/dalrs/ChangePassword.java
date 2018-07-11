@@ -20,6 +20,9 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * The type Change password.
+ */
 public class ChangePassword extends AppCompatActivity {
     private EditText CurrentPassword;
     private EditText NewPassword1;

@@ -5,7 +5,13 @@ import android.os.Bundle;
 
 import com.github.barteksc.pdfviewer.PDFView;
 
+/**
+ * The type Cspdf viewer.
+ */
 public class CSPDFViewer extends AppCompatActivity {
+    /**
+     * The Cs.
+     */
     PDFView CS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

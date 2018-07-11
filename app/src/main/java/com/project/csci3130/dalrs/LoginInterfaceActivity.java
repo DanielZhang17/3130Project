@@ -21,14 +21,23 @@ import com.google.firebase.auth.*;
 
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * The type Login interface activity.
+ */
 public class LoginInterfaceActivity extends AppCompatActivity
 
         implements NavigationView.OnNavigationItemSelectedListener {
         private DatabaseReference Ref;
         private static FirebaseUser user;
-         static FirebaseAuth auth;
+    /**
+     * The Auth.
+     */
+    static FirebaseAuth auth;
 
-public static String uid;
+    /**
+     * The constant uid.
+     */
+    public static String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,15 +191,39 @@ public static String uid;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /**
+     * Set auth.
+     *
+     * @param a the a
+     */
     public static void setAuth(FirebaseAuth a){
         auth = a;
     }
+
+    /**
+     * Set user.
+     *
+     * @param u the u
+     */
     public static void setUser(FirebaseUser u){
         user = u;
     }
+
+    /**
+     * Get auth firebase auth.
+     *
+     * @return the firebase auth
+     */
     public static FirebaseAuth getAuth(){
         return auth;
     }
+
+    /**
+     * Get user firebase user.
+     *
+     * @return the firebase user
+     */
     public static FirebaseUser getUser(){
         return user;
     }
