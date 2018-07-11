@@ -104,6 +104,8 @@ public class RegistActivity extends AppCompatActivity {
      * The Courses lec.
      */
     ArrayList<Course> coursesLec = new ArrayList<>();
+    ArrayList<Course> registedCourse = new ArrayList<>();
+    ArrayList<Registration> registed = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +115,7 @@ public class RegistActivity extends AppCompatActivity {
         buttonDrop = (Button) findViewById(R.id.button2);
         editText = (EditText) findViewById(R.id.editText);
         listView = (ListView) findViewById(R.id.listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
-                selected =  courses.get(position);
-                startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
-            }
-        });
+
         ref = FirebaseDatabase.getInstance().getReference("Courses");
         mReference = FirebaseDatabase.getInstance().getReference("Registrations");
         mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid).child(FirstFragment.termNumber);
@@ -151,6 +147,17 @@ public class RegistActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     registration = ds.getValue(Registration.class);
+                    registed.add(registration);
+                }
+                for(int i=0;i<registed.size();i++){
+                    for(int j=0;j<coursesAll.size();j++) {
+                        if(coursesAll.get(j).getCourseID()!=null) {
+                            if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
+                                registedCourse.add(coursesAll.get(j));
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             @Override
@@ -233,6 +240,13 @@ public class RegistActivity extends AppCompatActivity {
                 dropCourse();
             }
         });//set button drop click
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
+                detailed_courseview.setCourse(registedCourse.get(position));
+                startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
+            }
+        });
     }
     private void addCourse(){//add course
 
