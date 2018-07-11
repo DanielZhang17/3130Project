@@ -216,7 +216,6 @@ public class CourseViewList extends AppCompatActivity {
                     courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
 
                     addCourse();
-                    Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -227,7 +226,6 @@ public class CourseViewList extends AppCompatActivity {
                     courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
 
                     dropClass();
-                    Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -332,9 +330,11 @@ public class CourseViewList extends AppCompatActivity {
             String tempType = coursesLec.get(m).getCourseType();
             if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
                 courseID = coursesLec.get(m).getCourseID();
+                Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
             }
         }
         mRef.child(courseID).removeValue();
+        Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
         //The following code may use for iteration 3
         /*DialogUtil dialogUtil = new DialogUtil();
         dialogUtil.show( "Do you want to drop this course?", new DialogButtonListener() {
