@@ -381,6 +381,7 @@ public class CourseViewList extends AppCompatActivity {
             String id1 = LoginInterfaceActivity.uid;
             Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm);
             rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
+            Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -394,7 +395,6 @@ public class CourseViewList extends AppCompatActivity {
             String tempType = coursesLec.get(m).getCourseType();
             if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
                 courseID = coursesLec.get(m).getCourseID();
-                Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
             }
         }
         mRef.child(courseID).removeValue();
