@@ -106,7 +106,7 @@ public class CourseViewList extends AppCompatActivity {
             }
         });
     }
-    private void collectCourseTitles(Map<String,Object> courses){
+    private void collectCourseTitles(Map<String,Object> courses){//let cs courses in cs list,let stat courses in stat list
         for(Map.Entry<String,Object> entry: courses.entrySet()){
 
             for(int i=0; i< courses1.size(); i++){
@@ -124,7 +124,7 @@ public class CourseViewList extends AppCompatActivity {
             }
         }
     }
-    private void listView(){
+    private void listView(){//put into hash map
 
         courseList.put(groupList[0],courseCS);
         courseList.put(groupList[1],courseSTAT);
@@ -335,5 +335,18 @@ public class CourseViewList extends AppCompatActivity {
             }
         }
         mRef.child(courseID).removeValue();
+        //The following code may use for iteration 3
+        /*DialogUtil dialogUtil = new DialogUtil();
+        dialogUtil.show( "Do you want to drop this course?", new DialogButtonListener() {
+            @Override
+            public void sure() {
+                mRef.child(courseID).removeValue();
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });*/
     }
 }

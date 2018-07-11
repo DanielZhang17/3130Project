@@ -57,7 +57,7 @@ public class RegistActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
                 selected =  courses.get((int)(listView.getSelectedItemId()));
                 startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
             }
@@ -68,7 +68,7 @@ public class RegistActivity extends AppCompatActivity {
         nReference = FirebaseDatabase.getInstance().getReference("Users");
         cRef = FirebaseDatabase.getInstance().getReference("Courses");
         users = new ArrayList<String>();
-        cRef.addValueEventListener(new ValueEventListener() {
+        cRef.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
@@ -88,7 +88,7 @@ public class RegistActivity extends AppCompatActivity {
 
             }
         });
-        mRef.addValueEventListener(new ValueEventListener() {
+        mRef.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
@@ -100,7 +100,7 @@ public class RegistActivity extends AppCompatActivity {
 
             }
         });
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
@@ -113,7 +113,7 @@ public class RegistActivity extends AppCompatActivity {
 
             }
         });
-        nReference.addValueEventListener(new ValueEventListener() {
+        nReference.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
@@ -141,13 +141,13 @@ public class RegistActivity extends AppCompatActivity {
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//set add button click
 
                 String checkTerm = FirstFragment.termNumber;
                 String courseId = editText.getText().toString();
 
                 boolean c = false;
-                for(int m = 0; m < courses.size(); m++) {
+                for(int m = 0; m < courses.size(); m++) {//check course term
                     String tempTerm = courses.get(m).getCourseTerm();
                     String temp = courses.get(m).getCourseID();
                     if (temp == null) {
@@ -160,7 +160,7 @@ public class RegistActivity extends AppCompatActivity {
                         c = true;
                     }
                 }
-                if(c == true){
+                if(c == true){//if course term is corresponding term, add course.
                     addCourse();
                 }
                 else{
@@ -174,7 +174,7 @@ public class RegistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dropCourse();
             }
-        });
+        });//set button drop click
     }
     private void addCourse(){//add course
 
