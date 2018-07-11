@@ -4,7 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.github.barteksc.pdfviewer.PDFView;
 
+/**
+ * The type Applied cspdf.
+ */
 public class AppliedCSPDF extends AppCompatActivity {
+    /**
+     * The Applied cs.
+     */
     PDFView AppliedCS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

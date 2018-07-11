@@ -10,10 +10,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * The type Third fragment.
+ */
 public class ThirdFragment extends Fragment{
 
+    /**
+     * The My view.
+     */
     View MyView;
-    CardView phone,email,web,address;
+    /**
+     * The Phone.
+     */
+    CardView phone, /**
+     * The Email.
+     */
+    email, /**
+     * The Web.
+     */
+    web, /**
+     * The Address.
+     */
+    address;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

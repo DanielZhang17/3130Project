@@ -7,11 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * The type Required course.
+ */
 public class RequiredCourse extends AppCompatActivity {
     private Button CS;
     private Button AppliedCS;
     private Button Mathematics;
 
+    /**
+     * The My view.
+     */
     View MyView;
 
     @Override

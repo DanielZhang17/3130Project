@@ -13,11 +13,26 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+/**
+ * The type Second fragment.
+ */
 public class SecondFragment extends Fragment{
+    /**
+     * The constant termNum.
+     */
     public static long termNum;
+    /**
+     * The constant term.
+     */
     public static int term;
+    /**
+     * The constant termNumber.
+     */
     public static String termNumber;
 
+    /**
+     * The My view.
+     */
     View MyView;
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
