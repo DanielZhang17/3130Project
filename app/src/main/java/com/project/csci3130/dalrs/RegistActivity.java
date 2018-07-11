@@ -58,7 +58,7 @@ public class RegistActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
-                selected =  courses.get((int)(listView.getSelectedItemId()));
+                selected =  courses.get(position);
                 startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
             }
         });
