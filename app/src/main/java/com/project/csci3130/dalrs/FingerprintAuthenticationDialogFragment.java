@@ -53,7 +53,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
     private FingerprintManager.CryptoObject mCryptoObject;
     private FingerprintUiHelper mFingerprintUiHelper;
-    private MainActivity mActivity;
+    private LoginActivity mActivity;
 
     private InputMethodManager mInputMethodManager;
     private SharedPreferences mSharedPreferences;
@@ -135,7 +135,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (MainActivity) getActivity();
+        mActivity = (LoginActivity) getActivity();
         mInputMethodManager = context.getSystemService(InputMethodManager.class);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -180,7 +180,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
 
             if (mUseFingerprintFutureCheckBox.isChecked()) {
                 // Re-create the key so that fingerprints including new ones are validated.
-                mActivity.createKey(MainActivity.DEFAULT_KEY_NAME, true);
+                mActivity.createKey(LoginActivity.DEFAULT_KEY_NAME, true);
                 mStage = Stage.FINGERPRINT;
             }
         }

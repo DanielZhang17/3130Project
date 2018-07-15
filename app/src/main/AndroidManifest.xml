@@ -36,6 +36,7 @@
         <activity android:name=".RequiredCourse" />
         <activity android:name=".CSPDFViewer" />
         <activity android:name=".AppliedCSPDF" />
+        <activity android:name=".SettingsActivity"/>
         <activity android:name=".MathematicsPDF"></activity>
     </application>
 
