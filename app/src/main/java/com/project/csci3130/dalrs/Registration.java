@@ -32,6 +32,10 @@ public class Registration implements Serializable{
      * The Regist term.
      */
     public String RegistTerm;
+    /**
+     * The Regist Fee
+     */
+    public String RegistFee;
 
     /**
      * Instantiates a new Registration.
@@ -49,12 +53,14 @@ public class Registration implements Serializable{
      * @param userID            the user id
      * @param registTerm        the regist term
      */
-    public Registration(String registCourseID, String registCourseTitle, String registType,String userID,String registTerm) {
+    public Registration(String registCourseID, String registCourseTitle, String registType,
+                        String userID,String registTerm,String registFee) {
         RegistCourseID = registCourseID;
         RegistTitle = registCourseTitle;
         RegistType = registType;
         this.userID = userID;
         RegistTerm = registTerm;
+        RegistFee = registFee;
     }
 
     /**
@@ -184,4 +190,8 @@ public class Registration implements Serializable{
     public void setRegistTerm(String registTerm) {
         RegistTerm = registTerm;
     }
+
+    public String getRegistFee() { return RegistFee; }
+
+    public void setRegistFee(String registFee) { RegistFee = registFee; }
 }
