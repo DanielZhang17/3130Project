@@ -217,12 +217,7 @@ public class RegistActivity extends AppCompatActivity {
                 for(int m = 0; m < courses.size(); m++) {//check course term
                     String tempTerm = courses.get(m).getCourseTerm();
                     String temp = courses.get(m).getCourseID();
-                    if (temp == null) {
-                        temp = courses.get(m).getLabID();
-                    }
-                    if (temp == null) {
-                        temp = courses.get(m).getTutID();
-                    }
+
                     if (tempTerm.equals(checkTerm) && temp.equals(courseId)) {
                         c = true;
                     }
@@ -256,12 +251,6 @@ public class RegistActivity extends AppCompatActivity {
         String courseTerm = "";
         for (int i = 0; i < courses.size(); i++) {
             String temp = courses.get(i).getCourseID();
-            if (temp == null) {
-                temp = courses.get(i).getLabID();
-            }
-            if (temp == null) {
-                temp = courses.get(i).getTutID();
-            }
             if (temp.equals(courseID)) {
                 course = courses.get(i);
                 courseTitle = course.getCourseTitle();
@@ -273,12 +262,7 @@ public class RegistActivity extends AppCompatActivity {
             String courseType = "";
             for (int i = 0; i < courses.size(); i++) {
                 String temp = courses.get(i).getCourseID();
-                if (temp == null) {
-                    temp = courses.get(i).getLabID();
-                }
-                if (temp == null) {
-                    temp = courses.get(i).getTutID();
-                }
+
                 if (temp.equals(courseID)) {
                     course = courses.get(i);
                     courseType = course.getCourseType();
@@ -289,12 +273,6 @@ public class RegistActivity extends AppCompatActivity {
                 String temp = courses.get(i).getCourseID();
                 String tempTerm = courses.get(i).getCourseTerm();
 
-                if (temp == null) {
-                    temp = courses.get(i).getLabID();
-                }
-                if (temp == null) {
-                    temp = courses.get(i).getTutID();
-                }
                 if (temp.equals(courseID) && tempTerm.equals(FirstFragment.termNumber)) {
                     course = courses.get(i);
                     courseTerm = course.getCourseTerm();

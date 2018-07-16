@@ -191,7 +191,8 @@ public class Registration implements Serializable{
         RegistTerm = registTerm;
     }
 
+    @Exclude
     public String getRegistFee() { return RegistFee; }
-
+    @Exclude
     public void setRegistFee(String registFee) { RegistFee = registFee; }
 }
