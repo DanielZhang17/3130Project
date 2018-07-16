@@ -104,6 +104,10 @@ public class RegistActivity extends AppCompatActivity {
      * The Courses lec.
      */
     ArrayList<Course> coursesLec = new ArrayList<>();
+    ArrayList<Course> registedCourse = new ArrayList<>();
+    ArrayList<Registration> registed = new ArrayList<>();
+    int currSopt;
+    String registFee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +117,7 @@ public class RegistActivity extends AppCompatActivity {
         buttonDrop = (Button) findViewById(R.id.button2);
         editText = (EditText) findViewById(R.id.editText);
         listView = (ListView) findViewById(R.id.listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
-                selected =  courses.get(position);
-                startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
-            }
-        });
+
         ref = FirebaseDatabase.getInstance().getReference("Courses");
         mReference = FirebaseDatabase.getInstance().getReference("Registrations");
         mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid).child(FirstFragment.termNumber);
@@ -151,6 +149,17 @@ public class RegistActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     registration = ds.getValue(Registration.class);
+                    registed.add(registration);
+                }
+                for(int i=0;i<registed.size();i++){
+                    for(int j=0;j<coursesAll.size();j++) {
+                        if(coursesAll.get(j).getCourseID()!=null) {
+                            if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
+                                registedCourse.add(coursesAll.get(j));
+                                break;
+                            }
+                        }
+                    }
                 }
             }
             @Override
@@ -233,9 +242,15 @@ public class RegistActivity extends AppCompatActivity {
                 dropCourse();
             }
         });//set button drop click
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
+                detailed_courseview.setCourse(registedCourse.get(position));
+                startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
+            }
+        });
     }
     private void addCourse(){//add course
-
         String courseID = editText.getText().toString();
         String courseTitle = "";
         String courseTerm = "";
@@ -250,44 +265,58 @@ public class RegistActivity extends AppCompatActivity {
             if (temp.equals(courseID)) {
                 course = courses.get(i);
                 courseTitle = course.getCourseTitle();
-            }
-        }
-        String courseType = "";
-        for (int i = 0; i < courses.size(); i++) {
-            String temp = courses.get(i).getCourseID();
-            if (temp == null) {
-                temp = courses.get(i).getLabID();
-            }
-            if (temp == null) {
-                temp = courses.get(i).getTutID();
-            }
-            if (temp.equals(courseID)) {
-                course = courses.get(i);
-                courseType = course.getCourseType();
-            }
-        }
-        for(int i =0; i< courses.size();i++){
-            String temp = courses.get(i).getCourseID();
-            String tempTerm = courses.get(i).getCourseTerm();
+                currSopt = Integer.parseInt(coursesLec.get(i).getAvailableSpot());
 
-            if (temp == null) {
-                temp = courses.get(i).getLabID();
-            }
-            if (temp == null) {
-                temp = courses.get(i).getTutID();
-            }
-            if (temp.equals(courseID) && tempTerm.equals(FirstFragment.termNumber)) {
-                course = courses.get(i);
-                courseTerm = course.getCourseTerm();
             }
         }
-        String id1 = LoginInterfaceActivity.uid;
-        Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm);
-        mReference.child(id1).child(courseTerm).child(courseID).setValue(reg);
+        if(currSopt > 0) {
+            String courseType = "";
+            for (int i = 0; i < courses.size(); i++) {
+                String temp = courses.get(i).getCourseID();
+                if (temp == null) {
+                    temp = courses.get(i).getLabID();
+                }
+                if (temp == null) {
+                    temp = courses.get(i).getTutID();
+                }
+                if (temp.equals(courseID)) {
+                    course = courses.get(i);
+                    courseType = course.getCourseType();
+                    registFee = course.getCourseFee();
+                }
+            }
+            for (int i = 0; i < courses.size(); i++) {
+                String temp = courses.get(i).getCourseID();
+                String tempTerm = courses.get(i).getCourseTerm();
+
+                if (temp == null) {
+                    temp = courses.get(i).getLabID();
+                }
+                if (temp == null) {
+                    temp = courses.get(i).getTutID();
+                }
+                if (temp.equals(courseID) && tempTerm.equals(FirstFragment.termNumber)) {
+                    course = courses.get(i);
+                    courseTerm = course.getCourseTerm();
+                }
+            }
+            String id1 = LoginInterfaceActivity.uid;
+            Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm,registFee);
+            mReference.child(id1).child(courseTerm).child(courseID).setValue(reg);
+            currSopt-=1;
+            cRef.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt));
+        }
+        else{
+            Toast.makeText(RegistActivity.this, "No available seat for this course", Toast.LENGTH_LONG).show();
+
+        }
     }
     private void dropCourse(){//drop class
         String id2 = LoginInterfaceActivity.uid;
         String courseID = editText.getText().toString();
         mRef.child(courseID).removeValue();
+        currSopt+=1;
+        cRef.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt));
+
     }
 }

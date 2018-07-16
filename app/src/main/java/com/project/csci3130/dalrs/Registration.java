@@ -32,13 +32,10 @@ public class Registration implements Serializable{
      * The Regist term.
      */
     public String RegistTerm;
-    public String LabLocation;
-    public String TutLocation;
-    private String Credit;
-    private String CourseInformation;
-    private String CourseName;
-    private String CourseTime;
-    private String Location;
+    /**
+     * The Regist Fee
+     */
+    public String RegistFee;
 
     /**
      * Instantiates a new Registration.
@@ -56,12 +53,14 @@ public class Registration implements Serializable{
      * @param userID            the user id
      * @param registTerm        the regist term
      */
-    public Registration(String registCourseID, String registCourseTitle, String registType,String userID,String registTerm) {
+    public Registration(String registCourseID, String registCourseTitle, String registType,
+                        String userID,String registTerm,String registFee) {
         RegistCourseID = registCourseID;
         RegistTitle = registCourseTitle;
         RegistType = registType;
         this.userID = userID;
         RegistTerm = registTerm;
+        RegistFee = registFee;
     }
 
     /**
@@ -191,75 +190,8 @@ public class Registration implements Serializable{
     public void setRegistTerm(String registTerm) {
         RegistTerm = registTerm;
     }
-    @Exclude
 
-    public String getLocation() {
-        return Location;
-    }
-    @Exclude
+    public String getRegistFee() { return RegistFee; }
 
-    public void setLocation(String location) {
-        Location = location;
-    }
-    @Exclude
-
-    public String getCourseTime() {
-        return CourseTime;
-    }
-    @Exclude
-
-    public void setCourseTime(String courseTime) {
-        CourseTime = courseTime;
-    }
-    @Exclude
-
-    public String getCourseName() {
-        return CourseName;
-    }
-    @Exclude
-
-    public void setCourseName(String courseName) {
-        CourseName = courseName;
-    }
-    @Exclude
-
-    public String getLabLocation() {
-        return LabLocation;
-    }
-    @Exclude
-
-    public void setLabLocation(String labLocation) {
-        LabLocation = labLocation;
-    }
-    @Exclude
-
-    public String getTutLocation() {
-        return TutLocation;
-    }
-    @Exclude
-
-    public void setTutLocation(String tutLocation) {
-        TutLocation = tutLocation;
-    }
-    @Exclude
-
-    public String getCredit() {
-        return Credit;
-    }
-    @Exclude
-
-    public void setCredit(String credit) {
-        Credit = credit;
-    }
-    @Exclude
-
-    public String getCourseInformation() {
-        return CourseInformation;
-    }
-    @Exclude
-
-    public void setCourseInformation(String courseInformation) {
-        CourseInformation = courseInformation;
-    }
-
+    public void setRegistFee(String registFee) { RegistFee = registFee; }
 }
