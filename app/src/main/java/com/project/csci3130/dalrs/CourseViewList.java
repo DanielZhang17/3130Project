@@ -45,8 +45,9 @@ public class CourseViewList extends AppCompatActivity {
     private List<String> courseEcon = new ArrayList<>();
 
     private String[] groupList = new String[]{"Computer Science","Statistic","Economic"};
-    private static DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Registrations")
-            .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
+    private static DatabaseReference mRef;
+    //= FirebaseDatabase.getInstance().getReference("Registrations")
+            //.child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
     private DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Registrations");
     /**
      * The M reference.
@@ -306,13 +307,14 @@ public class CourseViewList extends AppCompatActivity {
         courseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    if(course.getCourseTerm().equals(term)) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if (course.getCourseTerm().equals(term)) {
                         courseData.add(course);
                     }
                 }
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -320,27 +322,34 @@ public class CourseViewList extends AppCompatActivity {
         nReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     user = ds.getValue(User.class);
-                    Log.i(TAG,"userID = " + user.UID);
+                    Log.i(TAG, "userID = " + user.UID);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
         //get registation information
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                registration = dataSnapshot.getValue(Registration.class);
+        if (FirebaseDatabase.getInstance().getReference("Registrations")
+                .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber) != null){
+            mRef = FirebaseDatabase.getInstance().getReference("Registrations")
+                .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
+            mRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    registration = dataSnapshot.getValue(Registration.class);
 
-            }
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+        }
     }
 
     /**
@@ -414,6 +423,8 @@ public class CourseViewList extends AppCompatActivity {
                 courseID = coursesLec.get(m).getCourseID();
             }
         }
+        mRef = FirebaseDatabase.getInstance().getReference("Registrations")
+                .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
         mRef.child(courseID).removeValue();
         courseReference.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt+1));
         Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
