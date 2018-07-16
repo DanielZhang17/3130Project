@@ -11,6 +11,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
 
+/**
+ * The type My status.
+ */
 public class MyStatus extends AppCompatActivity {
     private DatabaseReference Ref;
     private DatabaseReference Registrations;

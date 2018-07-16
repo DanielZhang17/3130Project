@@ -13,10 +13,25 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ * The type First fragment.
+ */
 public class FirstFragment extends Fragment{
+    /**
+     * The My view.
+     */
     View MyView;
+    /**
+     * The constant termNum.
+     */
     public static long termNum;
+    /**
+     * The constant term.
+     */
     public static int term;
+    /**
+     * The constant termNumber.
+     */
     public static String termNumber;
     @Nullable
     @Override

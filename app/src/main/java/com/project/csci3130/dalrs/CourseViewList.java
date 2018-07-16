@@ -33,6 +33,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
+/**
+ * The type Course view list.
+ */
 public class CourseViewList extends AppCompatActivity {
     private TextView test1;
     private TextView test2;
@@ -45,22 +48,67 @@ public class CourseViewList extends AppCompatActivity {
     private static DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Registrations")
             .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
     private DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Registrations");
+    /**
+     * The M reference.
+     */
     public DatabaseReference mReference= FirebaseDatabase.getInstance().getReference();
+    /**
+     * The Course reference.
+     */
     public DatabaseReference courseReference = mReference.child("Courses");
+    /**
+     * The N reference.
+     */
     public DatabaseReference nReference = FirebaseDatabase.getInstance().getReference("Users");
+    /**
+     * The Tag.
+     */
     public final String TAG = "TasksSample";
     private Map<String, List<String>> courseList = new HashMap<>();
+    /**
+     * The Term.
+     */
     String term = SecondFragment.termNumber;
+    /**
+     * The Ref.
+     */
     DatabaseReference ref;
+    /**
+     * The Course.
+     */
     Course course;
+    /**
+     * The Course id.
+     */
     String courseID;
+    /**
+     * The Course data.
+     */
     ArrayList<Course> courseData = new ArrayList<Course>();
+    /**
+     * The User.
+     */
     User user;
+    /**
+     * The Registration.
+     */
     Registration registration;
+    /**
+     * The constant courseTitle.
+     */
     public static String courseTitle;
 
+    /**
+     * The List view.
+     */
     ExpandableListView listView;
+    /**
+     * The Courses 1.
+     */
     ArrayList<Course> courses1 = new ArrayList<Course>();
+    /**
+     * The Courses lec.
+     */
     ArrayList<Course> coursesLec = new ArrayList<>();
 
 
@@ -130,6 +178,10 @@ public class CourseViewList extends AppCompatActivity {
         courseList.put(groupList[1],courseSTAT);
 
     }
+
+    /**
+     * The type Expandable list view adapter.
+     */
     public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
 
         @Override
@@ -216,7 +268,6 @@ public class CourseViewList extends AppCompatActivity {
                     courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
 
                     addCourse();
-                    Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -227,7 +278,6 @@ public class CourseViewList extends AppCompatActivity {
                     courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
 
                     dropClass();
-                    Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -239,6 +289,10 @@ public class CourseViewList extends AppCompatActivity {
             return false;  //not in interaction 1
         }
     }
+
+    /**
+     * Read data.
+     */
     public void ReadData() {
         //get course information
         courseReference.addValueEventListener(new ValueEventListener() {
@@ -280,6 +334,10 @@ public class CourseViewList extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Add course.
+     */
     public void addCourse(){//add course
 
 
@@ -325,6 +383,10 @@ public class CourseViewList extends AppCompatActivity {
             rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
         }
     }
+
+    /**
+     * Drop class.
+     */
     public void dropClass(){
         for(int m = 0; m < coursesLec.size(); m++) {
             String tempTerm = coursesLec.get(m).getCourseTerm();
@@ -332,9 +394,11 @@ public class CourseViewList extends AppCompatActivity {
             String tempType = coursesLec.get(m).getCourseType();
             if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
                 courseID = coursesLec.get(m).getCourseID();
+                Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
             }
         }
         mRef.child(courseID).removeValue();
+        Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
         //The following code may use for iteration 3
         /*DialogUtil dialogUtil = new DialogUtil();
         dialogUtil.show( "Do you want to drop this course?", new DialogButtonListener() {

@@ -46,8 +46,6 @@ public class RegistActivity extends AppCompatActivity {
     private static final String TAG = "TasksSample";
     ArrayList<Course> coursesAll = new ArrayList<>();
     ArrayList<Course> coursesLec = new ArrayList<>();
-    ArrayList<Course> registedCourse = new ArrayList<>();
-    ArrayList<Registration> registed = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class RegistActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
-                selected = courses.get((int) (listView.getSelectedItem()));
+                selected =  courses.get((int)(listView.getSelectedItemId()));
                 startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
             }
         });
@@ -95,18 +93,6 @@ public class RegistActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     registration = ds.getValue(Registration.class);
-                    registed.add(registration);
-
-                }
-                for(int i=0;i<registed.size();i++){
-                    for(int j=0;j<coursesAll.size();j++) {
-                        if(coursesAll.get(j).getCourseID()!=null) {
-                            if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
-                                registedCourse.add(coursesAll.get(j));
-                                break;
-                            }
-                        }
-                    }
                 }
             }
             @Override

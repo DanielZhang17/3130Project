@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * The type Detailed courseview.
+ */
 public class detailed_courseview extends AppCompatActivity {
 
     @Override
