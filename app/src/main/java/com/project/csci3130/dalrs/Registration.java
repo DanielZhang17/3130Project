@@ -60,7 +60,7 @@ public class Registration implements Serializable{
         RegistType = registType;
         this.userID = userID;
         RegistTerm = registTerm;
-        RegistFee = registFee;
+        this.RegistFee = registFee;
     }
 
     /**
@@ -128,16 +128,6 @@ public class Registration implements Serializable{
     }
 
     /**
-     * Gets regist lab id.
-     *
-     * @return the regist lab id
-     */
-    @Exclude
-    public String getRegistLabID() {
-        return RegistLabID;
-    }
-
-    /**
      * Sets regist lab id.
      *
      * @param registLabID the regist lab id
@@ -190,8 +180,8 @@ public class Registration implements Serializable{
     public void setRegistTerm(String registTerm) {
         RegistTerm = registTerm;
     }
-
+    @Exclude
     public String getRegistFee() { return RegistFee; }
-
-    public void setRegistFee(String registFee) { RegistFee = registFee; }
+    @Exclude
+    public void setRegistFee(String registFee) { this.RegistFee = registFee; }
 }

@@ -16,53 +16,12 @@ public class Course {
     private String CourseType;
     private String Credit;
     private String EndDate;
-    private String LabDayTime;
-    private String LabID;
-    private String LabTime;
     private String Location;
     private String SpotMax;
     private String StartDate;
-    private String TutID;
-    private String LabLocation;
-    private String TutLocation;
     private String AvailableSpot;
     private String CourseFee;
 
-    /**
-     * Gets lab location.
-     *
-     * @return the lab location
-     */
-    public String getLabLocation() {
-        return LabLocation;
-    }
-
-    /**
-     * Sets lab location.
-     *
-     * @param labLocation the lab location
-     */
-    public void setLabLocation(String labLocation) {
-        LabLocation = labLocation;
-    }
-
-    /**
-     * Gets tut location.
-     *
-     * @return the tut location
-     */
-    public String getTutLocation() {
-        return TutLocation;
-    }
-
-    /**
-     * Sets tut location.
-     *
-     * @param tutLocation the tut location
-     */
-    public void setTutLocation(String tutLocation) {
-        TutLocation = tutLocation;
-    }
 
     /**
      * Instantiates a new Course.
@@ -113,34 +72,13 @@ public class Course {
         CourseType = courseType;
         Credit = credit;
         EndDate = endDate;
-        LabDayTime = labDayTime;
-        LabID = labID;
-        LabTime = labTime;
         Location = location;
         SpotMax = spotMax;
         StartDate = startDate;
-        this.TutID = TutID;
         this.AvailableSpot = AvailableSpot;
         this.CourseFee = CourseFee;
     }
 
-    /**
-     * Gets tut id.
-     *
-     * @return the tut id
-     */
-    public String getTutID() {
-        return TutID;
-    }
-
-    /**
-     * Sets tut id.
-     *
-     * @param tutID the tut id
-     */
-    public void setTutID(String tutID) {
-        TutID = tutID;
-    }
 
     /**
      * Gets course day time.
@@ -303,59 +241,7 @@ public class Course {
         EndDate = endDate;
     }
 
-    /**
-     * Gets lab day time.
-     *
-     * @return the lab day time
-     */
-    public String getLabDayTime() {
-        return LabDayTime;
-    }
 
-    /**
-     * Sets lab day time.
-     *
-     * @param labDayTime the lab day time
-     */
-    public void setLabDayTime(String labDayTime) {
-        LabDayTime = labDayTime;
-    }
-
-    /**
-     * Gets lab id.
-     *
-     * @return the lab id
-     */
-    public String getLabID() {
-        return LabID;
-    }
-
-    /**
-     * Sets lab id.
-     *
-     * @param labID the lab id
-     */
-    public void setLabID(String labID) {
-        LabID = labID;
-    }
-
-    /**
-     * Gets lab time.
-     *
-     * @return the lab time
-     */
-    public String getLabTime() {
-        return LabTime;
-    }
-
-    /**
-     * Sets lab time.
-     *
-     * @param labTime the lab time
-     */
-    public void setLabTime(String labTime) {
-        LabTime = labTime;
-    }
 
     /**
      * Gets location.
