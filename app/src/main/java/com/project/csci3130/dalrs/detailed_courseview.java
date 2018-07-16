@@ -12,7 +12,7 @@ import android.widget.TextView;
  * The type Detailed courseview.
  */
 public class detailed_courseview extends AppCompatActivity {
-
+   private static Course c;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,6 @@ public class detailed_courseview extends AppCompatActivity {
         cred = findViewById(R.id.cred);
         loc = findViewById(R.id.loc);
         descrip = findViewById(R.id.descrip);
-        Course c = RegistActivity.selected;
         crn.setText(c.getCourseID());
         title.setText(c.getCourseTitle());
         name.setText(c.getCourseName());
@@ -48,5 +47,8 @@ public class detailed_courseview extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    public static void setCourse(Course a){
+        c = a;
     }
 }

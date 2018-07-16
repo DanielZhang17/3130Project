@@ -25,6 +25,8 @@ public class Course {
     private String TutID;
     private String LabLocation;
     private String TutLocation;
+    private String AvailableSpot;
+    private String CourseFee;
 
     /**
      * Gets lab location.
@@ -97,7 +99,9 @@ public class Course {
                   String courseDep, String courseInformation, String courseName,
                   String courseTerm, String courseTime, String courseType,
                   String credit, String endDate, String labDayTime, String labID,
-                  String labTime, String location, String spotMax, String startDate, String TutID, String labLocation,String tutLocation) {
+                  String labTime, String location, String spotMax, String startDate,
+                  String TutID, String labLocation,String tutLocation,String AvailableSpot,
+                  String CourseFee) {
         CourseID = courseID;
         CourseTitle = courseTitle;
         CourseDayTime = courseDayTime;
@@ -116,6 +120,8 @@ public class Course {
         SpotMax = spotMax;
         StartDate = startDate;
         this.TutID = TutID;
+        this.AvailableSpot = AvailableSpot;
+        this.CourseFee = CourseFee;
     }
 
     /**
@@ -439,5 +445,21 @@ public class Course {
      */
     public void setCourseTitle(String courseTitle) {
         CourseTitle = courseTitle;
+    }
+
+    public String getAvailableSpot() {
+        return AvailableSpot;
+    }
+
+    public void setAvailableSpot(String availableSpot) {
+        AvailableSpot = availableSpot;
+    }
+
+    public String getCourseFee() {
+        return CourseFee;
+    }
+
+    public void setCourseFee(String courseFee) {
+        CourseFee = courseFee;
     }
 }

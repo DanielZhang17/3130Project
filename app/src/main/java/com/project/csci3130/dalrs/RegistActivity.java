@@ -25,26 +25,84 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * The type Regist activity.
+ */
 public class RegistActivity extends AppCompatActivity {
+    /**
+     * The Ref.
+     */
     DatabaseReference ref;
+    /**
+     * The M reference.
+     */
     DatabaseReference mReference;
+    /**
+     * The N reference.
+     */
     DatabaseReference nReference;
+    /**
+     * The M ref.
+     */
     DatabaseReference mRef;
+    /**
+     * The C ref.
+     */
     DatabaseReference cRef;
+    /**
+     * The List view.
+     */
     ListView listView;
+    /**
+     * The Button add.
+     */
     Button buttonAdd;
+    /**
+     * The Button drop.
+     */
     Button buttonDrop;
+    /**
+     * The Edit text.
+     */
     EditText editText;
+    /**
+     * The Course.
+     */
     Course course;
+    /**
+     * The constant selected.
+     */
     public static Course selected;
+    /**
+     * The Registration.
+     */
     Registration registration;
+    /**
+     * The Course lec.
+     */
     Course courseLec;
+    /**
+     * The User.
+     */
     User user;
+    /**
+     * The Users.
+     */
     List<String> users;
     private FirebaseListAdapter<Registration> adapter;
+    /**
+     * The Courses.
+     */
     ArrayList<Course> courses = new ArrayList<Course>();
     private static final String TAG = "TasksSample";
+    /**
+     * The Courses all.
+     */
     ArrayList<Course> coursesAll = new ArrayList<>();
+    /**
+     * The Courses lec.
+     */
     ArrayList<Course> coursesLec = new ArrayList<>();
 
     @Override
@@ -58,7 +116,7 @@ public class RegistActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
-                selected =  courses.get((int)(listView.getSelectedItemId()));
+                selected =  courses.get(position);
                 startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
             }
         });
