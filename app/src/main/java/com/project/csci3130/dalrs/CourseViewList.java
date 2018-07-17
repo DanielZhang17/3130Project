@@ -301,6 +301,16 @@ public class CourseViewList extends AppCompatActivity {
 
                 }
             });
+            convertView.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    courseTitle = courseList.get(groupList[parentPosition]).get(childPosition);
+
+                    chechDetail();
+                    Intent intent = new Intent(CourseViewList.this,CourseDetail.class);
+                    startActivity(intent);
+                }
+            });
             return convertView;
         }
 
@@ -452,5 +462,123 @@ public class CourseViewList extends AppCompatActivity {
 
             }
         });*/
+    }
+    public void chechDetail(){
+        boolean c = false;
+        for (int m = 0; m < coursesLec.size(); m++) {
+            String tempTerm = coursesLec.get(m).getCourseTerm();
+            String temp = coursesLec.get(m).getCourseTitle();
+            String tempType = coursesLec.get(m).getCourseType();
+            if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
+                c = true;
+                courseID = coursesLec.get(m).getCourseID();
+            }
+        }
+        if (c == true) {
+            String courseTerm = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseTitle = course.getCourseTitle();
+                    registFee = course.getCourseFee();
+                }
+            }
+            String courseType = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseType = course.getCourseType();
+                }
+            }
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+                String tempTerm = coursesLec.get(i).getCourseTerm();
+                if (temp.equals(courseID) && tempTerm.equals(SecondFragment.termNumber)) {
+                    course = coursesLec.get(i);
+                    courseTerm = course.getCourseTerm();
+                }
+            }
+            String courseName = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseName = course.getCourseName();
+                }
+            }
+            String courseDayTime = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseDayTime = course.getCourseDayTime();
+                }
+            }
+            String courseDep = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseDep = course.getCourseDep();
+                }
+            }
+            String courseInfo = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseInfo = course.getCourseInformation();
+                }
+            }
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+                String tempTerm = coursesLec.get(i).getCourseTerm();
+
+                if (temp.equals(courseID) && tempTerm.equals(FirstFragment.termNumber)) {
+                    course = coursesLec.get(i);
+                    courseTerm = course.getCourseTerm();
+                }
+            }
+            String courseTime = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseTime = course.getCourseTime();
+                }
+            }
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseType = course.getCourseType();
+                }
+            }
+            String courseLocation = "";
+            for (int i = 0; i < coursesLec.size(); i++) {
+                String temp = coursesLec.get(i).getCourseID();
+
+                if (temp.equals(courseID)) {
+                    course = coursesLec.get(i);
+                    courseLocation = course.getLocation();
+                }
+            }
+            Course course2 = new Course(courseID,courseTitle,courseDayTime,courseDep,courseInfo,courseName,
+                    courseTerm,courseTime,courseType,null,null,null,null,
+                    null,courseLocation,null,null,null,null,
+                    null,null,null);
+            CourseDetail.setCourse(course2);
+
+        }
+
     }
 }

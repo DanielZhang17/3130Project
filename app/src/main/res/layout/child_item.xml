@@ -11,38 +11,34 @@
 
         <Button
             android:id="@+id/detail"
-            style="@android:style/Widget.Material.Button.Borderless"
             android:layout_width="76dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/childView"
+            android:layout_toStartOf="@+id/AddBtn"
             android:text="Detail" />
 
         <TextView
             android:id="@+id/childView"
-            android:layout_width="122dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="11dp"
             android:text="Course here"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
+
         <Button
             android:id="@+id/AddBtn"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="90dp"
+            android:layout_toStartOf="@+id/DropBtn"
             android:text="Add" />
 
         <Button
             android:id="@+id/DropBtn"
-            android:layout_width="65dp"
+            android:layout_width="61dp"
             android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="-90dp"
-            android:layout_toEndOf="@+id/AddBtn"
+            android:layout_marginEnd="19dp"
             android:text="Drop" />
 
 

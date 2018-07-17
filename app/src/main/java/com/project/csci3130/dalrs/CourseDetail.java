@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class CourseDetail extends AppCompatActivity {
-    private Course course;
+    private static Course course;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,4 +34,8 @@ public class CourseDetail extends AppCompatActivity {
 
 
     }
+    public static void setCourse(Course c){
+        course = c;
+    }
+
 }

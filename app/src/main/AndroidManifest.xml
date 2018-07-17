@@ -38,6 +38,7 @@
         <activity android:name=".CSPDFViewer" />
         <activity android:name=".AppliedCSPDF" />
         <activity android:name=".MathematicsPDF"/>
+        <activity android:name=".CourseDetail"></activity>
         <activity android:name="SettingsActivity"/>
     </application>
 

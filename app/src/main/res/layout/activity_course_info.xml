@@ -5,13 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Course details"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="14dp" />
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:id="@+id/CRNs"
-        android:layout_width="61dp"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="80dp"
         android:text="CRN:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,29 +37,31 @@
         android:id="@+id/crn"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="80dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/CRNs"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/CourseTitle"
-        android:layout_width="97dp"
+        android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
         android:text="Course Title: "
-        app:layout_constraintStart_toEndOf="@+id/crn"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CRNs" />
 
     <TextView
         android:id="@+id/coursetitle"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/CourseTitle"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/crn" />
 
     <TextView
         android:id="@+id/CourseDep"
@@ -52,17 +71,17 @@
         android:layout_marginTop="30dp"
         android:text="Course Department: "
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CRNs" />
+        app:layout_constraintTop_toBottomOf="@+id/CourseTitle" />
 
     <TextView
         android:id="@+id/coursedep"
         android:layout_width="200dp"
         android:layout_height="26dp"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="30dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/CourseDep"
-        app:layout_constraintTop_toBottomOf="@+id/CourseTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/coursetitle" />
 
     <TextView
         android:id="@+id/CourseTerm"
@@ -87,7 +106,7 @@
     <TextView
         android:id="@+id/coursename"
         android:layout_width="250dp"
-        android:layout_height="26dp"
+        android:layout_height="50dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="30dp"
         android:text="TextView"
@@ -99,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="26dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="6dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/CourseTerm"
         app:layout_constraintTop_toBottomOf="@+id/coursename" />
@@ -177,11 +196,12 @@
 
     <TextView
         android:id="@+id/location"
-        android:layout_width="300dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="5dp"
+        android:layout_width="290dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="30dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/Location"
         app:layout_constraintTop_toBottomOf="@+id/CourseTime" />
+
 </android.support.constraint.ConstraintLayout>
