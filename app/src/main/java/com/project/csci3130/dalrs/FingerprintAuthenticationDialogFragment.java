@@ -18,10 +18,12 @@ package com.project.csci3130.dalrs;
 
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import static com.project.csci3130.dalrs.LoginInterfaceActivity.auth;
 
 /**
  * A dialog which uses fingerprint APIs to authenticate the user, and falls back to password
@@ -185,7 +195,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
             }
         }
         mPassword.setText("");
-        mActivity.onPurchased(false /* without Fingerprint */, null);
+        mActivity.onCompleted(false /* without Fingerprint */, null);
         dismiss();
     }
 
@@ -193,11 +203,26 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
      * @return true if {@code password} is correct, false otherwise
      */
     private boolean checkPassword(String password) {
-        // Assume the password is always correct.
-        // In the real world situation, the password needs to be verified in the server side.
-        return password.length() > 0;
+        final SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        final String e = mSharedPreferences.getString("email", "");
+        final String p = mPassword.getText().toString();
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(e, p).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getContext(), "Login Successful".toString(), Toast.LENGTH_LONG).show();
+                    LoginInterfaceActivity.setUser(auth.getCurrentUser());
+                    LoginInterfaceActivity.setAuth(auth);
+                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+                    editor.putString("email", e);
+                    editor.putString("password", p);
+                    editor.apply();
+                    startActivity(new Intent(getContext(), LoginInterfaceActivity.class));
+                }
+            }
+        });
+        return true;
     }
-
     private final Runnable mShowKeyboardRunnable = new Runnable() {
         @Override
         public void run() {
@@ -242,7 +267,7 @@ public class FingerprintAuthenticationDialogFragment extends DialogFragment
     public void onAuthenticated() {
         // Callback from FingerprintUiHelper. Let the activity know that authentication was
         // successful.
-        mActivity.onPurchased(true /* withFingerprint */, mCryptoObject);
+        mActivity.onCompleted(true /* withFingerprint */, mCryptoObject);
         dismiss();
     }
 

@@ -229,12 +229,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@dal.ca");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() >= 8;
     }
 
@@ -259,12 +257,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     /**
      * Represents an asynchronous login task used to authenticate
      * the user.
      */
-        private void UserLoginTask(String email, String password) {
+        private void UserLoginTask(final String email, final String password) {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
@@ -274,6 +271,10 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Login Successful".toString(),Toast.LENGTH_LONG).show();
                                 LoginInterfaceActivity.setUser(auth.getCurrentUser());
                                 LoginInterfaceActivity.setAuth(auth);
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putString("email",email);
+                                editor.putString("password",password);
+                                editor.apply();
                                 startActivity(new Intent(LoginActivity.this,LoginInterfaceActivity.class));
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -303,15 +304,20 @@ public class LoginActivity extends AppCompatActivity {
                 throw new RuntimeException("Failed to init Cipher", e);
             }
         }
-    public void onPurchased(boolean withFingerprint,
+    public void onCompleted(boolean withFingerprint,
                             @Nullable FingerprintManager.CryptoObject cryptoObject) {
         if (withFingerprint) {
             // If the user has authenticated with fingerprint, verify that using cryptography and
             // then show the confirmation message.
             assert cryptoObject != null;
             tryEncrypt(cryptoObject.getCipher());
+            //read the stored password and email and authenticate using that.
+            //This need to have a successful login before it can be initialized
+            mPasswordView.setText(mSharedPreferences.getString("password",""));
+            mEmailView.setText(mSharedPreferences.getString("email",""));
+            attemptLogin();
         } else {
-            // Authentication happened with backup password. Just show the confirmation message.
+
         }
     }
     private void tryEncrypt(Cipher cipher) {
@@ -319,7 +325,7 @@ public class LoginActivity extends AppCompatActivity {
             byte[] encrypted = cipher.doFinal(SECRET_MESSAGE.getBytes());
         } catch (BadPaddingException | IllegalBlockSizeException e) {
             Toast.makeText(this, "Failed to encrypt the data with the generated key. "
-                    + "Retry the purchase", Toast.LENGTH_LONG).show();
+                    + "Retry", Toast.LENGTH_LONG).show();
         }
     }
     public void createKey(String keyName, boolean invalidatedByBiometricEnrollment) {
@@ -374,13 +380,13 @@ public class LoginActivity extends AppCompatActivity {
             fragment.setCryptoObject(new FingerprintManager.CryptoObject(mCipher));
             boolean useFingerprintPreference = mSharedPreferences
                     .getBoolean(getString(R.string.use_fingerprint_to_authenticate_key),
-                            true);
+                            false);
             if (useFingerprintPreference) {
                 fragment.setStage(
                         FingerprintAuthenticationDialogFragment.Stage.FINGERPRINT);
             } else {
                 fragment.setStage(
-                        FingerprintAuthenticationDialogFragment.Stage.NEW_FINGERPRINT_ENROLLED);
+                        FingerprintAuthenticationDialogFragment.Stage.PASSWORD);
             }
             fragment.show(getFragmentManager(), DIALOG_FRAGMENT_TAG);
         } else {
@@ -396,7 +402,7 @@ public class LoginActivity extends AppCompatActivity {
             fragment.show(getFragmentManager(), DIALOG_FRAGMENT_TAG);
         }
     }
-    }
+}
 
 
 
