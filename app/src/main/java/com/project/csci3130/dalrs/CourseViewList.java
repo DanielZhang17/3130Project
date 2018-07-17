@@ -45,7 +45,7 @@ public class CourseViewList extends AppCompatActivity {
     private List<String> courseSTAT = new ArrayList<>();
     private List<String> courseEcon = new ArrayList<>();
 
-    private String[] groupList = new String[]{"Computer Science","Statistic","Economic"};
+    private String[] groupList = new String[]{"Computer Science","Statistics","Economics"};
     private static DatabaseReference mRef;
     //= FirebaseDatabase.getInstance().getReference("Registrations")
             //.child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
