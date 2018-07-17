@@ -40,6 +40,7 @@ public class FourthFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("Account Information");
         MyView = inflater.inflate(R.layout.fourth_layout,container,false);
         FirebaseUser user = LoginInterfaceActivity.getUser();
         changepassword = MyView.findViewById(R.id.changepassword);

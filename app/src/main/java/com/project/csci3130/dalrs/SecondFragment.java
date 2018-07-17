@@ -36,6 +36,7 @@ public class SecondFragment extends Fragment{
     View MyView;
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("Select Term");
         MyView = inflater.inflate(R.layout.second_layout,container,false);
         Button submit = MyView.findViewById(R.id.changeTerm);
         final Spinner spinner = MyView.findViewById(R.id.spinner);

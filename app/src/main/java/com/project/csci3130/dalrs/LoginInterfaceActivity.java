@@ -1,9 +1,11 @@
 package com.project.csci3130.dalrs;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -71,7 +73,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
         final TextView Email = headerview.findViewById(R.id.UserEmail);
         final TextView name = headerview.findViewById(R.id.UserName);
 
-
+        navigationView.setCheckedItem(R.id.Home);
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         if (user!=null) {
             DatabaseReference wtf = Ref.child(user.getUid()).child("Email");
@@ -91,7 +93,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
-            //这个地方读Name
             wtf2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -136,10 +137,25 @@ public class LoginInterfaceActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //Show a dialog to comfirm if the user wants to exit the application
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finishAndRemoveTask();
+                            finishAffinity();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -147,7 +163,10 @@ public class LoginInterfaceActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if (id==R.id.Home){
+            finish();
+            startActivity(getIntent());
+        }
         if (id == R.id.nav_first_layout) {
             // Handle the camera action
             getFragmentManager().beginTransaction()

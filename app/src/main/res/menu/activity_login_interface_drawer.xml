@@ -5,6 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/Home"
+            android:title="Home" />
+        <item
             android:id="@+id/nav_first_layout"
             android:title="Add/Drop Class" />
         <item
@@ -19,7 +22,7 @@
 
     </group>
 
-    <item android:title="About my Account">
+    <item android:title="Account">
         <menu>
             <item
                 android:id="@+id/nav_fourth_layout"

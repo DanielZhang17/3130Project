@@ -3,17 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp">
+
         <TextView
             android:id="@+id/groupView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="40sp"
-            android:text="Faculty here"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:paddingLeft="30dp"
-            />
+            android:text="Faculty here"
+            android:textAlignment="textStart"
+            android:textSize="25sp" />
     </RelativeLayout>
 
 </LinearLayout>

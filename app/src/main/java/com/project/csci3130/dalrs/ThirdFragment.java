@@ -35,6 +35,7 @@ public class ThirdFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        getActivity().setTitle("Contact Us");
         MyView = inflater.inflate(R.layout.third_layout,container,false);
         phone = MyView.findViewById(R.id.phone);
         email = MyView.findViewById(R.id.email);

@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -113,6 +115,17 @@ public class RegistActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
+        setTitle("");
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         buttonAdd = (Button) findViewById(R.id.button1);
         buttonDrop = (Button) findViewById(R.id.button2);
         editText = (EditText) findViewById(R.id.editText);
@@ -288,6 +301,11 @@ public class RegistActivity extends AppCompatActivity {
             Toast.makeText(RegistActivity.this, "No available seat for this course", Toast.LENGTH_LONG).show();
 
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.registmenu, menu);
+        return true;
     }
     private void dropCourse(){//drop class
         String id2 = LoginInterfaceActivity.uid;
