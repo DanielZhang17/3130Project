@@ -25,6 +25,17 @@ public class RequiredCourse extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_required_course);
+
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         CS = findViewById(R.id.CS);
         AppliedCS = findViewById(R.id.AppliedCS);
         Mathematics = findViewById(R.id.Math);

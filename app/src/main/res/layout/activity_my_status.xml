@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".MyStatus">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Status"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="14dp" />
+    </android.support.v7.widget.Toolbar>
+
     <TextView
         android:id="@+id/summerfee"
         android:layout_width="wrap_content"

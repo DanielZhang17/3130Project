@@ -2,6 +2,7 @@ package com.project.csci3130.dalrs;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import com.google.firebase.database.*;
 import android.widget.AdapterView;
@@ -38,6 +39,17 @@ public class MyStatus extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_status);
+
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference wtf = Ref.child(user.getUid()).child("UserID");
         DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
