@@ -25,8 +25,9 @@
     <ExpandableListView
         android:id="@+id/expandableList"
         android:layout_width="match_parent"
-        android:layout_height="594dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"></ExpandableListView>
+        android:layout_alignParentStart="true"
+        android:translationY="55dp"></ExpandableListView>
 
 </RelativeLayout>
