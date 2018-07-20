@@ -47,8 +47,6 @@ public class CourseViewList extends AppCompatActivity {
 
     private String[] groupList = new String[]{"Computer Science","Statistics","Economics"};
     private static DatabaseReference mRef;
-    //= FirebaseDatabase.getInstance().getReference("Registrations")
-            //.child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
     private DatabaseReference rRef = FirebaseDatabase.getInstance().getReference("Registrations");
     /**
      * The M reference.
@@ -113,7 +111,7 @@ public class CourseViewList extends AppCompatActivity {
      */
     ArrayList<Course> coursesLec = new ArrayList<>();
 
-    int currSopt;
+    int currSpot;
     String registFee;
 
 
@@ -386,10 +384,10 @@ public class CourseViewList extends AppCompatActivity {
             if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
                 c = true;
                 courseID = coursesLec.get(m).getCourseID();
-                currSopt = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
+                currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
             }
         }
-        if(currSopt > 0) {
+        if(currSpot > 0) {
             if (c == true) {
 
                 String courseTerm = "";
@@ -421,7 +419,10 @@ public class CourseViewList extends AppCompatActivity {
                 String id1 = LoginInterfaceActivity.uid;
                 Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm, registFee);
                 rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
-                courseReference.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt - 1));
+                String spot = Integer.toString(currSpot - 1);
+                course.setAvailableSpot(spot);
+                courseReference = FirebaseDatabase.getInstance().getReference("Courses");
+                courseReference.child(courseID).setValue(course);
                 Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
 
             }
@@ -442,12 +443,17 @@ public class CourseViewList extends AppCompatActivity {
             String tempType = coursesLec.get(m).getCourseType();
             if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
                 courseID = coursesLec.get(m).getCourseID();
+                currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
+                course = coursesLec.get(m);
             }
         }
         mRef = FirebaseDatabase.getInstance().getReference("Registrations")
                 .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
         mRef.child(courseID).removeValue();
-        courseReference.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt+1));
+        String spot = Integer.toString(currSpot + 1);
+        course.setAvailableSpot(spot);
+        courseReference = FirebaseDatabase.getInstance().getReference("Courses");
+        courseReference.child(courseID).setValue(course);
         Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
         //The following code may use for iteration 3
         /*DialogUtil dialogUtil = new DialogUtil();
