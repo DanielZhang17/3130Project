@@ -3,34 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu_top"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/Home"
-            android:title="Home" />
+            android:title="Home"
+            android:icon="@drawable/home"/>
         <item
             android:id="@+id/nav_first_layout"
-            android:title="Add/Drop Class" />
+            android:title="Add/Drop Class"
+            android:icon="@drawable/add"/>
         <item
             android:id="@+id/nav_second_layout"
-            android:title="Course List" />
+            android:title="Course List"
+            android:icon="@drawable/list"/>
         <item
             android:id="@+id/nav_sixth_layout"
-            android:title="Important Dates" />        
+            android:title="Important Dates"
+            android:icon="@drawable/important"/>
         <item
             android:id="@+id/nav_third_layout"
-            android:title="Contact us" />
+            android:title="Contact us"
+            android:icon="@drawable/contact"/>
 
     </group>
 
-    <item android:title="Account">
-        <menu>
+    <group android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
             <item
                 android:id="@+id/nav_fourth_layout"
-                android:title="Account Information" />
+                android:title="Account Information"
+                android:icon="@drawable/user"/>
             <item
                 android:id="@+id/nav_fifth_layout"
-                android:title="Logout" />
-        </menu>
-    </item>
+                android:title="Logout"
+                android:icon="@drawable/logout"/>
+    </group>
 
 </menu>
