@@ -63,8 +63,8 @@ public class MyStatus extends AppCompatActivity {
         if(Registrations.child("3")!=null)
           summer = Registrations.child("3");
 
-        UserID = findViewById(R.id.SName);
-        UserName = findViewById(R.id.SID);
+        UserID = findViewById(R.id.SID);
+        UserName = findViewById(R.id.SName);
         TotalCredit = findViewById(R.id.totalcreait);
         Fall = findViewById(R.id.fallfee);
         Winter = findViewById(R.id.winterfee);
@@ -74,7 +74,7 @@ public class MyStatus extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value1 = dataSnapshot.getValue(String.class);
-                UserID.setText("Student Name:"+value1);
+                UserID.setText(value1);
             }
 
             @Override
@@ -87,7 +87,7 @@ public class MyStatus extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value1 = dataSnapshot.getValue(String.class);
-                UserName.setText("Student Name:"+value1);
+                UserName.setText(value1);
             }
 
             @Override
@@ -101,7 +101,7 @@ public class MyStatus extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
-                    TotalCredit.setText("Total Credits: "+sum*3);
+                    TotalCredit.setText(""+sum*3);
 
                     for(DataSnapshot ds :dataSnapshot.getChildren()){
                         Map<String,Object> map = (Map<String,Object>) ds.getValue();
@@ -123,7 +123,7 @@ public class MyStatus extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
-                    TotalCredit.setText("Total Credits: "+sum*3);
+                    TotalCredit.setText(""+sum*3);
 
                     for(DataSnapshot ds :dataSnapshot.getChildren()){
                         Map<String,Object> map = (Map<String,Object>) ds.getValue();
@@ -146,7 +146,7 @@ public class MyStatus extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
-                    TotalCredit.setText("Total Credits: "+sum*3);
+                    TotalCredit.setText(""+sum*3);
 
                     for(DataSnapshot ds :dataSnapshot.getChildren()){
                         Map<String,Object> map = (Map<String,Object>) ds.getValue();
