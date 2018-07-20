@@ -108,7 +108,7 @@ public class MyStatus extends AppCompatActivity {
                         Object tuitionfee = map.get("RegistFee");
                         long fee = Integer.parseInt(String.valueOf(tuitionfee));
                         FallFee += fee;
-                        Fall.setText("Fall Tuition Fee: $"+ FallFee);
+                        Fall.setText("$"+ FallFee);
                     }
                 }
 
@@ -130,7 +130,7 @@ public class MyStatus extends AppCompatActivity {
                         Object tuitionfee = map.get("RegistFee");
                         long fee = Integer.parseInt(String.valueOf(tuitionfee));
                         WinterFee += fee;
-                        Winter.setText("Winter Tuition Fee: $"+ WinterFee);
+                        Winter.setText("$"+ WinterFee);
                     }
 
                 }
@@ -153,7 +153,7 @@ public class MyStatus extends AppCompatActivity {
                         Object tuitionfee = map.get("RegistFee");
                         long fee = Integer.parseInt(String.valueOf(tuitionfee));
                         SummerFee += fee;
-                        Summer.setText("Summer Tuition Fee: $"+ SummerFee);
+                        Summer.setText("$"+ SummerFee);
                     }
 
                 }
