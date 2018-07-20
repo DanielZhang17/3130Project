@@ -107,9 +107,15 @@ public class RegistActivity extends AppCompatActivity {
      */
     ArrayList<Course> coursesLec = new ArrayList<>();
     ArrayList<Course> registedCourse = new ArrayList<>();
+    ArrayList<Course> courseSpot= new ArrayList<>();
+
     ArrayList<Registration> registed = new ArrayList<>();
-    int currSopt;
+    int currSpot;
     String registFee;
+    DatabaseReference wRef;
+    public static String tempID;
+    public static String tempSpot;
+    Course c1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,19 +265,21 @@ public class RegistActivity extends AppCompatActivity {
         });
     }
     private void addCourse(){//add course
-        String courseID = editText.getText().toString();
+        final String courseID = editText.getText().toString();
+        tempID = courseID;
         String courseTitle = "";
         String courseTerm = "";
+        int t = 0;
         for (int i = 0; i < courses.size(); i++) {
             String temp = courses.get(i).getCourseID();
             if (temp.equals(courseID)) {
                 course = courses.get(i);
                 courseTitle = course.getCourseTitle();
-                currSopt = Integer.parseInt(coursesLec.get(i).getAvailableSpot());
+                currSpot = Integer.parseInt(courses.get(i).getAvailableSpot().toString());
 
             }
         }
-        if(currSopt > 0) {
+        if(currSpot > 0) {
             String courseType = "";
             for (int i = 0; i < courses.size(); i++) {
                 String temp = courses.get(i).getCourseID();
@@ -294,8 +302,10 @@ public class RegistActivity extends AppCompatActivity {
             String id1 = LoginInterfaceActivity.uid;
             Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm,registFee);
             mReference.child(id1).child(courseTerm).child(courseID).setValue(reg);
-            currSopt-=1;
-            cRef.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt));
+            String spot = Integer.toString(currSpot - 1);
+            course.setAvailableSpot(spot);
+            cRef = FirebaseDatabase.getInstance().getReference("Courses");
+            cRef.child(courseID).setValue(course);
         }
         else{
             Toast.makeText(RegistActivity.this, "No available seat for this course", Toast.LENGTH_LONG).show();
@@ -311,8 +321,17 @@ public class RegistActivity extends AppCompatActivity {
         String id2 = LoginInterfaceActivity.uid;
         String courseID = editText.getText().toString();
         mRef.child(courseID).removeValue();
-        currSopt+=1;
-        cRef.child(courseID).child("AvailableSpot").setValue(Integer.toString(currSopt));
+        for (int i = 0; i < courses.size(); i++) {
+            String temp = courses.get(i).getCourseID();
+            if (temp.equals(courseID)) {
+                course = courses.get(i);
+                currSpot = Integer.parseInt(courses.get(i).getAvailableSpot().toString());
 
+            }
+        }
+        String spot = Integer.toString(currSpot + 1);
+        course.setAvailableSpot(spot);
+        cRef = FirebaseDatabase.getInstance().getReference("Courses");
+        cRef.child(courseID).setValue(course);
     }
 }

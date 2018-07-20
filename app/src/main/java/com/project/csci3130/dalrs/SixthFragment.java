@@ -17,7 +17,7 @@ public class SixthFragment extends Fragment {
     View myView;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("Account Information");
+        getActivity().setTitle("Important Date");
         myView = inflater.inflate(R.layout.sixth_layout,container,false);
         return myView;
     }
