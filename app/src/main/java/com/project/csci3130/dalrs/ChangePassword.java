@@ -39,6 +39,16 @@ private ActionBar Bar;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         user = LoginInterfaceActivity.getUser();
         auth = LoginInterfaceActivity.getAuth();
 

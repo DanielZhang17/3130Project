@@ -2,6 +2,7 @@ package com.project.csci3130.dalrs;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import com.google.firebase.database.*;
 import android.widget.AdapterView;
@@ -21,11 +22,16 @@ public class MyStatus extends AppCompatActivity {
     private DatabaseReference winter;
     private DatabaseReference summer;
     private static FirebaseUser user = LoginInterfaceActivity.getUser();
-    private static FirebaseAuth auth = LoginInterfaceActivity.getAuth();
     private TextView UserName;
     private TextView UserID;
     private TextView TotalCredit;
+    private TextView Fall;
+    private TextView Winter;
+    private TextView Summer;
     private long sum;
+    private long FallFee;
+    private long WinterFee;
+    private long SummerFee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,17 @@ public class MyStatus extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_status);
+
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference wtf = Ref.child(user.getUid()).child("UserID");
         DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
@@ -49,6 +66,9 @@ public class MyStatus extends AppCompatActivity {
         UserID = findViewById(R.id.SName);
         UserName = findViewById(R.id.SID);
         TotalCredit = findViewById(R.id.totalcreait);
+        Fall = findViewById(R.id.fallfee);
+        Winter = findViewById(R.id.winterfee);
+        Summer = findViewById(R.id.summerfee);
 
         wtf.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,6 +102,14 @@ public class MyStatus extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
                     TotalCredit.setText("Total Credits: "+sum*3);
+
+                    for(DataSnapshot ds :dataSnapshot.getChildren()){
+                        Map<String,Object> map = (Map<String,Object>) ds.getValue();
+                        Object tuitionfee = map.get("RegistFee");
+                        long fee = Integer.parseInt(String.valueOf(tuitionfee));
+                        FallFee += fee;
+                        Fall.setText("Fall Tuition Fee: $"+ FallFee);
+                    }
                 }
 
                 @Override
@@ -97,6 +125,14 @@ public class MyStatus extends AppCompatActivity {
                     sum += dataSnapshot.getChildrenCount();
                     TotalCredit.setText("Total Credits: "+sum*3);
 
+                    for(DataSnapshot ds :dataSnapshot.getChildren()){
+                        Map<String,Object> map = (Map<String,Object>) ds.getValue();
+                        Object tuitionfee = map.get("RegistFee");
+                        long fee = Integer.parseInt(String.valueOf(tuitionfee));
+                        WinterFee += fee;
+                        Winter.setText("Winter Tuition Fee: $"+ WinterFee);
+                    }
+
                 }
 
                 @Override
@@ -111,6 +147,14 @@ public class MyStatus extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
                     TotalCredit.setText("Total Credits: "+sum*3);
+
+                    for(DataSnapshot ds :dataSnapshot.getChildren()){
+                        Map<String,Object> map = (Map<String,Object>) ds.getValue();
+                        Object tuitionfee = map.get("RegistFee");
+                        long fee = Integer.parseInt(String.valueOf(tuitionfee));
+                        SummerFee += fee;
+                        Summer.setText("Summer Tuition Fee: $"+ SummerFee);
+                    }
 
                 }
 
