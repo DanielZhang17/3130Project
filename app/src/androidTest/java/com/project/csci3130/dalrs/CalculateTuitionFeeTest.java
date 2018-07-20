@@ -85,6 +85,12 @@ public class CalculateTuitionFeeTest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction appCompatImageButton = onView(
                 allOf(withContentDescription("Open navigation drawer"),
                         childAtPosition(
@@ -116,8 +122,8 @@ public class CalculateTuitionFeeTest {
                         isDisplayed()));
         appCompatButton2.perform(click());
 
-        onView(withId(R.id.fallfee)).check(matches(withText("$0")));
-        onView(withId(R.id.winterfee)).check(matches(withText("$0")));
+        onView(withId(R.id.fallfee)).check(matches(withText("$3600")));
+        onView(withId(R.id.winterfee)).check(matches(withText("$3200")));
         onView(withId(R.id.summerfee)).check(matches(withText("$0")));
 
     }
