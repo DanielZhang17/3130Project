@@ -27,7 +27,7 @@ public class ChangePassword extends AppCompatActivity {
     private EditText CurrentPassword;
     private EditText NewPassword1;
     private EditText NewPassword2;
-private ActionBar Bar;
+    private ActionBar Bar;
     private Button changepassword;
     private TextView result;
 
