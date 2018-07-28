@@ -187,19 +187,19 @@ public class CourseViewList extends AppCompatActivity {
         qRef.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                registed = new ArrayList<>();
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     registration = ds.getValue(Registration.class);
                     registed.add(registration);
                 }
+                registedCourse = new ArrayList<>();
                 for(int i=0;i<registed.size();i++){
                     for(int j=0;j<coursesAll.size();j++) {
                         if(coursesAll.get(j).getCourseID()!=null) {
                             if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
-                                //if(registedCourse.size()>0) {
                                 for (int k = 0; k < registed.size(); k++) {
                                     registedCourse.add(coursesAll.get(j));
                                 }
-                                //}
                             }
                         }
                     }
