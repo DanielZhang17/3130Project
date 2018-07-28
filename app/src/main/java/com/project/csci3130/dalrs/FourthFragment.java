@@ -37,6 +37,8 @@ public class FourthFragment extends Fragment{
     private Button changepassword;
     private Button MyStatus;
     private Button RequiredCourse;
+    private Button Adder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
