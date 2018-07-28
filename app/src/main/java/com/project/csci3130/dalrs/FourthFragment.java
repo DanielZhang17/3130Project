@@ -37,6 +37,8 @@ public class FourthFragment extends Fragment{
     private Button changepassword;
     private Button MyStatus;
     private Button RequiredCourse;
+    private Button Adder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +74,14 @@ public class FourthFragment extends Fragment{
         });
         //ArrayAdapter<String> adapter = new ArrayAdapter(getView().getContext(),android.R.layout.simple_list_item_1,list);
        // getListView().setAdapter
+        
+        Adder.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                //Intent intent=new Intent(getActivity(),Adder.class);
+                Intent intent=new Intent(getActivity(),timet.class);
+                startActivity(intent);
+            }
+        });
 
         return MyView;
     }
