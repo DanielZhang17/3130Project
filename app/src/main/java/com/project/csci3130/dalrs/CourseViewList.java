@@ -506,6 +506,7 @@ public class CourseViewList extends AppCompatActivity {
      * Drop class.
      */
     public void dropClass(){
+        int maxSpot = 0;
         for(int m = 0; m < coursesLec.size(); m++) {
             String tempTerm = coursesLec.get(m).getCourseTerm();
             String temp = coursesLec.get(m).getCourseTitle();
@@ -514,16 +515,23 @@ public class CourseViewList extends AppCompatActivity {
                 courseID = coursesLec.get(m).getCourseID();
                 currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
                 course = coursesLec.get(m);
+                maxSpot = Integer.parseInt(coursesLec.get(m).getSpotMax().toString());
+
             }
         }
-        mRef = FirebaseDatabase.getInstance().getReference("Registrations")
-                .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
-        mRef.child(courseID).removeValue();
-        String spot = Integer.toString(currSpot + 1);
-        course.setAvailableSpot(spot);
-        courseReference = FirebaseDatabase.getInstance().getReference("Courses");
-        courseReference.child(courseID).setValue(course);
-        Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
+        if(currSpot < maxSpot) {
+            mRef = FirebaseDatabase.getInstance().getReference("Registrations")
+                    .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
+            mRef.child(courseID).removeValue();
+            String spot = Integer.toString(currSpot + 1);
+            course.setAvailableSpot(spot);
+            courseReference = FirebaseDatabase.getInstance().getReference("Courses");
+            courseReference.child(courseID).setValue(course);
+            Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
+        }
+        else{
+            Toast.makeText(CourseViewList.this, "You cannot drop this course", Toast.LENGTH_LONG).show();
+        }
 
     }
     public void checkDetail(){
@@ -630,6 +638,7 @@ public class CourseViewList extends AppCompatActivity {
                 }
             }
         }
+
         for (int i = 0; i < registedCourse.size(); i++) {
             String tempDayTime = registedCourse.get(i).getCourseDayTime();
             String tempRegistedID = registedCourse.get(i).getCourseID();
