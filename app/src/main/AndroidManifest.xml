@@ -36,8 +36,14 @@
         <activity android:name=".MyStatus" />
         <activity android:name=".RequiredCourse" />
         <activity android:name=".CSPDFViewer" />
+        <activity android:name=".Adder"/>
+        <activity android:name=".timet"/>
+        <activity android:name=".Timetable"/>
         <activity android:name=".AppliedCSPDF" />
         <activity android:name=".MathematicsPDF"/>
+        <activity android:name=".ViewListContents"/>
+        <activity android:name=".ViewListContentsTwo"/>
+        <activity android:name=".ViewListContentsThree"/>
         <activity android:name=".CourseDetail"></activity>
         <activity android:name="SettingsActivity"/>
     </application>

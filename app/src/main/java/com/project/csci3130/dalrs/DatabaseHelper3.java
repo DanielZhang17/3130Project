@@ -15,9 +15,9 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
     public static final String COL2 = "Time";
     public static final String COL3 = "Monday";
     public static final String COL4 = "Tuesday";
-    public static final String COL5 = "Wednesday";
-    public static final String COL6 = "Thursday";
-    public static final String COL7 = "Friday";
+    public static final String COL5="Wednesday";
+    public static final String COL6="Thursday";
+    public static final String COL7="Friday";
     private static final int DATABASE_VERSION = 2;
     int which_table;
 
@@ -40,7 +40,8 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
     }
 
 
-    public boolean addData(String Time, String Monday, String Tuesday, String Wednesday, String Thursday, String Friday) {
+
+    public boolean addData(String Time, String Monday, String Tuesday,String Wednesday,String Thursday,String Friday) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -48,8 +49,8 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
         contentValues.put(COL3, Monday);
         contentValues.put(COL4, Tuesday);
         contentValues.put(COL5, Wednesday);
-        contentValues.put(COL6, Thursday);
-        contentValues.put(COL7, Friday);
+        contentValues.put(COL6,Thursday);
+        contentValues.put(COL7,Friday);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
         //if date as inserted incorrectly it will return -1
@@ -62,23 +63,23 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
 
     }
 
-    public void changes(String whichday, String coursename, String sh) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValue = new ContentValues();
-        db.execSQL("Update users_data SET " + whichday + " =\'" + coursename + "\' WHERE Time=\'" + sh + "\'");
+    public void changes(String whichday, String coursename,String sh){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValue=new ContentValues();
+        db.execSQL("Update users_data SET "+ whichday+" =\'"+coursename+"\' WHERE Time=\'"+sh+"\'");
     }
 
-    public boolean updater(String id, String time, String Monday, String Tuesday, String Wednesday, String Thursday, String Friday) {
+    public boolean updater(String id,String time,String Monday,String Tuesday,String Wednesday,String Thursday,String Friday) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValue = new ContentValues();
-        contentValue.put(COL2, time);
-        contentValue.put(COL3, Monday);
-        contentValue.put(COL4, Tuesday);
-        contentValue.put(COL5, Wednesday);
-        contentValue.put(COL6, Thursday);
-        contentValue.put(COL7, Friday);
-        db.update(TABLE_NAME, contentValue, "ID=?", new String[]{id});
+        ContentValues contentValue=new ContentValues();
+        contentValue.put(COL2,time);
+        contentValue.put(COL3,Monday);
+        contentValue.put(COL4,Tuesday);
+        contentValue.put(COL5,Wednesday);
+        contentValue.put(COL6,Thursday);
+        contentValue.put(COL7,Friday);
+        db.update(TABLE_NAME,contentValue,"ID=?",new String[] {id});
         return true;
     }
 

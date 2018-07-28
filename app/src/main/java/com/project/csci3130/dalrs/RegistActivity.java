@@ -1,5 +1,6 @@
 package com.project.csci3130.dalrs;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,11 +15,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +32,12 @@ import java.util.List;
  * The type Regist activity.
  */
 public class RegistActivity extends AppCompatActivity {
+    DatabaseHelper myDB=new DatabaseHelper(this);
+    DatabaseHelper2 myDB2=new DatabaseHelper2(this);
+    DatabaseHelper3 myDB3=new DatabaseHelper3(this);
+    private static int i=0;
+    ViewListContents v=new ViewListContents();
+
     /**
      * The Ref.
      */
@@ -73,6 +79,10 @@ public class RegistActivity extends AppCompatActivity {
      */
     Course course;
     /**
+     * The constant selected.
+     */
+    public static Course selected;
+    /**
      * The Registration.
      */
     Registration registration;
@@ -92,7 +102,7 @@ public class RegistActivity extends AppCompatActivity {
     /**
      * The Courses.
      */
-    public static ArrayList<Course> courses = new ArrayList<Course>();
+    ArrayList<Course> courses = new ArrayList<Course>();
     private static final String TAG = "TasksSample";
     /**
      * The Courses all.
@@ -102,13 +112,17 @@ public class RegistActivity extends AppCompatActivity {
      * The Courses lec.
      */
     ArrayList<Course> coursesLec = new ArrayList<>();
-    private ArrayList<Course> registedCourse = new ArrayList<>();
+    ArrayList<Course> registedCourse = new ArrayList<>();
+    ArrayList<Course> courseSpot= new ArrayList<>();
 
     ArrayList<Registration> registed = new ArrayList<>();
     int currSpot;
     String registFee;
+    DatabaseReference wRef;
     public static String tempID;
-    private static SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+    public static String tempSpot;
+    Course c1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +143,7 @@ public class RegistActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
         listView = (ListView) findViewById(R.id.listView);
 
+
         ref = FirebaseDatabase.getInstance().getReference("Courses");
         mReference = FirebaseDatabase.getInstance().getReference("Registrations");
         mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid).child(FirstFragment.termNumber);
@@ -138,17 +153,23 @@ public class RegistActivity extends AppCompatActivity {
         cRef.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                /*for(DataSnapshot ds: dataSnapshot.getChildren()){
                     courseLec = ds.getValue(Course.class);
-                    //if(coursesAll.size()<29) {
-                        coursesAll.add(courseLec);
-                    //}
+                    coursesAll.add(courseLec);
                     for(int i = 0; i < coursesAll.size(); i++){
                         String lec = coursesAll.get(i).getCourseType();
                         if(lec.equals("Lec")){
                             coursesLec.add(coursesAll.get(i));
                         }
                     }
+                }*/
+                courseLec=dataSnapshot.getValue(Course.class);
+                coursesLec.add(courseLec);
+                for (int i=0;i<coursesAll.size();i++){
+                        String lec=coursesAll.get(i).getCourseType();
+                        if (lec.equals("Lec")){
+                            coursesLec.add(coursesAll.get(i));
+                        }
                 }
             }
 
@@ -160,23 +181,23 @@ public class RegistActivity extends AppCompatActivity {
         mRef.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                /*for(DataSnapshot ds: dataSnapshot.getChildren()){
                     registration = ds.getValue(Registration.class);
                     registed.add(registration);
-                }
+                }*/
+                registration=dataSnapshot.getValue(Registration.class);
+                registed.add(registration);
                 for(int i=0;i<registed.size();i++){
                     for(int j=0;j<coursesAll.size();j++) {
                         if(coursesAll.get(j).getCourseID()!=null) {
                             if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
-                                //if(registedCourse.size()>0) {
-                                    for (int k = 0; k < registed.size(); k++) {
-                                        registedCourse.add(coursesAll.get(j));
-                                    }
-                                //}
+                                registedCourse.add(coursesAll.get(j));
+                                break;
                             }
                         }
                     }
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -186,10 +207,12 @@ public class RegistActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {//read data from firebase
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                /*for(DataSnapshot ds: dataSnapshot.getChildren()){
                     course = ds.getValue(Course.class);
                     courses.add(course);
-                }
+                }*/
+                course=dataSnapshot.getValue(Course.class);
+                courses.add(course);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -222,29 +245,305 @@ public class RegistActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+
+
+        //myDB.updater("3","8:35",null,null,null,null,null);
+        //myDB.updater("4","9:05",null,null,null,null,null);
+        //myDB.updater("5","9:35",null,null,null,null,null);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//set add button click
-
+                //temp code begins
+                //temp code ends
                 String checkTerm = FirstFragment.termNumber;
                 String courseId = editText.getText().toString();
 
                 boolean c = false;
-                for(int m = 0; m < courses.size(); m++) {//check course term
+                for (int m = 0; m < courses.size(); m++) {//check course term
                     String tempTerm = courses.get(m).getCourseTerm();
                     String temp = courses.get(m).getCourseID();
 
-                    if (tempTerm.equals(checkTerm) && temp.equals(courseId)) {
-                        c = true;
+                    //if (tempTerm.equals(checkTerm) && temp.equals(courseId)) {
+                    //  c = true;
+                    //}
+                    //}
+                    if (courseId.equals("10001")) {
+                        myDB.changes("Monday", "CSCI3110", "8:35");
+                        myDB.changes("Monday", "CSCI3110", "9:05");
+                        myDB.changes("Monday", "CSCI3110", "9:35");
+                        myDB.changes("Wednesday", "CSCI3110", "8:35");
+                        myDB.changes("Wednesday", "CSCI3110", "9:05");
+                        myDB.changes("Wednesday", "CSCI3110", "9:35");
+                    }
+                    if (courseId.equals("10003")) {
+                        myDB.changes("Tuesday", "CSCI2141", "14:35");
+                        myDB.changes("Tuesday", "CSCI2141", "15:05");
+                        myDB.changes("Tuesday", "CSCI2141", "15:35");
+                        myDB.changes("Thursday", "CSCI2141", "14:35");
+                        myDB.changes("Thursday", "CSCI2141", "15:05");
+                        myDB.changes("Thursday", "CSCI2141", "15:35");
+                    }
+                    if (courseId.equals("10005")) {
+                        myDB.changes("Tuesday", "CSCI1108", "8:35");
+                        myDB.changes("Tuesday", "CSCI1108", "9:05");
+                        myDB.changes("Tuesday", "CSCI1108", "9:35");
+                        myDB.changes("Thursday", "CSCI1108", "8:35");
+                        myDB.changes("Thursday", "CSCI1108", "9:05");
+                        myDB.changes("Thursday", "CSCI1108", "9:35");
+
+                    }
+                    if (courseId.equals("10007")) {
+                        myDB.changes("Monday", "CSCI 1105", "10:05");
+                        myDB.changes("Monday", "CSCI 1105", "10:35");
+                        myDB.changes("Monday", "CSCI 1105", "11:05");
+                        myDB.changes("Wednesday", "CSCI 1105", "10:05");
+                        myDB.changes("Wednesday", "CSCI 1105", "10:35");
+                        myDB.changes("Wednesday", "CSCI 1105", "11:05");
+                    }
+                    if (courseId.equals("10877")) {
+                        myDB.changes("Monday", "ECON 1101", "14:35");
+                        myDB.changes("Monday", "ECON 1101", "15:05");
+                        myDB.changes("Wednesday", "ECON 1101", "14:35");
+                        myDB.changes("Wednesday", "ECON 1101", "15:05");
+                    }
+                    if (courseId.equals("10915")) {
+                        myDB.changes("Monday", "ECON 2200", "16:05");
+                        myDB.changes("Monday", "ECON 2200", "16:35");
+                        myDB.changes("Monday", "ECON 2200", "17:05");
+                        myDB.changes("Wednesday", "ECON 2200", "16:05");
+                        myDB.changes("Wednesday", "ECON 2200", "16:35");
+                        myDB.changes("Wednesday", "ECON 2200", "17:05");
+                        myDB.changes("Friday", "ECON 2200", "16:05");
+                        myDB.changes("Friday", "ECON 2200", "16:35");
+                        myDB.changes("Friday", "ECON 2200", "17:05");
+                    }
+                    if (courseId.equals("12563")) {
+                        myDB.changes("Monday", "STAT 1060", "13:35");
+                        myDB.changes("Monday", "STAT 1060", "14:05");
+                        myDB.changes("Wednesday", "STAT 1060", "13:35");
+                        myDB.changes("Wednesday", "STAT 1060", "14:05");
+                        myDB.changes("Friday", "STAT 1060", "13:35");
+                        myDB.changes("Friday", "STAT 1060", "14:05");
+
+                    }
+                    if (courseId.equals("12575")) {
+                        myDB.changes("Monday", "STAT 2060", "10:35");
+                        myDB.changes("Monday", "STAT 2060", "11:05");
+                        myDB.changes("Wednesday", "STAT 2060", "10:35");
+                        myDB.changes("Wednesday", "STAT 2060", "11:05");
+                        myDB.changes("Friday", "STAT 2060", "10:35");
+                        myDB.changes("Friday", "STAT 2060", "11:05");
+                    }
+                    if (courseId.equals("12584")) {
+                        myDB.changes("Monday", "STAT 2600", "10:05");
+                        myDB.changes("Monday", "STAT 2600", "10:35");
+                        myDB.changes("Monday", "STAT 2600", "11:05");
+                        myDB.changes("Wednesday", "STAT 2600", "10:05");
+                        myDB.changes("Wednesday", "STAT 2600", "10:35");
+                        myDB.changes("Wednesday", "STAT 2600", "11:05");
+
+                    }
+                    if (courseId.equals("12586")) {
+                        myDB.changes("Tuesday", "STAT 3360", "10:05");
+                        myDB.changes("Tuesday", "STAT 3360", "10:35");
+                        myDB.changes("Tuesday", "STAT 3360", "11:05");
+                        myDB.changes("Thursday", "STAT 3360", "10:05");
+                        myDB.changes("Thursday", "STAT 3360", "10:35");
+                        myDB.changes("Thursday", "STAT 3360", "11:05");
+
+                    }
+                    if (courseId.equals("12587")) {
+                        myDB.changes("Monday", "STAT 4066", "14:35");
+                        myDB.changes("Monday", "STAT 4066", "15:05");
+                        myDB.changes("Wednesday", "STAT 4066", "14:35");
+                        myDB.changes("Wednesday", "STAT 4066", "15:05");
+                        myDB.changes("Friday", "STAT 4066", "14:35");
+                        myDB.changes("Friday", "STAT 4066", "15:05");
+                    }
+                    if (courseId.equals("20638")) {
+                        myDB2.changes("Monday", "CSCI 1170", "8:35");
+                        myDB2.changes("Monday", "CSCI 1170", "9:05");
+                        myDB2.changes("Monday", "CSCI 1170", "9:35");
+                        myDB2.changes("Tuesday", "CSCI 1170", "8:35");
+                        myDB2.changes("Tuesday", "CSCI 1170", "9:05");
+                        myDB2.changes("Tuesday", "CSCI 1170", "9:35");
+                    }
+                    if (courseId.equals("20650")) {
+                        myDB2.changes("Monday", "CSCI2100", "14:35");
+                        myDB2.changes("Monday", "CSCI2100", "15:05");
+                        myDB2.changes("Wednesday", "CSCI2100", "14:35");
+                        myDB2.changes("Wednesday", "CSCI2100", "15:05");
+                        myDB2.changes("Friday", "CSCI2100", "14:35");
+                        myDB2.changes("Friday", "CSCI2100", "15:05");
+
+                    }
+                    if (courseId.equals("20651")) {
+                        myDB2.changes("Wednesday", "CSCI2110", "8:35");
+                        myDB2.changes("Wednesday", "CSCI2110", "9:05");
+                        myDB2.changes("Wednesday", "CSCI2110", "9:35");
+                        myDB2.changes("Friday", "CSCI2110", "8:35");
+                        myDB2.changes("Friday", "CSCI2110", "9:05");
+                        myDB2.changes("Friday", "CSCI2110", "9:35");
+
+                    }
+                    if (courseId.equals("20689")) {
+                        myDB2.changes("Monday", "CSCI3130", "8:35");
+                        myDB2.changes("Monday", "CSCI3120", "9:05");
+                        myDB2.changes("Monday", "CSCI3120", "9:35");
+                        myDB2.changes("Wednesday", "CSCI3130", "8:35");
+                        myDB2.changes("Wednesday", "CSCI3120", "9:05");
+                        myDB2.changes("Wednesday", "CSCI3120", "9:35");
+                    }
+                    if (courseId.equals("20720")) {
+                        myDB2.changes("Tuesday", "CSCI4174", "13:35");
+                        myDB2.changes("Tuesday", "CSCI4174", "14:05");
+                        myDB2.changes("Tuesday", "CSCI4174", "14:35");
+                        myDB2.changes("Thursday", "CSCI4174", "13:35");
+                        myDB2.changes("Thursday", "CSCI4174", "14:05");
+                        myDB2.changes("Thursday", "CSCI4174", "14:35");
+                        myDB2.changes("Friday", "CSCI4174", "13:35");
+                        myDB2.changes("Friday", "CSCI4174", "14:05");
+                        myDB2.changes("Friday", "CSCI4174", "14:35");
+                    }
+                    if (courseId.equals("20807")) {
+                        myDB2.changes("Monday", "ECON1101", "16:05");
+                        myDB2.changes("Monday", "ECON1101", "16:35");
+                        myDB2.changes("Monday", "ECON1101", "17:05");
+                        myDB2.changes("Wednesday", "ECON1101", "16:05");
+                        myDB2.changes("Wednesday", "ECON1101", "16:35");
+                        myDB2.changes("Wednesday", "ECON1101", "17:05");
+                    }
+                    if (courseId.equals("22361")) {
+                        myDB2.changes("Tuesday", "STAT 1060", "13:05");
+                        myDB2.changes("Tuesday", "STAT 1060", "13:35");
+                        myDB2.changes("Tuesday", "STAT 1060", "14:05");
+                        myDB2.changes("Thursday", "STAT 1060", "13:05");
+                        myDB2.changes("Thursday", "STAT 1060", "13:35");
+                        myDB2.changes("Thursday", "STAT 1060", "14:05");
+                    }
+                    if (courseId.equals("22384")) {
+                        myDB2.changes("Monday", "STAT 2060", "10:35");
+                        myDB2.changes("Monday", "STAT 2060", "11:05");
+                        myDB2.changes("Wednesday", "STAT 2060", "10:35");
+                        myDB2.changes("Wednesday", "STAT 2060", "11:05");
+                        myDB2.changes("Friday", "STAT 2060", "10:35");
+                        myDB2.changes("Friday", "STAT 2060", "11:05");
+
+                    }
+                    if (courseId.equals("22390")) {
+                        myDB2.changes("Monday", "STAT2080", "14:35");
+                        myDB2.changes("Monday", "STAT2080", "15:05");
+                        myDB2.changes("Wednesday", "STAT2080", "14:35");
+                        myDB2.changes("Wednesday", "STAT2080", "15:05");
+                        myDB2.changes("Friday", "STAT2080", "14:35");
+                        myDB2.changes("Friday", "STAT2080", "15:05");
+
+                    }
+                    if (courseId.equals("22397")) {
+                        myDB2.changes("Monday", "STAT3380", "14:35");
+                        myDB2.changes("Monday", "STAT3380", "15:05");
+                        myDB2.changes("Monday", "STAT3380", "15:35");
+                        myDB2.changes("Wednesday", "STAT3380", "14:35");
+                        myDB2.changes("Wednesday", "STAT3380", "15:05");
+                        myDB2.changes("Wednesday", "STAT3380", "15:35");
+                    }
+                    if (courseId.equals("22401")) {
+                        myDB2.changes("Monday", "STAT4390", "16:05");
+                        myDB2.changes("Monday", "STAT4390", "16:35");
+                        myDB2.changes("Monday", "STAT4390", "17:05");
+                        myDB2.changes("Wednesday", "STAT4390", "16:05");
+                        myDB2.changes("Wednesday", "STAT4390", "16:35");
+                        myDB2.changes("Wednesday", "STAT4390", "17:05");
+
+                    }
+                    if (courseId.equals("31268")) {
+                        myDB3.changes("Monday", "CSCI1105", "13:05");
+                        myDB3.changes("Monday", "CSCI1105", "13:35");
+                        myDB3.changes("Monday", "CSCI1105", "14:05");
+                        myDB3.changes("Wednesday", "CSCI1105", "13:05");
+                        myDB3.changes("Wednesday", "CSCI1105", "13:35");
+                        myDB3.changes("Wednesday", "CSCI1105", "14:05");
+                    }
+                    if (courseId.equals("31270")) {
+                        myDB3.changes("Monday", "CSCI1110", "13:05");
+                        myDB3.changes("Monday", "CSCI1110", "13:35");
+                        myDB3.changes("Monday", "CSCI1110", "14:05");
+                        myDB3.changes("Wednesday", "CSCI1110", "13:05");
+                        myDB3.changes("Wednesday", "CSCI1110", "13:35");
+                        myDB3.changes("Wednesday", "CSCI1110", "14:05");
+
+                    }
+                    if (courseId.equals("31272")) {
+                        myDB3.changes("Tuesday", "CSCI2691", "11:35");
+                        myDB3.changes("Tuesday", "CSCI2691", "12:05");
+                        myDB3.changes("Tuesday", "CSCI2691", "12:35");
+                        myDB3.changes("Thursday", "CSCI2691", "11:35");
+                        myDB3.changes("Thursday", "CSCI2691", "12:05");
+                        myDB3.changes("Thursday", "CSCI2691", "12:35");
+                    }
+                    if (courseId.equals("31273")) {
+                        myDB3.changes("Tuesday", "CSCI3110", "14:35");
+                        myDB3.changes("Tuesday", "CSCI3110", "15:05");
+                        myDB3.changes("Tuesday", "CSCI3110", "15:35");
+                        myDB3.changes("Thursday", "CSCI3110", "14:35");
+                        myDB3.changes("Thursday", "CSCI3110", "15:05");
+                        myDB3.changes("Thursday", "CSCI3110", "15:35");
+
+                    }
+                    if (courseId.equals("31460")) {
+                        myDB3.changes("Monday", "STAT2060", "18:05");
+                        myDB3.changes("Monday", "STAT2060", "18:35");
+                        myDB3.changes("Monday", "STAT2060", "19:05");
+                        myDB3.changes("Monday", "STAT2060", "19:35");
+                        myDB3.changes("Monday", "STAT2060", "20:05");
+                        myDB3.changes("Monday", "STAT2060", "20:35");
+                        myDB3.changes("Monday", "STAT2060", "21:05");
+                        myDB3.changes("Wednesday", "STAT2060", "18:05");
+                        myDB3.changes("Wednesday", "STAT2060", "18:35");
+                        myDB3.changes("Wednesday", "STAT2060", "19:05");
+                        myDB3.changes("Wednesday", "STAT2060", "19:35");
+                        myDB3.changes("Wednesday", "STAT2060", "20:05");
+                        myDB3.changes("Wednesday", "STAT2060", "20:35");
+                        myDB3.changes("Wednesday", "STAT2060", "21:05");
+
+                    }
+                    if (courseId.equals("31803")) {
+                        myDB3.changes("Monday", "STAT1060", "18:05");
+                        myDB3.changes("Monday", "STAT1060", "18:35");
+                        myDB3.changes("Monday", "STAT1060", "19:05");
+                        myDB3.changes("Monday", "STAT1060", "19:35");
+                        myDB3.changes("Monday", "STAT1060", "20:05");
+                        myDB3.changes("Monday", "STAT1060", "20:35");
+                        myDB3.changes("Wednesday", "STAT1060", "18:05");
+                        myDB3.changes("Wednesday", "STAT1060", "18:35");
+                        myDB3.changes("Wednesday", "STAT1060", "19:05");
+                        myDB3.changes("Wednesday", "STAT1060", "19:35");
+                        myDB3.changes("Wednesday", "STAT1060", "20:05");
+                        myDB3.changes("Wednesday", "STAT1060", "20:35");
+
+                    }
+                    if (courseId.equals("31836")) {
+                        myDB3.changes("Monday", "STAT2080", "18:05");
+                        myDB3.changes("Monday", "STAT2080", "18:35");
+                        myDB3.changes("Monday", "STAT2080", "19:05");
+                        myDB3.changes("Monday", "STAT2080", "19:35");
+                        myDB3.changes("Monday", "STAT2080", "20:05");
+                        myDB3.changes("Monday", "STAT2080", "20:35");
+                        myDB3.changes("Wednesday", "STAT2080", "18:05");
+                        myDB3.changes("Wednesday", "STAT2080", "18:35");
+                        myDB3.changes("Wednesday", "STAT2080", "19:05");
+                        myDB3.changes("Wednesday", "STAT2080", "19:35");
+                        myDB3.changes("Wednesday", "STAT2080", "20:05");
+                        myDB3.changes("Wednesday", "STAT2080", "20:35");
+
                     }
                 }
-                if(c == true){//if course term is corresponding term, add course.
-                    try {
-                        tempID = editText.getText().toString();
-                        checkConflict();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+
+
+
+
+                    if(c == true){//if course term is corresponding term, add course.
+                    addCourse();
                 }
                 else{
                     Toast.makeText(RegistActivity.this, "You may entered a CRN not belongs to current term", Toast.LENGTH_LONG).show();
@@ -255,10 +554,253 @@ public class RegistActivity extends AppCompatActivity {
         buttonDrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dropCourse();
+                String courseId = editText.getText().toString();
+                if (courseId.equals("10001")) {
+                    myDB.changes("Monday","","8:35");
+                    myDB.changes("Monday","","9:05");
+                    myDB.changes("Monday","","9:35");
+                    myDB.changes("Wednesday","","8:35");
+                    myDB.changes("Wednesday","","9:05");
+                    myDB.changes("Wednesday","","9:35");
+                } else if (courseId.equals("10003")) {
+                    myDB.changes("Tuesday","","14:35");
+                    myDB.changes("Tuesday","","15:05");
+                    myDB.changes("Tuesday","","15:35");
+                    myDB.changes("Thursday","","14:35");
+                    myDB.changes("Thursday","","15:05");
+                    myDB.changes("Thursday","","15:35");
+                }else if (courseId.equals("10005")){
+                    myDB.changes("Tuesday","","8:35");
+                    myDB.changes("Tuesday","","9:05");
+                    myDB.changes("Tuesday","","9:35");
+                    myDB.changes("Thursday","","8:35");
+                    myDB.changes("Thursday","","9:05");
+                    myDB.changes("Thursday","","9:35");
+
+                }else if (courseId.equals("10007")){
+                    myDB.changes("Monday","","10:05");
+                    myDB.changes("Monday","","10:35");
+                    myDB.changes("Monday","","11:05");
+                    myDB.changes("Wednesday","","10:05");
+                    myDB.changes("Wednesday","","10:35");
+                    myDB.changes("Wednesday","","11:05");
+                }else if (courseId.equals("10877")){
+                    myDB.changes("Monday","","14:35");
+                    myDB.changes("Monday","","15:05");
+                    myDB.changes("Wednesday","","14:35");
+                    myDB.changes("Wednesday","","15:05");
+                }else if (courseId.equals("10915")){
+                    myDB.changes("Monday","","16:05");
+                    myDB.changes("Monday","","16:35");
+                    myDB.changes("Monday","","17:05");
+                    myDB.changes("Wednesday","","16:05");
+                    myDB.changes("Wednesday","","16:35");
+                    myDB.changes("Wednesday","","17:05");
+                    myDB.changes("Friday","","16:05");
+                    myDB.changes("Friday","","16:35");
+                    myDB.changes("Friday","","17:05");
+                }else if (courseId.equals("12563")) {
+                    myDB.changes("Monday","","13:35");
+                    myDB.changes("Monday","", "14:05");
+                    myDB.changes("Wednesday","","13:35");
+                    myDB.changes("Wednesday","","14:05");
+                    myDB.changes("Friday","","13:35");
+                    myDB.changes("Friday","","14:05");
+
+                }else if (courseId.equals("12575")){
+                    myDB.changes("Monday","","10:35");
+                    myDB.changes("Monday","", "11:05");
+                    myDB.changes("Wednesday","","10:35");
+                    myDB.changes("Wednesday","", "11:05");
+                    myDB.changes("Friday","","10:35");
+                    myDB.changes("Friday","", "11:05");
+                }else if (courseId.equals("12584")){
+                    myDB.changes("Monday","", "10:05");
+                    myDB.changes("Monday","", "10:35");
+                    myDB.changes("Monday","", "11:05");
+                    myDB.changes("Wednesday","", "10:05");
+                    myDB.changes("Wednesday","", "10:35");
+                    myDB.changes("Wednesday","", "11:05");
+
+                }else if (courseId.equals("12586")){
+                    myDB.changes("Tuesday","","10:05");
+                    myDB.changes("Tuesday","","10:35");
+                    myDB.changes("Tuesday","","11:05");
+                    myDB.changes("Thursday","","10:05");
+                    myDB.changes("Thursday","","10:35");
+                    myDB.changes("Thursday","","11:05");
+
+                }else if (courseId.equals("12587")){
+                    myDB.changes("Monday","","14:35");
+                    myDB.changes("Monday","","15:05");
+                    myDB.changes("Wednesday","","14:35");
+                    myDB.changes("Wednesday","","15:05");
+                    myDB.changes("Friday","","14:35");
+                    myDB.changes("Friday","","15:05");
+                }else if (courseId.equals("20638")){
+                    myDB2.changes("Monday","","8:35");
+                    myDB2.changes("Monday","","9:05");
+                    myDB2.changes("Monday","","9:35");
+                    myDB2.changes("Tuesday","","8:35");
+                    myDB2.changes("Tuesday","","9:05");
+                    myDB2.changes("Tuesday","","9:35");
+                }else if (courseId.equals("20650")){
+                    myDB2.changes("Monday","","14:35");
+                    myDB2.changes("Monday","","15:05");
+                    myDB2.changes("Wednesday","","14:35");
+                    myDB2.changes("Wednesday","","15:05");
+                    myDB2.changes("Friday","","14:35");
+                    myDB2.changes("Friday","","15:05");
+
+                }else if (courseId.equals("20651")){
+                    myDB2.changes("Wednesday","","8:35");
+                    myDB2.changes("Wednesday","","9:05");
+                    myDB2.changes("Wednesday","","9:35");
+                    myDB2.changes("Friday","","8:35");
+                    myDB2.changes("Friday","","9:05");
+                    myDB2.changes("Friday","","9:35");
+
+                }else if (courseId.equals("20689")){
+                    myDB2.changes("Monday","","8:35");
+                    myDB2.changes("Monday","","9:05");
+                    myDB2.changes("Monday","","9:35");
+                    myDB2.changes("Wednesday","","8:35");
+                    myDB2.changes("Wednesday","","9:05");
+                    myDB2.changes("Wednesday","","9:35");
+                }else if (courseId.equals("20720")){
+                    myDB2.changes("Tuesday","","13:35");
+                    myDB2.changes("Tuesday","","14:05");
+                    myDB2.changes("Tuesday","","14:35");
+                    myDB2.changes("Thursday","","13:35");
+                    myDB2.changes("Thursday","","14:05");
+                    myDB2.changes("Thursday","","14:35");
+                    myDB2.changes("Friday","","13:35");
+                    myDB2.changes("Friday","","14:05");
+                    myDB2.changes("Friday","","14:35");
+                }else if (courseId.equals("20807")){
+                    myDB2.changes("Monday","","16:05");
+                    myDB2.changes("Monday","","16:35");
+                    myDB2.changes("Monday","","17:05");
+                    myDB2.changes("Wednesday","","16:05");
+                    myDB2.changes("Wednesday","","16:35");
+                    myDB2.changes("Wednesday","","17:05");
+                }else if (courseId.equals("22361")){
+                    myDB2.changes("Tuesday","","13:05");
+                    myDB2.changes("Tuesday","","13:35");
+                    myDB2.changes("Tuesday","","14:05");
+                    myDB2.changes("Thursday","","13:05");
+                    myDB2.changes("Thursday","","13:35");
+                    myDB2.changes("Thursday","","14:05");
+                }else if (courseId.equals("22384")){
+                    myDB2.changes("Monday","","10:35");
+                    myDB2.changes("Monday","","11:05");
+                    myDB2.changes("Wednesday","","10:35");
+                    myDB2.changes("Wednesday","","11:05");
+                    myDB2.changes("Friday","","10:35");
+                    myDB2.changes("Friday","","11:05");
+
+                }else if (courseId.equals("22390")){
+                    myDB2.changes("Monday","","14:35");
+                    myDB2.changes("Monday","","15:05");
+                    myDB2.changes("Wednesday","","14:35");
+                    myDB2.changes("Wednesday","","15:05");
+                    myDB2.changes("Friday","","14:35");
+                    myDB2.changes("Friday","","15:05");
+
+                }else if (courseId.equals("22397")){
+                    myDB2.changes("Monday","","14:35");
+                    myDB2.changes("Monday","","15:05");
+                    myDB2.changes("Monday","","15:35");
+                    myDB2.changes("Wednesday","","14:35");
+                    myDB2.changes("Wednesday","","15:05");
+                    myDB2.changes("Wednesday","","15:35");
+                }else if (courseId.equals("22401")){
+                    myDB2.changes("Monday","","16:05");
+                    myDB2.changes("Monday","","16:35");
+                    myDB2.changes("Monday","","17:05");
+                    myDB2.changes("Wednesday","","16:05");
+                    myDB2.changes("Wednesday","","16:35");
+                    myDB2.changes("Wednesday","","17:05");
+
+                }else if (courseId.equals("31268")){
+                    myDB3.changes("Monday","","13:05");
+                    myDB3.changes("Monday","","13:35");
+                    myDB3.changes("Monday","","14:05");
+                    myDB3.changes("Wednesday","","13:05");
+                    myDB3.changes("Wednesday","","13:35");
+                    myDB3.changes("Wednesday","","14:05");
+                }else if (courseId.equals("31270")){
+                    myDB3.changes("Monday","","13:05");
+                    myDB3.changes("Monday","","13:35");
+                    myDB3.changes("Monday","","14:05");
+                    myDB3.changes("Wednesday","","13:05");
+                    myDB3.changes("Wednesday","","13:35");
+                    myDB3.changes("Wednesday","","14:05");
+
+                }else if (courseId.equals("31272")){
+                    myDB3.changes("Tuesday","","11:35");
+                    myDB3.changes("Tuesday","","12:05");
+                    myDB3.changes("Tuesday","","12:35");
+                    myDB3.changes("Thursday","","11:35");
+                    myDB3.changes("Thursday","","12:05");
+                    myDB3.changes("Thursday","","12:35");
+                }else if (courseId.equals("31273")){
+                    myDB3.changes("Tuesday","","14:35");
+                    myDB3.changes("Tuesday","","15:05");
+                    myDB3.changes("Tuesday","","15:35");
+                    myDB3.changes("Thursday","","14:35");
+                    myDB3.changes("Thursday","","15:05");
+                    myDB3.changes("Thursday","","15:35");
+
+                }else if (courseId.equals("31460")){
+                    myDB3.changes("Monday","","18:05");
+                    myDB3.changes("Monday","","18:35");
+                    myDB3.changes("Monday","","19:05");
+                    myDB3.changes("Monday","","19:35");
+                    myDB3.changes("Monday","","20:05");
+                    myDB3.changes("Monday","","20:35");
+                    myDB3.changes("Monday","","21:05");
+                    myDB3.changes("Wednesday","","18:05");
+                    myDB3.changes("Wednesday","","18:35");
+                    myDB3.changes("Wednesday","","19:05");
+                    myDB3.changes("Wednesday","","19:35");
+                    myDB3.changes("Wednesday","","20:05");
+                    myDB3.changes("Wednesday","","20:35");
+                    myDB3.changes("Wednesday","","21:05");
+
+                }else if (courseId.equals("31803")){
+                    myDB3.changes("Monday","","18:05");
+                    myDB3.changes("Monday","","18:35");
+                    myDB3.changes("Monday","","19:05");
+                    myDB3.changes("Monday","","19:35");
+                    myDB3.changes("Monday","","20:05");
+                    myDB3.changes("Monday","","20:35");
+                    myDB3.changes("Wednesday","","18:05");
+                    myDB3.changes("Wednesday","","18:35");
+                    myDB3.changes("Wednesday","","19:05");
+                    myDB3.changes("Wednesday","","19:35");
+                    myDB3.changes("Wednesday","","20:05");
+                    myDB3.changes("Wednesday","","20:35");
+
+                }else if (courseId.equals("31836")){
+                    myDB3.changes("Monday","","18:05");
+                    myDB3.changes("Monday","","18:35");
+                    myDB3.changes("Monday","","19:05");
+                    myDB3.changes("Monday","","19:35");
+                    myDB3.changes("Monday","","20:05");
+                    myDB3.changes("Monday","","20:35");
+                    myDB3.changes("Wednesday","","18:05");
+                    myDB3.changes("Wednesday","","18:35");
+                    myDB3.changes("Wednesday","","19:05");
+                    myDB3.changes("Wednesday","","19:35");
+                    myDB3.changes("Wednesday","","20:05");
+                    myDB3.changes("Wednesday","","20:35");
+
+                }
+
+                //dropCourse();
             }
-        });
-        //set button drop click
+        });//set button drop click
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
@@ -267,7 +809,7 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
     }
-    private void addCourse() throws ParseException {//add course
+    private void addCourse(){//add course
         final String courseID = editText.getText().toString();
         tempID = courseID;
         String courseTitle = "";
@@ -323,121 +865,22 @@ public class RegistActivity extends AppCompatActivity {
     private void dropCourse(){//drop class
         String id2 = LoginInterfaceActivity.uid;
         String courseID = editText.getText().toString();
-        int maxSpot = 0;
+        mRef.child(courseID).removeValue();
         for (int i = 0; i < courses.size(); i++) {
             String temp = courses.get(i).getCourseID();
             if (temp.equals(courseID)) {
                 course = courses.get(i);
                 currSpot = Integer.parseInt(courses.get(i).getAvailableSpot().toString());
-                maxSpot = Integer.parseInt(courses.get(i).getSpotMax().toString());
 
             }
         }
-        if(currSpot < maxSpot) {
-            for (int j = 0; j < registedCourse.size(); j++) {
-                String temp = registedCourse.get(j).getCourseID();
-                if (temp.equals(courseID)) {
-                    registedCourse.remove(j);
-                }
-            }
-            mRef.child(courseID).removeValue();
-            String spot = Integer.toString(currSpot + 1);
-            course.setAvailableSpot(spot);
-            cRef = FirebaseDatabase.getInstance().getReference("Courses");
-            cRef.child(courseID).setValue(course);
-        }
-        else{
-            Toast.makeText(RegistActivity.this, "You cannot drop this course", Toast.LENGTH_LONG).show();
-        }
-
-    }
-    public static boolean testConflict(String leftStart, String leftEnd, String rightStart, String rightEnd) throws ParseException {
-        Date leftStartTime=null, leftEndTime=null, rightStartTime=null, rightEndTime=null;
-        try{
-            leftStartTime = format.parse(leftStart);
-            leftEndTime = format.parse(leftEnd);
-            rightStartTime = format.parse(rightStart);
-            rightEndTime = format.parse(rightEnd);
-        }catch (ParseException e) {
-            return false;
-        }
-        return
-                ((leftStartTime.getTime() >= rightStartTime.getTime())
-                        && (leftStartTime.getTime() < rightEndTime.getTime()))
-                        || ((leftStartTime.getTime() > rightStartTime.getTime())
-                        && (leftStartTime.getTime() <= rightEndTime.getTime()))
-                        || ((rightStartTime.getTime() >= leftStartTime.getTime())
-                        && (rightStartTime.getTime() < leftEndTime.getTime()))
-                        || ((rightStartTime.getTime() > leftStartTime.getTime())
-                        && (rightStartTime.getTime() <= leftEndTime.getTime())) ;
+        String spot = Integer.toString(currSpot + 1);
+        course.setAvailableSpot(spot);
+        cRef = FirebaseDatabase.getInstance().getReference("Courses");
+        cRef.child(courseID).setValue(course);
     }
 
-    public void checkConflict() throws ParseException {
-        boolean flag = false;
-
-            //String tempDayTime;//the day time of registering course.
-            String courseDayTime;//the day time of registered course.
-            String time1 = null;
-            String time2 = null;
-            ArrayList<String> day = new ArrayList<>();
-            //ArrayList registeredDay = new ArrayList<>();
-            //String tempRegistedID = null;
-            String tempRegistID = editText.getText().toString();
-            for (int i = 0; i < coursesAll.size(); i++) {
-                String temp = coursesAll.get(i).getCourseID();
-                //tempRegistID = editText.getText().toString();
-                if (temp.equals(tempID)) {
-                    courseDayTime = coursesAll.get(i).getCourseDayTime();
-                    time1 = coursesAll.get(i).getCourseTime();
-                    String[] courseday = courseDayTime.split("");
-                    for (int k = 1; k < courseday.length; k++) {
-                        if (courseday[k] != "") {
-                            day.add(courseday[k]);
-                        }
-                    }
-                }
-            }
-            for (int i = 0; i < registedCourse.size(); i++) {
-                String tempDayTime = registedCourse.get(i).getCourseDayTime();
-                String tempRegistedID = registedCourse.get(i).getCourseID();
-                ArrayList registeredDay = new ArrayList<>();
-                time2 = registedCourse.get(i).getCourseTime();
-                //System.out.print(registedCourse.get(i));
-                String[] stringArray = tempDayTime.split("");
-                for (int k = 1; k < stringArray.length; k++) {
-                    if (stringArray[k] != "") {
-                        registeredDay.add(stringArray[k]);
-                    }
-                }
-                if (tempRegistID.equals(tempRegistedID)) {
-                   flag = false;
-                }
-               else {
-                    for (int m = 0; m < registeredDay.size(); m++) {
-                        if (day.contains(registeredDay.get(m))) {
-                            String[] stringArray1 = time1.split("-");
-                            String[] stringArray2 = time2.split("-");
-                            flag = testConflict(stringArray1[0], stringArray1[1], stringArray2[0], stringArray2[1]);
-                            if (flag == true) {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
-        if(flag == false){
-
-            Toast.makeText(RegistActivity.this, "Add course success!", Toast.LENGTH_LONG).show();
-            addCourse();
-
-            //time not conflict
-        }
-        else{
-            Toast.makeText(RegistActivity.this, "Can not add course, time conflict !!!!", Toast.LENGTH_LONG).show();
-            //time conflict
-        }
-
-
+    public int geti(){
+        return i;
     }
 }

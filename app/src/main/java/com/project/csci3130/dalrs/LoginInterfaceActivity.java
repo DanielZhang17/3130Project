@@ -35,7 +35,14 @@ public class LoginInterfaceActivity extends AppCompatActivity
         DatabaseHelper2 myDB2=new DatabaseHelper2(this);
         DatabaseHelper3 myDB3=new DatabaseHelper3(this);
         private static int i=0;
+    /**
+     * The Auth.
+     */
     static FirebaseAuth auth;
+
+    /**
+     * The constant uid.
+     */
     public static String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +84,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
             DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
             uid = user.getUid();
 
-            //This EventListener will find the email of user
+            //这个地方读Email
             wtf.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -90,8 +97,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
-
-            //This EventListener will find the Name of User
             wtf2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -104,9 +109,15 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
+
+            ////////////////////////////////////////
+        /*View headerview = navigationView.getHeaderView(0);
+        TextView Email = headerview.findViewById(R.id.UserEmail);
+        TextView name = headerview.findViewById(R.id.UserName);*/
+
         }
-        
-         if (i==0) {
+
+        if (i==0) {
             myDB.addData(null, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
             myDB.addData("8:05", null, null, null, null, null);
             myDB.addData("8:35", null, null, null, null, null);
@@ -215,8 +226,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //This is the method is used to go back to last page of App or Log out from App
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -254,7 +263,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    //The constructor of navigation drawer
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();

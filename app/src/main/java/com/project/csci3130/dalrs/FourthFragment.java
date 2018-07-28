@@ -38,7 +38,6 @@ public class FourthFragment extends Fragment{
     private Button MyStatus;
     private Button RequiredCourse;
     private Button Adder;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class FourthFragment extends Fragment{
         changepassword = MyView.findViewById(R.id.changepassword);
         MyStatus = MyView.findViewById(R.id.MyStatus);
         RequiredCourse = MyView.findViewById(R.id.RequiredCourse);
+        Adder=MyView.findViewById(R.id.Adder);
 
         changepassword.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -72,9 +72,6 @@ public class FourthFragment extends Fragment{
                 startActivity(intent);
             }
         });
-        //ArrayAdapter<String> adapter = new ArrayAdapter(getView().getContext(),android.R.layout.simple_list_item_1,list);
-       // getListView().setAdapter
-        
         Adder.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 //Intent intent=new Intent(getActivity(),Adder.class);
@@ -82,6 +79,9 @@ public class FourthFragment extends Fragment{
                 startActivity(intent);
             }
         });
+
+        //ArrayAdapter<String> adapter = new ArrayAdapter(getView().getContext(),android.R.layout.simple_list_item_1,list);
+       // getListView().setAdapter
 
         return MyView;
     }

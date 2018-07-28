@@ -38,4 +38,6 @@
         android:layout_below="@+id/RequiredCourse"
         android:text="Scheduler"
         />
+
+
 </RelativeLayout>
