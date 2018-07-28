@@ -5,39 +5,31 @@
 
 
     <Button
-        android:id="@+id/changepassword"
+        android:id="@+id/fal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="75dp"
-        android:text="Change password" />
+        android:text="Fall term" />
 
     <Button
-        android:id="@+id/MyStatus"
+        android:id="@+id/win"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/changepassword"
-        android:text="My Status"
+        android:layout_below="@+id/fal"
+        android:text="Winter term"
         android:textAllCaps="true" />
 
     <Button
-        android:id="@+id/RequiredCourse"
+        android:id="@+id/sum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/MyStatus"
-        android:text="Required Course" />
+        android:layout_below="@+id/win"
+        android:text="Summer term" />
 
-    <Button
-        android:id="@+id/Adder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/RequiredCourse"
-        android:text="Scheduler"
-        />
 
 
 </RelativeLayout>

@@ -31,7 +31,18 @@ public class LoginInterfaceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         private DatabaseReference Ref;
         private static FirebaseUser user;
+        DatabaseHelper myDB=new DatabaseHelper(this);
+        DatabaseHelper2 myDB2=new DatabaseHelper2(this);
+        DatabaseHelper3 myDB3=new DatabaseHelper3(this);
+        private static int i=0;
+    /**
+     * The Auth.
+     */
     static FirebaseAuth auth;
+
+    /**
+     * The constant uid.
+     */
     public static String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +84,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
             DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
             uid = user.getUid();
 
-            //This EventListener will find the email of user
+            //这个地方读Email
             wtf.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -86,8 +97,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
-
-            //This EventListener will find the Name of User
             wtf2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -100,6 +109,103 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
+
+            ////////////////////////////////////////
+        /*View headerview = navigationView.getHeaderView(0);
+        TextView Email = headerview.findViewById(R.id.UserEmail);
+        TextView name = headerview.findViewById(R.id.UserName);*/
+
+        }
+
+        if (i==0) {
+            myDB.addData(null, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+            myDB.addData("8:05", null, null, null, null, null);
+            myDB.addData("8:35", null, null, null, null, null);
+            myDB.addData("9:05", null, null, null, null, null);
+            myDB.addData("9:35", null, null, null, null, null);
+            myDB.addData("10:05", null, null, null, null, null);
+            myDB.addData("10:35", null, null, null, null, null);
+            myDB.addData("11:05", null, null, null, null, null);
+            myDB.addData("11:35", null, null, null, null, null);
+            myDB.addData("12:05", null, null, null, null, null);
+            myDB.addData("12:35", null, null, null, null, null);
+            myDB.addData("13:05", null, null, null, null, null);
+            myDB.addData("13:35", null, null, null, null, null);
+            myDB.addData("14:05", null, null, null, null, null);
+            myDB.addData("14:35", null, null, null, null, null);
+            myDB.addData("15:05", null, null, null, null, null);
+            myDB.addData("15:35", null, null, null, null, null);
+            myDB.addData("16:05", null, null, null, null, null);
+            myDB.addData("16:35", null, null, null, null, null);
+            myDB.addData("17:05", null, null, null, null, null);
+            myDB.addData("17:35", null, null, null, null, null);
+            myDB.addData("18:05", null, null, null, null, null);
+            myDB.addData("18:35", null, null, null, null, null);
+            myDB.addData("19:05", null, null, null, null, null);
+            myDB.addData("19:35", null, null, null, null, null);
+            myDB.addData("20:05", null, null, null, null, null);
+            myDB.addData("20:35", null, null, null, null, null);
+            myDB.addData("21:05", null, null, null, null, null);
+            myDB.addData("21:35", null, null, null, null, null);
+            myDB2.addData(null, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+            myDB2.addData("8:05", null, null, null, null, null);
+            myDB2.addData("8:35", null, null, null, null, null);
+            myDB2.addData("9:05", null, null, null, null, null);
+            myDB2.addData("9:35", null, null, null, null, null);
+            myDB2.addData("10:05", null, null, null, null, null);
+            myDB2.addData("10:35", null, null, null, null, null);
+            myDB2.addData("11:05", null, null, null, null, null);
+            myDB2.addData("11:35", null, null, null, null, null);
+            myDB2.addData("12:05", null, null, null, null, null);
+            myDB2.addData("12:35", null, null, null, null, null);
+            myDB2.addData("13:05", null, null, null, null, null);
+            myDB2.addData("13:35", null, null, null, null, null);
+            myDB2.addData("14:05", null, null, null, null, null);
+            myDB2.addData("14:35", null, null, null, null, null);
+            myDB2.addData("15:05", null, null, null, null, null);
+            myDB2.addData("15:35", null, null, null, null, null);
+            myDB2.addData("16:05", null, null, null, null, null);
+            myDB2.addData("16:35", null, null, null, null, null);
+            myDB2.addData("17:05", null, null, null, null, null);
+            myDB2.addData("17:35", null, null, null, null, null);
+            myDB2.addData("18:05", null, null, null, null, null);
+            myDB2.addData("18:35", null, null, null, null, null);
+            myDB2.addData("19:05", null, null, null, null, null);
+            myDB2.addData("19:35", null, null, null, null, null);
+            myDB2.addData("20:05", null, null, null, null, null);
+            myDB2.addData("20:35", null, null, null, null, null);
+            myDB2.addData("21:05", null, null, null, null, null);
+            myDB2.addData("21:35", null, null, null, null, null);
+            myDB3.addData(null, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+            myDB3.addData("8:05", null, null, null, null, null);
+            myDB3.addData("8:35", null, null, null, null, null);
+            myDB3.addData("9:05", null, null, null, null, null);
+            myDB3.addData("9:35", null, null, null, null, null);
+            myDB3.addData("10:05", null, null, null, null, null);
+            myDB3.addData("10:35", null, null, null, null, null);
+            myDB3.addData("11:05", null, null, null, null, null);
+            myDB3.addData("11:35", null, null, null, null, null);
+            myDB3.addData("12:05", null, null, null, null, null);
+            myDB3.addData("12:35", null, null, null, null, null);
+            myDB3.addData("13:05", null, null, null, null, null);
+            myDB3.addData("13:35", null, null, null, null, null);
+            myDB3.addData("14:05", null, null, null, null, null);
+            myDB3.addData("14:35", null, null, null, null, null);
+            myDB3.addData("15:05", null, null, null, null, null);
+            myDB3.addData("15:35", null, null, null, null, null);
+            myDB3.addData("16:05", null, null, null, null, null);
+            myDB3.addData("16:35", null, null, null, null, null);
+            myDB3.addData("17:05", null, null, null, null, null);
+            myDB3.addData("17:35", null, null, null, null, null);
+            myDB3.addData("18:05", null, null, null, null, null);
+            myDB3.addData("18:35", null, null, null, null, null);
+            myDB3.addData("19:05", null, null, null, null, null);
+            myDB3.addData("19:35", null, null, null, null, null);
+            myDB3.addData("20:05", null, null, null, null, null);
+            myDB3.addData("20:35", null, null, null, null, null);
+            myDB3.addData("21:05", null, null, null, null, null);
+            myDB3.addData("21:35", null, null, null, null, null);
+            i = 1;
         }
 
     }
@@ -120,8 +226,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
-    //This is the method is used to go back to last page of App or Log out from App
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,7 +263,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    //The constructor of navigation drawer
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
