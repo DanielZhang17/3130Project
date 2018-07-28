@@ -21,6 +21,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -42,7 +43,7 @@ public class CalculateTuitionFeeTest {
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
-            Thread.sleep(60000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -54,58 +55,12 @@ public class CalculateTuitionFeeTest {
                                         withClassName(is("android.support.design.widget.TextInputLayout")),
                                         0),
                                 0)));
-        appCompatAutoCompleteTextView.perform(scrollTo(), replaceText("yh2"), closeSoftKeyboard());
+        appCompatAutoCompleteTextView.perform(scrollTo(), replaceText("yh288977@dal.ca"), closeSoftKeyboard());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
 
-        ViewInteraction appCompatAutoCompleteTextView2 = onView(
-                allOf(withId(R.id.email), withText("yh2"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.design.widget.TextInputLayout")),
-                                        0),
-                                0)));
-        appCompatAutoCompleteTextView2.perform(scrollTo(), replaceText("yh28"));
-
-        ViewInteraction appCompatAutoCompleteTextView3 = onView(
-                allOf(withId(R.id.email), withText("yh28"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.design.widget.TextInputLayout")),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatAutoCompleteTextView3.perform(closeSoftKeyboard());
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction appCompatAutoCompleteTextView4 = onView(
-                allOf(withId(R.id.email), withText("yh28"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.design.widget.TextInputLayout")),
-                                        0),
-                                0)));
-        appCompatAutoCompleteTextView4.perform(scrollTo(), replaceText("yh288977@dal.ca"));
-
-        ViewInteraction appCompatAutoCompleteTextView5 = onView(
-                allOf(withId(R.id.email), withText("yh288977@dal.ca"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.design.widget.TextInputLayout")),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatAutoCompleteTextView5.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.password),
@@ -129,8 +84,9 @@ public class CalculateTuitionFeeTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+
         try {
-            Thread.sleep(3483940);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -165,6 +121,10 @@ public class CalculateTuitionFeeTest {
                                 1),
                         isDisplayed()));
         appCompatButton2.perform(click());
+
+        onView(withId(R.id.fallfee)).check(matches(withText("$3600")));
+        onView(withId(R.id.winterfee)).check(matches(withText("$3200")));
+        onView(withId(R.id.summerfee)).check(matches(withText("$0")));
 
     }
 

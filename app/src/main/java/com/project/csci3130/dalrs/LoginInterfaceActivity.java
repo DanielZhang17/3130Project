@@ -31,14 +31,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
         private DatabaseReference Ref;
         private static FirebaseUser user;
-    /**
-     * The Auth.
-     */
     static FirebaseAuth auth;
-
-    /**
-     * The constant uid.
-     */
     public static String uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +73,7 @@ public class LoginInterfaceActivity extends AppCompatActivity
             DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
             uid = user.getUid();
 
-            //这个地方读Email
+            //This EventListener will find the email of user
             wtf.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -93,6 +86,8 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
+
+            //This EventListener will find the Name of User
             wtf2.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,12 +100,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
 
                 }
             });
-
-            ////////////////////////////////////////
-        /*View headerview = navigationView.getHeaderView(0);
-        TextView Email = headerview.findViewById(R.id.UserEmail);
-        TextView name = headerview.findViewById(R.id.UserName);*/
-
         }
 
     }
@@ -131,35 +120,46 @@ public class LoginInterfaceActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
+    //This is the method is used to go back to last page of App or Log out from App
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            //Show a dialog to comfirm if the user wants to exit the application
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Are you sure you want to exit?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            finishAndRemoveTask();
-                            finishAffinity();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
+        }
+        else{
+            if(getTitle().equals("Home")){
+                //Show a dialog to comfirm if the user wants to exit the application
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure you want to exit?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finishAndRemoveTask();
+                                finishAffinity();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+            else {
+                //return to home if the back is pressed at other fragments
+                finish();
+                startActivity(getIntent());
+            }
         }
     }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+    //The constructor of navigation drawer
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();

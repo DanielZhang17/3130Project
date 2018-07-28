@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Map;
 
 /**
- * The type My status.
+ * The type My status.This page can calculate the credit and Course fee for each term for student.
  */
 public class MyStatus extends AppCompatActivity {
     private DatabaseReference Ref;
@@ -53,6 +53,7 @@ public class MyStatus extends AppCompatActivity {
         Ref = FirebaseDatabase.getInstance().getReference("Users");
         DatabaseReference wtf = Ref.child(user.getUid()).child("UserID");
         DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
+        //This part we connect to the data in firebase
         Registrations = FirebaseDatabase.getInstance().getReference("Registrations").child(user.getUid());
         if(Registrations.child("1")!=null)
           fall = Registrations.child("1");
@@ -63,18 +64,18 @@ public class MyStatus extends AppCompatActivity {
         if(Registrations.child("3")!=null)
           summer = Registrations.child("3");
 
-        UserID = findViewById(R.id.SName);
-        UserName = findViewById(R.id.SID);
+        UserID = findViewById(R.id.SID);
+        UserName = findViewById(R.id.SName);
         TotalCredit = findViewById(R.id.totalcreait);
         Fall = findViewById(R.id.fallfee);
         Winter = findViewById(R.id.winterfee);
         Summer = findViewById(R.id.summerfee);
-
+        //The EventListener wtf and wtf2 get the Name and ID of Student
         wtf.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value1 = dataSnapshot.getValue(String.class);
-                UserID.setText("Student Name:"+value1);
+                UserID.setText(value1);
             }
 
             @Override
@@ -87,7 +88,7 @@ public class MyStatus extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String value1 = dataSnapshot.getValue(String.class);
-                UserName.setText("Student Name:"+value1);
+                UserName.setText(value1);
             }
 
             @Override
@@ -95,20 +96,20 @@ public class MyStatus extends AppCompatActivity {
 
             }
         });
-
+        //If the course for fall, winter or summer is not null, it will calculate the credit and fee
         if(fall!=null) {
             fall.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
-                    TotalCredit.setText("Total Credits: "+sum*3);
+                    TotalCredit.setText(""+sum*3);
 
                     for(DataSnapshot ds :dataSnapshot.getChildren()){
                         Map<String,Object> map = (Map<String,Object>) ds.getValue();
                         Object tuitionfee = map.get("RegistFee");
                         long fee = Integer.parseInt(String.valueOf(tuitionfee));
                         FallFee += fee;
-                        Fall.setText("Fall Tuition Fee: $"+ FallFee);
+                        Fall.setText("$"+ FallFee);
                     }
                 }
 
@@ -123,14 +124,14 @@ public class MyStatus extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
-                    TotalCredit.setText("Total Credits: "+sum*3);
+                    TotalCredit.setText(""+sum*3);
 
                     for(DataSnapshot ds :dataSnapshot.getChildren()){
                         Map<String,Object> map = (Map<String,Object>) ds.getValue();
                         Object tuitionfee = map.get("RegistFee");
                         long fee = Integer.parseInt(String.valueOf(tuitionfee));
                         WinterFee += fee;
-                        Winter.setText("Winter Tuition Fee: $"+ WinterFee);
+                        Winter.setText("$"+ WinterFee);
                     }
 
                 }
@@ -146,14 +147,14 @@ public class MyStatus extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     sum += dataSnapshot.getChildrenCount();
-                    TotalCredit.setText("Total Credits: "+sum*3);
+                    TotalCredit.setText(""+sum*3);
 
                     for(DataSnapshot ds :dataSnapshot.getChildren()){
                         Map<String,Object> map = (Map<String,Object>) ds.getValue();
                         Object tuitionfee = map.get("RegistFee");
                         long fee = Integer.parseInt(String.valueOf(tuitionfee));
                         SummerFee += fee;
-                        Summer.setText("Summer Tuition Fee: $"+ SummerFee);
+                        Summer.setText("$"+ SummerFee);
                     }
 
                 }
