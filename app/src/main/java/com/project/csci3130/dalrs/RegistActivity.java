@@ -1,6 +1,5 @@
 package com.project.csci3130.dalrs;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,10 +14,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,10 +73,6 @@ public class RegistActivity extends AppCompatActivity {
      */
     Course course;
     /**
-     * The constant selected.
-     */
-    public static Course selected;
-    /**
      * The Registration.
      */
     Registration registration;
@@ -96,7 +92,7 @@ public class RegistActivity extends AppCompatActivity {
     /**
      * The Courses.
      */
-    ArrayList<Course> courses = new ArrayList<Course>();
+    public static ArrayList<Course> courses = new ArrayList<Course>();
     private static final String TAG = "TasksSample";
     /**
      * The Courses all.
@@ -106,17 +102,13 @@ public class RegistActivity extends AppCompatActivity {
      * The Courses lec.
      */
     ArrayList<Course> coursesLec = new ArrayList<>();
-    ArrayList<Course> registedCourse = new ArrayList<>();
-    ArrayList<Course> courseSpot= new ArrayList<>();
+    private ArrayList<Course> registedCourse = new ArrayList<>();
 
     ArrayList<Registration> registed = new ArrayList<>();
     int currSpot;
     String registFee;
-    DatabaseReference wRef;
     public static String tempID;
-    public static String tempSpot;
-    Course c1;
-
+    private static SimpleDateFormat format = new SimpleDateFormat("HH:mm");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,7 +140,9 @@ public class RegistActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
                     courseLec = ds.getValue(Course.class);
-                    coursesAll.add(courseLec);
+                    //if(coursesAll.size()<29) {
+                        coursesAll.add(courseLec);
+                    //}
                     for(int i = 0; i < coursesAll.size(); i++){
                         String lec = coursesAll.get(i).getCourseType();
                         if(lec.equals("Lec")){
@@ -174,8 +168,11 @@ public class RegistActivity extends AppCompatActivity {
                     for(int j=0;j<coursesAll.size();j++) {
                         if(coursesAll.get(j).getCourseID()!=null) {
                             if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
-                                registedCourse.add(coursesAll.get(j));
-                                break;
+                                //if(registedCourse.size()>0) {
+                                    for (int k = 0; k < registed.size(); k++) {
+                                        registedCourse.add(coursesAll.get(j));
+                                    }
+                                //}
                             }
                         }
                     }
@@ -242,7 +239,12 @@ public class RegistActivity extends AppCompatActivity {
                     }
                 }
                 if(c == true){//if course term is corresponding term, add course.
-                    addCourse();
+                    try {
+                        tempID = editText.getText().toString();
+                        checkConflict();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else{
                     Toast.makeText(RegistActivity.this, "You may entered a CRN not belongs to current term", Toast.LENGTH_LONG).show();
@@ -255,7 +257,8 @@ public class RegistActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dropCourse();
             }
-        });//set button drop click
+        });
+        //set button drop click
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {// set listView is clickable and jump to new activity
@@ -264,7 +267,7 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
     }
-    private void addCourse(){//add course
+    private void addCourse() throws ParseException {//add course
         final String courseID = editText.getText().toString();
         tempID = courseID;
         String courseTitle = "";
@@ -320,18 +323,121 @@ public class RegistActivity extends AppCompatActivity {
     private void dropCourse(){//drop class
         String id2 = LoginInterfaceActivity.uid;
         String courseID = editText.getText().toString();
-        mRef.child(courseID).removeValue();
+        int maxSpot = 0;
         for (int i = 0; i < courses.size(); i++) {
             String temp = courses.get(i).getCourseID();
             if (temp.equals(courseID)) {
                 course = courses.get(i);
                 currSpot = Integer.parseInt(courses.get(i).getAvailableSpot().toString());
+                maxSpot = Integer.parseInt(courses.get(i).getSpotMax().toString());
 
             }
         }
-        String spot = Integer.toString(currSpot + 1);
-        course.setAvailableSpot(spot);
-        cRef = FirebaseDatabase.getInstance().getReference("Courses");
-        cRef.child(courseID).setValue(course);
+        if(currSpot < maxSpot) {
+            for (int j = 0; j < registedCourse.size(); j++) {
+                String temp = registedCourse.get(j).getCourseID();
+                if (temp.equals(courseID)) {
+                    registedCourse.remove(j);
+                }
+            }
+            mRef.child(courseID).removeValue();
+            String spot = Integer.toString(currSpot + 1);
+            course.setAvailableSpot(spot);
+            cRef = FirebaseDatabase.getInstance().getReference("Courses");
+            cRef.child(courseID).setValue(course);
+        }
+        else{
+            Toast.makeText(RegistActivity.this, "You cannot drop this course", Toast.LENGTH_LONG).show();
+        }
+
+    }
+    public static boolean testConflict(String leftStart, String leftEnd, String rightStart, String rightEnd) throws ParseException {
+        Date leftStartTime=null, leftEndTime=null, rightStartTime=null, rightEndTime=null;
+        try{
+            leftStartTime = format.parse(leftStart);
+            leftEndTime = format.parse(leftEnd);
+            rightStartTime = format.parse(rightStart);
+            rightEndTime = format.parse(rightEnd);
+        }catch (ParseException e) {
+            return false;
+        }
+        return
+                ((leftStartTime.getTime() >= rightStartTime.getTime())
+                        && (leftStartTime.getTime() < rightEndTime.getTime()))
+                        || ((leftStartTime.getTime() > rightStartTime.getTime())
+                        && (leftStartTime.getTime() <= rightEndTime.getTime()))
+                        || ((rightStartTime.getTime() >= leftStartTime.getTime())
+                        && (rightStartTime.getTime() < leftEndTime.getTime()))
+                        || ((rightStartTime.getTime() > leftStartTime.getTime())
+                        && (rightStartTime.getTime() <= leftEndTime.getTime())) ;
+    }
+
+    public void checkConflict() throws ParseException {
+        boolean flag = false;
+
+            //String tempDayTime;//the day time of registering course.
+            String courseDayTime;//the day time of registered course.
+            String time1 = null;
+            String time2 = null;
+            ArrayList<String> day = new ArrayList<>();
+            //ArrayList registeredDay = new ArrayList<>();
+            //String tempRegistedID = null;
+            String tempRegistID = editText.getText().toString();
+            for (int i = 0; i < coursesAll.size(); i++) {
+                String temp = coursesAll.get(i).getCourseID();
+                //tempRegistID = editText.getText().toString();
+                if (temp.equals(tempID)) {
+                    courseDayTime = coursesAll.get(i).getCourseDayTime();
+                    time1 = coursesAll.get(i).getCourseTime();
+                    String[] courseday = courseDayTime.split("");
+                    for (int k = 1; k < courseday.length; k++) {
+                        if (courseday[k] != "") {
+                            day.add(courseday[k]);
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < registedCourse.size(); i++) {
+                String tempDayTime = registedCourse.get(i).getCourseDayTime();
+                String tempRegistedID = registedCourse.get(i).getCourseID();
+                ArrayList registeredDay = new ArrayList<>();
+                time2 = registedCourse.get(i).getCourseTime();
+                //System.out.print(registedCourse.get(i));
+                String[] stringArray = tempDayTime.split("");
+                for (int k = 1; k < stringArray.length; k++) {
+                    if (stringArray[k] != "") {
+                        registeredDay.add(stringArray[k]);
+                    }
+                }
+                if (tempRegistID.equals(tempRegistedID)) {
+                   flag = false;
+                }
+               else {
+                    for (int m = 0; m < registeredDay.size(); m++) {
+                        if (day.contains(registeredDay.get(m))) {
+                            String[] stringArray1 = time1.split("-");
+                            String[] stringArray2 = time2.split("-");
+                            flag = testConflict(stringArray1[0], stringArray1[1], stringArray2[0], stringArray2[1]);
+                            if (flag == true) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        if(flag == false){
+
+            Toast.makeText(RegistActivity.this, "Add course success!", Toast.LENGTH_LONG).show();
+            addCourse();
+
+            //time not conflict
+        }
+        else{
+            Toast.makeText(RegistActivity.this, "Can not add course, time conflict !!!!", Toast.LENGTH_LONG).show();
+            //time conflict
+        }
+
+
     }
 }

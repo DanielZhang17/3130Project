@@ -44,23 +44,16 @@ public class Course {
      * @param courseType        the course type
      * @param credit            the credit
      * @param endDate           the end date
-     * @param labDayTime        the lab day time
-     * @param labID             the lab id
-     * @param labTime           the lab time
      * @param location          the location
      * @param spotMax           the spot max
      * @param startDate         the start date
-     * @param TutID             the tut id
-     * @param labLocation       the lab location
-     * @param tutLocation       the tut location
+    n
      */
     public Course(String courseID, String courseTitle, String courseDayTime,
                   String courseDep, String courseInformation, String courseName,
                   String courseTerm, String courseTime, String courseType,
-                  String credit, String endDate, String labDayTime, String labID,
-                  String labTime, String location, String spotMax, String startDate,
-                  String TutID, String labLocation,String tutLocation,String AvailableSpot,
-                  String CourseFee) {
+                  String credit, String endDate, String location, String spotMax, String startDate,
+                  String AvailableSpot, String CourseFee) {
         CourseID = courseID;
         CourseTitle = courseTitle;
         CourseDayTime = courseDayTime;
