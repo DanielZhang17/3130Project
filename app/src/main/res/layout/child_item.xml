@@ -11,35 +11,57 @@
 
         <Button
             android:id="@+id/detail"
-            android:layout_width="76dp"
-            android:layout_height="match_parent"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="73dp"
+            android:layout_height="29dp"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/AddBtn"
-            android:text="Detail" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/roundedbutton"
+            android:capitalize="none"
+            android:text="Detail"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/childView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="3dp"
             android:text="Course here"
-            android:textSize="25sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/AddBtn"
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_width="62dp"
+            android:layout_height="29dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/DropBtn"
-            android:text="Add" />
+            android:layout_marginEnd="80dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/roundedbutton"
+            android:text="Add"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/DropBtn"
-            android:layout_width="61dp"
-            android:layout_height="match_parent"
+            android:layout_width="62dp"
+            android:layout_height="29dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="19dp"
-            android:text="Drop" />
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/roundedbutton"
+            android:text="Drop"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/holo_red_light" />
 
 
     </RelativeLayout>

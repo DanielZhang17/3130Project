@@ -1,43 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@android:color/white">
 
 
-    <Button
+    <ImageButton
         android:id="@+id/changepassword"
-        android:layout_width="match_parent"
+        style="@android:style/Widget.Holo.Light.ImageButton"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="74dp"
+        android:background="#46a34a"
+        app:srcCompat="@drawable/pass" />
+
+    <ImageButton
+        android:id="@+id/MyStatus"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/changepassword"
+        android:layout_marginEnd="27dp"
+        android:background="@color/colorPrimary"
+        app:srcCompat="@drawable/acc" />
+
+    <ImageButton
+        android:id="@+id/RequiredCourse"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/changepassword"
+        android:layout_marginBottom="201dp"
+        android:background="@color/colorPrimary"
+        app:srcCompat="@drawable/course" />
+
+    <ImageButton
+        android:id="@+id/Adder"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_alignStart="@+id/MyStatus"
+        android:layout_alignTop="@+id/RequiredCourse"
+        android:background="#46a34a"
+        app:srcCompat="@drawable/timetable" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="118dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:text="Change password" />
+        android:layout_alignStart="@+id/changepassword"
+        android:layout_marginTop="210dp"
+        android:text="Change Password"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/MyStatus"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/changepassword"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_marginEnd="69dp"
         android:text="My Status"
-        android:textAllCaps="true" />
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/RequiredCourse"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="96dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/MyStatus"
-        android:text="Required Course" />
+        android:layout_marginBottom="165dp"
+        android:layout_marginStart="46dp"
+        android:text="Requirement"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/Adder"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/RequiredCourse"
-        android:text="Scheduler"
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textView27"
+        android:layout_marginEnd="52dp"
+        android:text="Timetable"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

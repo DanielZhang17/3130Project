@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -34,10 +35,10 @@ public class FourthFragment extends Fragment{
      * The My view.
      */
     View MyView;
-    private Button changepassword;
-    private Button MyStatus;
-    private Button RequiredCourse;
-    private Button Adder;
+    private ImageButton changepassword;
+    private ImageButton MyStatus;
+    private ImageButton RequiredCourse;
+    private ImageButton Adder;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

@@ -36,11 +36,13 @@
 
     <Button
         android:id="@+id/changeTerm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="96sp"
+        android:layout_height="32sp"
         android:layout_marginBottom="214dp"
         android:layout_marginStart="4dp"
+        android:background="@drawable/roundedbutton"
         android:text="Submit"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/spinner"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
