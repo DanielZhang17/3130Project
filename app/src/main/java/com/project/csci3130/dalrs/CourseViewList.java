@@ -516,53 +516,51 @@ public class CourseViewList extends AppCompatActivity {
      */
     public void dropClass(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to drop this class ?")
+        builder.setMessage("Are you sure you want to drop the class?")
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Drop", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        int maxSpot = 0;
+                        boolean flag = false;
+                        for(int m = 0; m < coursesLec.size(); m++) {
+                            String tempTerm = coursesLec.get(m).getCourseTerm();
+                            String temp = coursesLec.get(m).getCourseTitle();
+                            String tempType = coursesLec.get(m).getCourseType();
+                            if (tempTerm.equals(term) && temp.equals(courseTitle)) {
+                                courseID = coursesLec.get(m).getCourseID();
+                                currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
+                                course = coursesLec.get(m);
+                                maxSpot = Integer.parseInt(coursesLec.get(m).getSpotMax().toString());
 
+                            }
+                        }
+                        for(int i = 0; i < registed.size(); i++){
+                            if(registed.get(i).getRegistCourseID().equals(courseID)){
+                                flag = true;
+                            }
+                        }
+                        if(currSpot < maxSpot && flag == true) {
+                            mRef = FirebaseDatabase.getInstance().getReference("Registrations")
+                                    .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
+                            mRef.child(courseID).removeValue();
+                            String spot = Integer.toString(currSpot + 1);
+                            course.setAvailableSpot(spot);
+                            courseReference = FirebaseDatabase.getInstance().getReference("Courses");
+                            courseReference.child(courseID).setValue(course);
+                            Toast.makeText(getApplicationContext(), "Course dropped", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "You cannot drop this course", Toast.LENGTH_LONG).show();
+                        }
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        return;
                     }
                 });
         AlertDialog alert = builder.create();
         alert.show();
-        int maxSpot = 0;
-        boolean flag = false;
-        for(int m = 0; m < coursesLec.size(); m++) {
-            String tempTerm = coursesLec.get(m).getCourseTerm();
-            String temp = coursesLec.get(m).getCourseTitle();
-            String tempType = coursesLec.get(m).getCourseType();
-            if (tempTerm.equals(term) && temp.equals(courseTitle)) {
-                courseID = coursesLec.get(m).getCourseID();
-                currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
-                course = coursesLec.get(m);
-                maxSpot = Integer.parseInt(coursesLec.get(m).getSpotMax().toString());
-
-            }
-        }
-        for(int i = 0; i < registed.size(); i++){
-            if(registed.get(i).getRegistCourseID().equals(courseID)){
-                flag = true;
-            }
-        }
-        if(currSpot < maxSpot && flag == true) {
-            mRef = FirebaseDatabase.getInstance().getReference("Registrations")
-                    .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
-            mRef.child(courseID).removeValue();
-            String spot = Integer.toString(currSpot + 1);
-            course.setAvailableSpot(spot);
-            courseReference = FirebaseDatabase.getInstance().getReference("Courses");
-            courseReference.child(courseID).setValue(course);
-            Toast.makeText(CourseViewList.this, "Course dropped", Toast.LENGTH_LONG).show();
-        }
-        else{
-            Toast.makeText(CourseViewList.this, "You cannot drop this course", Toast.LENGTH_LONG).show();
-        }
 
     }
     public void checkDetail(){
@@ -700,8 +698,6 @@ public class CourseViewList extends AppCompatActivity {
         }
 
         if(flag == false){
-
-            Toast.makeText(CourseViewList.this, "Add course success!", Toast.LENGTH_LONG).show();
             addCourse();
 
             //time not conflict
