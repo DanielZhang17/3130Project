@@ -456,17 +456,25 @@ public class CourseViewList extends AppCompatActivity {
     public void addCourse(){//add course
 
         boolean c = false;
+        boolean flag = false;
         for (int m = 0; m < coursesLec.size(); m++) {
             String tempTerm = coursesLec.get(m).getCourseTerm();
             String temp = coursesLec.get(m).getCourseTitle();
             String tempType = coursesLec.get(m).getCourseType();
-            if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
+            if (tempTerm.equals(term) && temp.equals(courseTitle)) {
                 c = true;
                 courseID = coursesLec.get(m).getCourseID();
                 currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
             }
         }
-        if(currSpot > 0) {
+        for(int i = 0; i < registed.size(); i++){
+            if(registed.get(i).getRegistCourseID().equals(courseID)){
+                flag = true;
+                //Toast.makeText(CourseViewList.this, "You already registered this course.", Toast.LENGTH_LONG).show();
+
+            }
+        }
+        if(currSpot > 0 && flag == false) {
             if (c == true) {
 
                 String courseTerm = "";
@@ -497,7 +505,7 @@ public class CourseViewList extends AppCompatActivity {
             }
         }
         else{
-            Toast.makeText(CourseViewList.this, "No available seat for this course", Toast.LENGTH_LONG).show();
+            Toast.makeText(CourseViewList.this, "You cannot add this course.", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -507,11 +515,12 @@ public class CourseViewList extends AppCompatActivity {
      */
     public void dropClass(){
         int maxSpot = 0;
+        boolean flag = false;
         for(int m = 0; m < coursesLec.size(); m++) {
             String tempTerm = coursesLec.get(m).getCourseTerm();
             String temp = coursesLec.get(m).getCourseTitle();
             String tempType = coursesLec.get(m).getCourseType();
-            if (tempTerm.equals(term) && temp.equals(courseTitle) && tempType.contains("ec")) {
+            if (tempTerm.equals(term) && temp.equals(courseTitle)) {
                 courseID = coursesLec.get(m).getCourseID();
                 currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
                 course = coursesLec.get(m);
@@ -519,7 +528,12 @@ public class CourseViewList extends AppCompatActivity {
 
             }
         }
-        if(currSpot < maxSpot) {
+        for(int i = 0; i < registed.size(); i++){
+            if(registed.get(i).getRegistCourseID().equals(courseID)){
+                flag = true;
+            }
+        }
+        if(currSpot < maxSpot && flag == true) {
             mRef = FirebaseDatabase.getInstance().getReference("Registrations")
                     .child(LoginInterfaceActivity.uid).child(SecondFragment.termNumber);
             mRef.child(courseID).removeValue();

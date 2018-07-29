@@ -130,7 +130,7 @@ public class RegistActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
 
         //ref = FirebaseDatabase.getInstance().getReference("Courses");
-       // mReference = FirebaseDatabase.getInstance().getReference("Registrations");
+        // mReference = FirebaseDatabase.getInstance().getReference("Registrations");
         mRef = FirebaseDatabase.getInstance().getReference("Registrations").child(LoginInterfaceActivity.uid).child(FirstFragment.termNumber);
         nReference = FirebaseDatabase.getInstance().getReference("Users");
         cRef = FirebaseDatabase.getInstance().getReference("Courses");
@@ -263,7 +263,7 @@ public class RegistActivity extends AppCompatActivity {
         String courseTerm = "";
         tempID = editText.getText().toString();
         int currSpot = 0;
-
+        boolean flag = false;
         int t = 0;
         for (int i = 0; i < coursesAll.size(); i++) {
             String temp = coursesAll.get(i).getCourseID();
@@ -271,10 +271,15 @@ public class RegistActivity extends AppCompatActivity {
                 course = coursesAll.get(i);
                 courseTitle = course.getCourseTitle();
                 currSpot = Integer.parseInt(coursesAll.get(i).getAvailableSpot().toString());
-
+                break;
             }
         }
-        if(currSpot > 0) {
+        for(int i = 0; i < registedCourse.size(); i++){
+            if(registedCourse.get(i).getCourseID().equals(tempID)){
+                flag = true;
+            }
+        }
+        if(currSpot > 0 && flag == false) {
             String courseType = "";
             for (int i = 0; i < coursesAll.size(); i++) {
                 String temp = coursesAll.get(i).getCourseID();
@@ -303,7 +308,7 @@ public class RegistActivity extends AppCompatActivity {
             cRef.child(tempID).setValue(course);
         }
         else{
-            Toast.makeText(RegistActivity.this, "No available seat for this course", Toast.LENGTH_LONG).show();
+            Toast.makeText(RegistActivity.this, "You cannot add this course.", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -315,6 +320,7 @@ public class RegistActivity extends AppCompatActivity {
     private void dropCourse(){//drop class
         int maxSpot = 0;
         int currSpot = 0;
+        boolean flag = false;
         tempID = editText.getText().toString();
         for (int i = 0; i < coursesAll.size(); i++) {
             String temp = coursesAll.get(i).getCourseID();
@@ -325,7 +331,12 @@ public class RegistActivity extends AppCompatActivity {
 
             }
         }
-        if(currSpot < maxSpot) {
+        for(int i = 0; i < registedCourse.size(); i++){
+            if(registedCourse.get(i).getCourseID().equals(tempID)){
+                flag = true;
+            }
+        }
+        if(currSpot < maxSpot && flag == true) {
             for (int j = 0; j < registedCourse.size(); j++) {
                 String temp = registedCourse.get(j).getCourseID();
                 if (temp.equals(tempID)) {
@@ -366,55 +377,55 @@ public class RegistActivity extends AppCompatActivity {
     public void checkConflict() throws ParseException {
         boolean flag = false;
 
-            //String tempDayTime;//the day time of registering course.
-            //String courseDayTime;//the day time of registered course.
-            String time1 = null;
-            String time2 = null;
-            ArrayList<String> day = new ArrayList<>();
-            //ArrayList registeredDay = new ArrayList<>();
-            //String tempRegistedID = null;
-            for (int i = 0; i < coursesAll.size(); i++) {
-                String temp = coursesAll.get(i).getCourseID();
-                //tempRegistID = editText.getText().toString();
-                if (temp.equals(tempID)) {
-                    String courseDayTime = coursesAll.get(i).getCourseDayTime();
-                    time1 = coursesAll.get(i).getCourseTime();
-                    String[] courseday = courseDayTime.split("");
-                    for (int k = 1; k < courseday.length; k++) {
-                        if (courseday[k] != "") {
-                            day.add(courseday[k]);
-                        }
+        //String tempDayTime;//the day time of registering course.
+        //String courseDayTime;//the day time of registered course.
+        String time1 = null;
+        String time2 = null;
+        ArrayList<String> day = new ArrayList<>();
+        //ArrayList registeredDay = new ArrayList<>();
+        //String tempRegistedID = null;
+        for (int i = 0; i < coursesAll.size(); i++) {
+            String temp = coursesAll.get(i).getCourseID();
+            //tempRegistID = editText.getText().toString();
+            if (temp.equals(tempID)) {
+                String courseDayTime = coursesAll.get(i).getCourseDayTime();
+                time1 = coursesAll.get(i).getCourseTime();
+                String[] courseday = courseDayTime.split("");
+                for (int k = 1; k < courseday.length; k++) {
+                    if (courseday[k] != "") {
+                        day.add(courseday[k]);
                     }
                 }
             }
-            for (int i = 0; i < registedCourse.size(); i++) {
-                String tempDayTime = registedCourse.get(i).getCourseDayTime();
-                String tempRegistedID = registedCourse.get(i).getCourseID();
-                ArrayList registeredDay = new ArrayList<>();
-                time2 = registedCourse.get(i).getCourseTime();
-                String[] stringArray = tempDayTime.split("");
-                for (int k = 1; k < stringArray.length; k++) {
-                    if (stringArray[k] != "") {
-                        registeredDay.add(stringArray[k]);
-                    }
+        }
+        for (int i = 0; i < registedCourse.size(); i++) {
+            String tempDayTime = registedCourse.get(i).getCourseDayTime();
+            String tempRegistedID = registedCourse.get(i).getCourseID();
+            ArrayList registeredDay = new ArrayList<>();
+            time2 = registedCourse.get(i).getCourseTime();
+            String[] stringArray = tempDayTime.split("");
+            for (int k = 1; k < stringArray.length; k++) {
+                if (stringArray[k] != "") {
+                    registeredDay.add(stringArray[k]);
                 }
-                if (tempID.equals(tempRegistedID)) {
-                   flag = false;
+            }
+            if (tempID.equals(tempRegistedID)) {
+                flag = false;
 
-                }
-               else {
-                    for (int m = 0; m < registeredDay.size(); m++) {
-                        if (day.contains(registeredDay.get(m))) {
-                            String[] stringArray1 = time1.split("-");
-                            String[] stringArray2 = time2.split("-");
-                            flag = testConflict(stringArray1[0], stringArray1[1], stringArray2[0], stringArray2[1]);
-                            if (flag == true) {
-                                break;
-                            }
+            }
+            else {
+                for (int m = 0; m < registeredDay.size(); m++) {
+                    if (day.contains(registeredDay.get(m))) {
+                        String[] stringArray1 = time1.split("-");
+                        String[] stringArray2 = time2.split("-");
+                        flag = testConflict(stringArray1[0], stringArray1[1], stringArray2[0], stringArray2[1]);
+                        if (flag == true) {
+                            break;
                         }
                     }
                 }
             }
+        }
 
         if(flag == false){
 
