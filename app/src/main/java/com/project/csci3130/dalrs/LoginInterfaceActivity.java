@@ -83,8 +83,6 @@ public class LoginInterfaceActivity extends AppCompatActivity
             DatabaseReference wtf = Ref.child(user.getUid()).child("Email");
             DatabaseReference wtf2 = Ref.child(user.getUid()).child("UserName");
             uid = user.getUid();
-
-            //这个地方读Email
             wtf.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

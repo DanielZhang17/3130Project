@@ -1,8 +1,10 @@
 package com.project.csci3130.dalrs;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.ArrayMap;
@@ -513,6 +515,22 @@ public class CourseViewList extends AppCompatActivity {
      * Drop class.
      */
     public void dropClass(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to drop this class ?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        return;
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
         int maxSpot = 0;
         boolean flag = false;
         for(int m = 0; m < coursesLec.size(); m++) {
