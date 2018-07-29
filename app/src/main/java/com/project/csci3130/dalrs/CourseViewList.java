@@ -197,9 +197,8 @@ public class CourseViewList extends AppCompatActivity {
                     for(int j=0;j<coursesAll.size();j++) {
                         if(coursesAll.get(j).getCourseID()!=null) {
                             if (coursesAll.get(j).getCourseID().equals(registed.get(i).getRegistCourseID())) {
-                                for (int k = 0; k < registed.size(); k++) {
-                                    registedCourse.add(coursesAll.get(j));
-                                }
+                                registedCourse.add(coursesAll.get(j));
+
                             }
                         }
                     }
