@@ -11,7 +11,7 @@
         android:layout_height="181dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="62dp">
+        android:layout_marginBottom="124dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,9 +30,8 @@
                 android:id="@+id/winterfee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_alignStart="@+id/summerfee"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="149dp"
                 android:text="$0"
                 android:textSize="18sp" />
 
@@ -50,8 +49,9 @@
                 android:id="@+id/summerfee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/fallfee"
+                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/summerfee2"
+                android:layout_marginEnd="106dp"
                 android:text="$0"
                 android:textSize="18sp" />
 
@@ -100,7 +100,7 @@
         android:layout_height="156dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="83dp"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="108dp">
 
