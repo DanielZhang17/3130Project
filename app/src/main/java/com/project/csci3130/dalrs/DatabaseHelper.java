@@ -87,9 +87,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("Update users_data SET "+ whichday+" =\'"+coursename+"\' WHERE Time=\'"+sh+"\'");
     }
 
-    public void getparticularelement(String row, String column){
+    public String getparticularelement(){
         SQLiteDatabase db=this.getWritableDatabase();
-        db.execSQL("select "+column+" from "+ TABLE_NAME+" where "+row+" =1");
+        return "hello";
     }
 
     //query for 1 week repeats

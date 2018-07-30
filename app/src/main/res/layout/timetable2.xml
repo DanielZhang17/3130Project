@@ -5,46 +5,45 @@
     android:weightSum="96">
 
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/shi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/shi"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/yi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/yi"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/er"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/er"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/san"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/san"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/si"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/si"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/wu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/wu"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
 
 </LinearLayout>

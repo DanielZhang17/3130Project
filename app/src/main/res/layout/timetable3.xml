@@ -5,46 +5,45 @@
     android:weightSum="96">
 
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/timer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/timer"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/un"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/un"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/deux"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/deux"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/trois"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/trois"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/quatre"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/quatre"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
+
     <TextView
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_weight="16"
+        android:id="@+id/sinq"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/sinq"/>
+        android:layout_weight="16"
+        android:textSize="13sp" />
 
 </LinearLayout>
