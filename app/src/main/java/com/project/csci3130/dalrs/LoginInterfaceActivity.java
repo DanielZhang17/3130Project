@@ -212,7 +212,12 @@ public class LoginInterfaceActivity extends AppCompatActivity
                     .replace(R.id.content_login_interface,new SixthFragment())
                     .commit();
         }
-
+        else  if(id == R.id.weekly){
+            selectTerm3.setUID(uid);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.content_login_interface,new selectTerm3())
+                    .commit();
+        }
 
 
 

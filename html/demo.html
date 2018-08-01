@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Vanilla javascript plugin for building nice responsive timetables">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Timetable.js demo</title>
+    <link rel="stylesheet" href="styles/timetablejs.css">
+    <link rel="stylesheet" href="styles/demo.css">
+  </head>
+  <body>
+	<p style="color:red;">*NOTE:If you did not add a class for the selected term, the timetable will not show up.*.</p>
+  <div class="timetable"></div>
+  <script src="scripts/timetable.js"></script>
+	 <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+		apiKey: "AIzaSyBNUomfEARCztqBePLn4x239RGA-Vj-a34",
+		authDomain: "dalrs-d433e.firebaseapp.com",
+		databaseURL: "https://dalrs-d433e.firebaseio.com",
+		projectId: "dalrs-d433e",
+		storageBucket: "dalrs-d433e.appspot.com",
+		messagingSenderId: "68007481665"
+	  };
+	  firebase.initializeApp(config);
+	</script>
+  <script>
+    var url = window.location.href;
+    var inputs = parseURLParams(url);
+    var term = inputs.term[0];
+    var uid = inputs.uid[0];
+    console.log(uid);
+    console.log(term);
+    function parseURLParams(url) {
+      var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+        if (query === url || query === "") return;
+        for (i = 0; i < pairs.length; i++) {
+            nv = pairs[i].split("=", 2);
+            n = decodeURIComponent(nv[0]);
+            v = decodeURIComponent(nv[1]);
+            if (!parms.hasOwnProperty(n)) parms[n] = [];
+            parms[n].push(nv.length === 2 ? v : null);
+        }
+        return parms;
+    }
+    var courseRef = firebase.database().ref("/Courses");//firebase reference for course objects
+    var RegistRef = firebase.database().ref("/Registrations/"+uid+"/"+term);//firebase reference
+      function getRegist(snapshot) {
+        var regists = [];
+        snapshot.forEach(function(childSnapshot) {
+            var item = childSnapshot.val();
+            item.key = childSnapshot.key;
+            regists.push(item);
+        });
+
+        for(var i in regists){
+          var data = [];
+        var timetable = new Timetable();
+        timetable.setScope(8,21);
+        timetable.addLocations(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+          courseRef.child(regists[i].RegistCourseID).once('value', function(snapshot){
+            data.push(snapshot.val());
+                for(var j=0;j<data.length;j++){
+                var time = [];
+                var title = data[j].courseTitle;
+                var t = data[j].courseTime;
+                var d = data[j].courseDayTime;
+                t = t.replace(/:/g,",");
+                t = t.replace(/-/g,",");
+                time = t.split(",");
+                if(d.includes("M"))
+                  timetable.addEvent(title, 'Monday', new Date(2017,7,31,time[0],time[1]), new Date(2017,7,31,time[2],time[3]));
+                if(d.includes("T"))
+                  timetable.addEvent(title, 'Tuesday', new Date(2017,7,31,time[0],time[1]), new Date(2017,7,31,time[2],time[3]));
+                if(d.includes("W"))
+                  timetable.addEvent(title, 'Wednesday', new Date(2017,7,31,time[0],time[1]), new Date(2017,7,31,time[2],time[3]));
+                if(d.includes("R"))
+                  timetable.addEvent(title, 'Thursday', new Date(2017,7,31,time[0],time[1]), new Date(2017,7,31,time[2],time[3]));
+                if(d.includes("F"))
+                  timetable.addEvent(title, 'Friday', new Date(2017,7,31,time[0],time[1]), new Date(2017,7,31,time[2],time[3]));
+              }
+               var renderer = new Timetable.Renderer(timetable);
+                renderer.draw('.timetable');
+        });
+         
+      }
+    }
+      
+  RegistRef.on("value", getRegist);
+</script>
+</body>
+</html>

@@ -22,6 +22,10 @@
             android:title="Important Dates"
             android:icon="@drawable/important"/>
         <item
+            android:id="@+id/weekly"
+            android:title="Weekly Schecule"
+            android:icon="@drawable/timetable"/>
+        <item
             android:id="@+id/nav_third_layout"
             android:title="Contact us"
             android:icon="@drawable/contact"/>
