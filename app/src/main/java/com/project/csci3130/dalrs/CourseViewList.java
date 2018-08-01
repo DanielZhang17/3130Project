@@ -455,60 +455,73 @@ public class CourseViewList extends AppCompatActivity {
      * Add course.
      */
     public void addCourse(){//add course
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to add the class?")
+                .setCancelable(false)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        boolean c = false;
+                        boolean flag = false;
+                        for (int m = 0; m < coursesLec.size(); m++) {
+                            String tempTerm = coursesLec.get(m).getCourseTerm();
+                            String temp = coursesLec.get(m).getCourseTitle();
+                            String tempType = coursesLec.get(m).getCourseType();
+                            if (tempTerm.equals(term) && temp.equals(courseTitle)) {
+                                c = true;
+                                courseID = coursesLec.get(m).getCourseID();
+                                currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
+                            }
+                        }
+                        for (int i = 0; i < registed.size(); i++) {
+                            if (registed.get(i).getRegistCourseID().equals(courseID)) {
+                                flag = true;
+                                //Toast.makeText(CourseViewList.this, "You already registered this course.", Toast.LENGTH_LONG).show();
 
-        boolean c = false;
-        boolean flag = false;
-        for (int m = 0; m < coursesLec.size(); m++) {
-            String tempTerm = coursesLec.get(m).getCourseTerm();
-            String temp = coursesLec.get(m).getCourseTitle();
-            String tempType = coursesLec.get(m).getCourseType();
-            if (tempTerm.equals(term) && temp.equals(courseTitle)) {
-                c = true;
-                courseID = coursesLec.get(m).getCourseID();
-                currSpot = Integer.parseInt(coursesLec.get(m).getAvailableSpot());
-            }
-        }
-        for(int i = 0; i < registed.size(); i++){
-            if(registed.get(i).getRegistCourseID().equals(courseID)){
-                flag = true;
-                //Toast.makeText(CourseViewList.this, "You already registered this course.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        if (currSpot > 0 && flag == false) {
+                            if (c == true) {
 
-            }
-        }
-        if(currSpot > 0 && flag == false) {
-            if (c == true) {
+                                String courseTerm = "";
+                                String courseType = "";
+                                for (int i = 0; i < coursesLec.size(); i++) {
+                                    String temp = coursesLec.get(i).getCourseID();
+                                    if (temp.equals(courseID)) {
+                                        course = coursesLec.get(i);
+                                        courseTitle = course.getCourseTitle();
+                                        registFee = course.getCourseFee();
+                                        courseType = course.getCourseType();
+                                    }
+                                    String tempTerm = coursesLec.get(i).getCourseTerm();
+                                    if (temp.equals(courseID) && tempTerm.equals(SecondFragment.termNumber)) {
+                                        course = coursesLec.get(i);
+                                        courseTerm = course.getCourseTerm();
+                                    }
+                                }
+                                String id1 = LoginInterfaceActivity.uid;
+                                Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm, registFee);
+                                rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
+                                String spot = Integer.toString(currSpot - 1);
+                                course.setAvailableSpot(spot);
+                                courseReference = FirebaseDatabase.getInstance().getReference("Courses");
+                                courseReference.child(courseID).setValue(course);
+                                Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
 
-                String courseTerm = "";
-                String courseType = "";
-                for (int i = 0; i < coursesLec.size(); i++) {
-                    String temp = coursesLec.get(i).getCourseID();
-                    if (temp.equals(courseID)) {
-                        course = coursesLec.get(i);
-                        courseTitle = course.getCourseTitle();
-                        registFee = course.getCourseFee();
-                        courseType = course.getCourseType();
+                            }
+                        } else {
+                            Toast.makeText(CourseViewList.this, "You cannot add this course.", Toast.LENGTH_LONG).show();
+
+                        }
                     }
-                    String tempTerm = coursesLec.get(i).getCourseTerm();
-                    if (temp.equals(courseID) && tempTerm.equals(SecondFragment.termNumber)) {
-                        course = coursesLec.get(i);
-                        courseTerm = course.getCourseTerm();
-                    }
-                }
-                String id1 = LoginInterfaceActivity.uid;
-                Registration reg = new Registration(courseID, courseTitle, courseType, id1, courseTerm, registFee);
-                rRef.child(id1).child(courseTerm).child(courseID).setValue(reg);
-                String spot = Integer.toString(currSpot - 1);
-                course.setAvailableSpot(spot);
-                courseReference = FirebaseDatabase.getInstance().getReference("Courses");
-                courseReference.child(courseID).setValue(course);
-                Toast.makeText(CourseViewList.this, "Add class successfully", Toast.LENGTH_LONG).show();
 
+                })
+            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
             }
-        }
-        else{
-            Toast.makeText(CourseViewList.this, "You cannot add this course.", Toast.LENGTH_LONG).show();
-
-        }
+        });
+        AlertDialog alert = builder.create();
+            alert.show();
     }
 
     /**

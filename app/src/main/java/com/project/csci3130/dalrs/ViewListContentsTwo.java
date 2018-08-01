@@ -46,6 +46,39 @@ public class ViewListContentsTwo extends AppCompatActivity {
         setContentView(R.layout.seetabletwo);
 
         myDB2 = new DatabaseHelper2(this);
+        if (i==1){
+            myDB2.updater("2","08:05",null,null,null,null,null);
+            myDB2.updater("3","08:35",null,null,null,null,null);
+            myDB2.updater("4","09:05",null,null,null,null,null);
+            myDB2.updater("5","09:35",null,null,null,null,null);
+            myDB2.updater("6","10:05",null,null,null,null,null);
+            myDB2.updater("7","10:35",null,null,null,null,null);
+            myDB2.updater("8","11:05",null,null,null,null,null);
+            myDB2.updater("9","11:35",null,null,null,null,null);
+            myDB2.updater("10","12:05",null,null,null,null,null);
+            myDB2.updater("11","12:35",null,null,null,null,null);
+            myDB2.updater("12","13:05",null,null,null,null,null);
+            myDB2.updater("13","13:35",null,null,null,null,null);
+            myDB2.updater("14","14:05",null,null,null,null,null);
+            myDB2.updater("15","14:35",null,null,null,null,null);
+            myDB2.updater("16","15:05",null,null,null,null,null);
+            myDB2.updater("17","15:35",null,null,null,null,null);
+            myDB2.updater("18","16:05",null,null,null,null,null);
+            myDB2.updater("19","16:35",null,null,null,null,null);
+            myDB2.updater("20","17:05",null,null,null,null,null);
+            myDB2.updater("21","17:35",null,null,null,null,null);
+            myDB2.updater("22","18:05",null,null,null,null,null);
+            myDB2.updater("23","18:35",null,null,null,null,null);
+            myDB2.updater("24","19:05",null,null,null,null,null);
+            myDB2.updater("25","19:35",null,null,null,null,null);
+            myDB2.updater("26","20:05",null,null,null,null,null);
+            myDB2.updater("27","20:35",null,null,null,null,null);
+            myDB2.updater("28","21:05",null,null,null,null,null);
+            myDB2.updater("29","21:35",null,null,null,null,null);
+
+        }
+
+
         if (i == 0) {
 
             myDB2.addData(null, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
