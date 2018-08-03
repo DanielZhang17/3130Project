@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ViewListContentsThree extends AppCompatActivity {
+public class termtablethree extends AppCompatActivity {
     DatabaseHelper myDB;
     DatabaseHelper2 myDB2;
     DatabaseHelper3 myDB3;
@@ -35,8 +35,8 @@ public class ViewListContentsThree extends AppCompatActivity {
     Registration registration;
     public static String uid = LoginInterfaceActivity.uid;
 
-    public ViewListContentsThree(){ }
-    public ViewListContentsThree(DatabaseHelper3 dbh){
+    public termtablethree(){ }
+    public termtablethree(DatabaseHelper3 dbh){
         myDB3=dbh;
 
 
@@ -237,7 +237,7 @@ public class ViewListContentsThree extends AppCompatActivity {
         Cursor data=myDB3.getListContents();
         int numRows=data.getCount();
         if (numRows==0)
-            Toast.makeText(ViewListContentsThree.this,"Nothing in database", Toast.LENGTH_LONG).show();
+            Toast.makeText(termtablethree.this,"Nothing in database", Toast.LENGTH_LONG).show();
         else{
             int i=0;
             while(data.moveToNext()) {
