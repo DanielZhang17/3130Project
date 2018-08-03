@@ -288,7 +288,7 @@ public class Adder extends AppCompatActivity {
         });
         btnView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(Adder.this, ViewListContents.class);
+                Intent intent = new Intent(Adder.this, termtable.class);
                 startActivity(intent);
 
             }
