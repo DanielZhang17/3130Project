@@ -13,7 +13,6 @@ public class timet extends AppCompatActivity {
     Button summerterm;
     DatabaseHelper myDB;
     DatabaseHelper2 myDB2,myDB3;
-    ViewListContentsTwo vlct;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -48,7 +47,6 @@ public class timet extends AppCompatActivity {
 
         winterterm.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                vlct=new ViewListContentsTwo(myDB2);
                 Intent intent2=new Intent(timet.this,termtabletwo.class);
                 startActivity(intent2);
             }
