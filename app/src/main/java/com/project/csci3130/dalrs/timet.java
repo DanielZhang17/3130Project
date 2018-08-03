@@ -41,7 +41,7 @@ public class timet extends AppCompatActivity {
 
         fallterm.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent=new Intent(timet.this,ViewListContents.class);
+                Intent intent=new Intent(timet.this,termtable.class);
                 startActivity(intent);
             }
         });
@@ -49,14 +49,14 @@ public class timet extends AppCompatActivity {
         winterterm.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 vlct=new ViewListContentsTwo(myDB2);
-                Intent intent2=new Intent(timet.this,ViewListContentsTwo.class);
+                Intent intent2=new Intent(timet.this,termtabletwo.class);
                 startActivity(intent2);
             }
         });
 
         summerterm.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent=new Intent(timet.this,ViewListContentsThree.class);
+                Intent intent=new Intent(timet.this,termtablethree.class);
                 startActivity(intent);
             }
         });
