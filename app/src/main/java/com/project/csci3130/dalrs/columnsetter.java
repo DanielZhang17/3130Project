@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ThreeColumn_ListAdapter extends ArrayAdapter<Use> {
+public class columnsetter extends ArrayAdapter<Use> {
 
     private LayoutInflater sInflater;
     private ArrayList<Use> users;
     private int mViewResourceId;
 
-    public ThreeColumn_ListAdapter(Context context, int textViewResourceId, ArrayList<Use> users) {
+    public columnsetter(Context context, int textViewResourceId, ArrayList<Use> users) {
         super(context, textViewResourceId, users);
         this.users = users;
         sInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
