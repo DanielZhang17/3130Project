@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ViewListContentsTwo extends AppCompatActivity {
+public class termtabletwo extends AppCompatActivity {
     DatabaseHelper myDB;
     DatabaseHelper2 myDB2,myDB3;
     ArrayList<Use2> userList;
@@ -35,8 +35,8 @@ public class ViewListContentsTwo extends AppCompatActivity {
     public static String uid = LoginInterfaceActivity.uid;
 
 
-    public ViewListContentsTwo(){ }
-    public ViewListContentsTwo(DatabaseHelper2 dbh){
+    public termtabletwo(){ }
+    public termtabletwo(DatabaseHelper2 dbh){
         myDB2=dbh;
 
 
@@ -240,7 +240,7 @@ public class ViewListContentsTwo extends AppCompatActivity {
             Cursor data=myDB2.getListContents();
             int numRows=data.getCount();
             if (numRows==0)
-                Toast.makeText(ViewListContentsTwo.this,"Nothing in database", Toast.LENGTH_LONG).show();
+                Toast.makeText(termtabletwo.this,"Nothing in database", Toast.LENGTH_LONG).show();
             else{
                 int i=0;
                 while(data.moveToNext()) {
