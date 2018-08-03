@@ -210,43 +210,13 @@ public class RegistActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//set add button click
-
-                boolean c = false;
-                tempID = editText.getText().toString();
-                if(tempID.isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Please enter a input!",Toast.LENGTH_LONG).show();
-                    editText.setError("No input!");
-                    return;
-                }
-                for(int m = 0; m < coursesAll.size(); m++) {//check course term
-                    String tempTerm = coursesAll.get(m).getCourseTerm();
-                    String temp = coursesAll.get(m).getCourseID();
-
-                    if (tempTerm.equals(term) && temp.equals(tempID)) {
-                        c = true;
-                    }
-                }
-                if(c == true){//if course term is corresponding term, add course.
-                    try {
-                        checkConflict();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else{
-                    Toast.makeText(RegistActivity.this, "You may entered a CRN not belongs to current term", Toast.LENGTH_LONG).show();
-                    return;
-                }
+                checkFunction();
             }
         });
         buttonDrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    dropCourse();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                checkDropFunction();
             }
         });
         //set button drop click
@@ -257,6 +227,42 @@ public class RegistActivity extends AppCompatActivity {
                 startActivity(new Intent(RegistActivity.this,detailed_courseview.class));
             }
         });
+    }
+    private void checkFunction(){
+        boolean c = false;
+        tempID = editText.getText().toString();
+        if(tempID.isEmpty()){
+            Toast.makeText(getApplicationContext(),"Please enter a input!",Toast.LENGTH_LONG).show();
+            editText.setError("No input!");
+            return;
+        }
+        for(int m = 0; m < coursesAll.size(); m++) {//check course term
+            String tempTerm = coursesAll.get(m).getCourseTerm();
+            String temp = coursesAll.get(m).getCourseID();
+
+            if (tempTerm.equals(term) && temp.equals(tempID)) {
+                c = true;
+            }
+        }
+        if(c == true){//if course term is corresponding term, add course.
+            try {
+                checkConflict();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            Toast.makeText(RegistActivity.this, "You may entered a CRN not belongs to current term", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+    }
+    private void checkDropFunction(){
+        try {
+            dropCourse();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
     private void addCourse() throws java.text.ParseException {//add course
         tempID = editText.getText().toString();
@@ -546,6 +552,7 @@ public class RegistActivity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
     }
+    //read two courses's time and test if two courses have time conflict or not
     public static boolean testConflict(String leftStart, String leftEnd, String rightStart, String rightEnd) throws ParseException {
         Date leftStartTime=null, leftEndTime=null, rightStartTime=null, rightEndTime=null;
         try{
@@ -567,7 +574,7 @@ public class RegistActivity extends AppCompatActivity {
                         && (rightStartTime.getTime() <= leftEndTime.getTime())) ;
     }
 
-    public void checkConflict() throws ParseException {
+    public void checkConflict() throws ParseException {// if time conflict exist,then user can not add this course
         boolean flag = false;
 
             //String tempDayTime;//the day time of registering course.
@@ -622,7 +629,7 @@ public class RegistActivity extends AppCompatActivity {
 
         if(flag == false){
 
-            Toast.makeText(RegistActivity.this, "Add course success!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(RegistActivity.this, "Add course success!", Toast.LENGTH_LONG).show();
             addCourse();
 
             //time not conflict
