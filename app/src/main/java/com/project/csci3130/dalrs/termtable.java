@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 //change myDB to myDB2
-public class ViewListContents extends AppCompatActivity {
+public class termtable extends AppCompatActivity {
     DatabaseHelper myDB;
     DatabaseHelper myDB2,myDB3;
     ArrayList<Use> userList;
@@ -244,7 +244,7 @@ public class ViewListContents extends AppCompatActivity {
         Cursor data=myDB.getListContents();
         int numRows=data.getCount();
         if (numRows==0)
-            Toast.makeText(ViewListContents.this,"Nothing in database", Toast.LENGTH_LONG).show();
+            Toast.makeText(termtable.this,"Nothing in database", Toast.LENGTH_LONG).show();
         else{
             int i=0;
             while(data.moveToNext()) {
