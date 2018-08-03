@@ -252,7 +252,7 @@ public class termtabletwo extends AppCompatActivity {
                 }
 
 
-                ThreeColumn_ListAdapter2 adapter=new ThreeColumn_ListAdapter2(this,R.layout.timetable2,userList);
+                columnsettertwo adapter=new columnsettertwo(this,R.layout.timetable2,userList);
                 listview=(ListView) findViewById(R.id.listView2);
                 listview.setAdapter(adapter);
             }
