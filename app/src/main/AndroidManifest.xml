@@ -41,9 +41,9 @@
         <activity android:name=".Timetable" />
         <activity android:name=".AppliedCSPDF" />
         <activity android:name=".MathematicsPDF" />
-        <activity android:name=".ViewListContents" />
-        <activity android:name=".ViewListContentsTwo" />
-        <activity android:name=".ViewListContentsThree" />
+        <activity android:name=".termtable" />
+        <activity android:name=".termtabletwo" />
+        <activity android:name=".termtablethree" />
         <activity android:name=".CourseDetail" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".Schedule"></activity>
